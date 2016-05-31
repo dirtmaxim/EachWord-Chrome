@@ -1,0 +1,55 @@
+#wordCard8730011 {
+	position: fixed;
+	top: 0%;
+	left: 0%;
+	width: 100%;
+	height: 30%;
+	background-color: #3cb371;
+	border-radius: 0% 0% 15% 15%;
+	z-index: 2147483647;
+}
+#wordCard8730011 span {
+	font-size: inherit !important;
+	display: initial !important;
+}
+#wordCard8730011 div {
+	display: initial !important;
+}
+#timer8730011 {
+	position: absolute;
+	bottom: 5%;
+	text-align: center;
+	width: 100%;
+	color: #9d0019;
+	font-size: 20px;
+	font-family: Verdana;
+}
+#header8730011 {
+	position: absolute;
+	top: 5%;
+	text-align: center;
+	width: 100%;
+	font-size: 20px;
+	font-family: Verdana;
+}
+#headerOne8730011 {
+	color: #006363;
+}
+#headerTwo8730011 {
+	color: #9d0019;
+}
+#words8730011 {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	white-space: nowrap;
+	color: #9d0019;
+	font-family: Verdana;
+}
+#word8730011 {
+	color: #006363;
+}
+#translation8730011 {
+	color: #006363;
+}

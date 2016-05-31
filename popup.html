@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	<meta charset="utf-8">
+	<link href="popup.css" type="text/css" rel="stylesheet">
+	<script src="commonFunctions.js" type="text/javascript"></script>
+	<script src="popup.js" type="text/javascript"></script>
+  </head>
+  <body>
+	<div id="infoBlock">
+		<a href="options.html" target="_blank" title="Options and help" tabindex="-1">
+			<img id="settingsIcon" src="images/icons/settings24.png">
+		</a>
+		<p id="prompt">Paste new word cards below</p>
+		<a href="" id="switchButton" tabindex="-1"></a>
+	</div>
+    <div id="mainBlock">
+		<iframe id="wordsList" src="tableOfWords.html" width="350" height="300" frameborder="no" scrolling="yes" tabindex="-1"></iframe>
+		<div id="addLine">
+			<input id="fromLanguage" type="text" placeholder="Word" maxlength="50" tabindex="1">
+			<span>&mdash;</span>
+			<input id="intoLanguage" type="text" placeholder="Translation" maxlength="50" tabindex="2">
+			<a href="" id="addButton" title="Add word card into your dictionary" tabindex="-1">Add</a>
+		</div>
+	</div>
+	<div id="copyright">
+		<p>&copy; 2016 EachWord<p>
+	</div>
+  </body>
+</html>

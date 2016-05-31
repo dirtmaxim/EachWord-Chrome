@@ -1,0 +1,106 @@
+body {
+	background-color: #6c8cd5;
+	margin: 0px;
+}
+#mainBlock {
+	margin: 15px;
+}
+#infoBlock, #copyright {
+	color: white;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	font-weight: bold;
+}
+#copyright {
+	text-align: center;
+	background-color: #06266f;
+}
+#infoBlock {
+	background-color: #4671d5;
+}
+#prompt {
+	padding-left: 90px;
+}
+#wordsList {
+	margin-bottom: 14px;
+}
+input {
+	padding: 5px;
+	width: 101px;
+}
+input::selection {
+	background: #c6cfda;
+}
+#addButton {
+	float: right;
+	padding-top: 6px;
+	padding-bottom: 6px;
+	padding-left: 32px;
+	padding-right: 32px;
+	background: #40c781;
+	color: white;
+  	text-decoration: none;
+	outline: none;
+  	transition: 0.3s;
+}
+#addButton:hover {
+	background: #35a76e;
+}
+#addButton:active {
+  	background: #21935a;
+}
+#switchButton {
+	position: absolute;
+	top: 8px;
+	right: 14px;
+	padding-top: 6px;
+	padding-bottom: 6px;
+	padding-left: 10px;
+	padding-right: 10px;
+	color: white;
+  	text-decoration: none;
+	outline: none;
+  	transition: 0.3s;
+}
+.colorFirst {
+	background: #f62c4c;
+}
+.colorFirst:hover {
+	background: #d00b2a;
+}
+.colorFirst:active {
+  	background: #a60820;
+}
+.colorSecond {
+	background: #32CD32;
+}
+.colorSecond:hover {
+	background: #2bb32b;
+}
+.colorSecond:active {
+  	background: #1f801f;
+}
+#settingsIcon {
+	float: left;
+	padding-top: 7px;
+	padding-left: 13px;
+	transition: 0.3s;
+}
+#settingsIcon:hover {
+	opacity: 0.8;
+}
+#settingsIcon:active {
+	opacity: 0.6;
+}
+::selection {
+	background: transparent;
+}
+::-webkit-scrollbar {
+    width: 5px;
+}
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.4);
+}

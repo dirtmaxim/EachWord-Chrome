@@ -1,0 +1,108 @@
+body {
+	background-color: #6c8cd5;
+	width: 700px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-left: auto;
+	margin-right: auto;
+}
+.tableSettings {
+	display: table;
+	border-collapse: collapse;
+	margin: -10px;
+}
+.rowSettings {
+	display: table-row;
+}
+.rowSettings > p {
+	padding: 12px;
+	display: table-cell;
+	width: 350px;
+	vertical-align: middle;
+}
+.rowSettings:nth-child(odd) {
+	background: #e8e8e8;
+}
+.rowSettings > p:first-child {
+	text-align: right;
+	border-right: thin solid #06266f;
+}
+.caption {
+	color: white;
+	text-align: center;
+	background-color: #06266f;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	font-weight: bold;
+}
+.main {
+	padding: 10px;
+	background: white;
+	line-height: 1.5;
+}
+#showTextNextTo {
+	margin-left: 2px;
+}
+#saveButton {
+  	color: white;
+  	text-decoration: none;
+	outline: none;
+  	background: #479ffc;
+	padding-top: 6px;
+	padding-bottom: 6px;
+	padding-left: 32px;
+	padding-right: 32px;
+  	transition: 0.3s;
+} 
+#saveButton:hover {
+	background: #4494e8;
+}
+#saveButton:active {
+  	background: #3d82cb;
+}
+#howTable {
+	margin-left: 2px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	border-collapse: collapse;
+}
+.howCell {
+	padding: 10px;
+	text-align: center;
+	vertical-align: middle;
+}
+.howCell:nth-child(odd) {
+	background: #e8e8e8;
+}
+.howImage {		
+	width: 100px;
+	height: 100px;
+	border: 2px solid #06266f;
+	transition: 0.5s;
+}
+.howImage:hover {
+	transform: scale(1.3);
+}
+.testButton {
+	display: block;
+  	color: white;
+  	text-decoration: none;
+	outline: none;
+  	background: #479ffc;
+	padding-top: 6px;
+	padding-bottom: 6px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	width: 135px;
+  	transition: 0.3s;
+} 
+.testButton:hover {
+	background: #4494e8;
+}
+.testButton:active {
+  	background: #3d82cb;
+}
+#settingsSaved {
+	color: #479ffc;
+	font-weight: bold;
+}

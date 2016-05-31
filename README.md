@@ -9,4 +9,4 @@ The best practice to remember new words is to hang the cards with the words on a
 
 ![](https://github.com/dirtmaxim/EachWord/blob/master/readmeImageSecond.webp)
 
-[EachWord on Chrome Web Store.](https://chrome.google.com/webstore/detail/eachword-expand-your-voca/ndbpgappknhobbikhmjenceoklpaalam)
+<a href="https://chrome.google.com/webstore/detail/eachword-expand-your-voca/ndbpgappknhobbikhmjenceoklpaalam" target="_blank">EachWord on Chrome Web Store.</a>

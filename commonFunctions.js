@@ -72,13 +72,14 @@ function disappearing() {
 		}
 	}, 10);
 }
-function closeButtonAction() {
+function closeButtonAction(event) {
 	"use strict";
+	event.preventDefault();
+	event.stopPropagation();
 	clearTimeout(timeoutIdTimer);
 	if (!disappearingStarted) {
 		disappearing();
 	}
-	return false;
 }
 function formatDelay(selectDelay) {
 	"use strict";

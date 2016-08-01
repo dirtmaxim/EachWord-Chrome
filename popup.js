@@ -2,11 +2,13 @@ function fromLanguageSave() {
 	"use strict";
 	localStorage.setItem("fromLanguage", JSON.stringify(document.getElementById("fromLanguage").value));
 }
+
 // To save inputed letters in "Translation" field when user closes extension window.
 function intoLanguageSave() {
 	"use strict";
 	localStorage.setItem("intoLanguage", JSON.stringify(document.getElementById("intoLanguage").value));
 }
+
 // If user turns on or turns off extension.
 function switchButtonChangeState() {
 	"use strict";
@@ -42,6 +44,7 @@ function switchButtonChangeState() {
 	document.getElementById("fromLanguage").focus();
 	return false;
 }
+
 // Function to play word when user clicks to speaker.
 function playWord() {
 	"use strict";
@@ -61,6 +64,7 @@ function playWord() {
 	}
 	return false;
 }
+
 function deleteWord() {
 	"use strict";
 	var tr,
@@ -98,6 +102,7 @@ function deleteWord() {
 	chrome.runtime.sendMessage({type: "changeDictionary"});
 	return false;
 }
+
 function addWord() {
 	"use strict";
 	var word,
@@ -171,6 +176,7 @@ function addWord() {
 	chrome.runtime.sendMessage({type: "changeDictionary"});
 	return false;
 }
+
 // Press "enter" to add card to dictionary.
 document.onkeyup = function (e) {
 	"use strict";
@@ -192,6 +198,7 @@ document.onkeyup = function (e) {
         addWord();
     }
 };
+
 // Fill in extension window.
 window.onload = function () {
 	"use strict";

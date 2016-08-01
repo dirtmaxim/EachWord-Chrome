@@ -5,6 +5,7 @@ var settingsArray,
 	timeoutIdNotification,
 	intervalTime,
 	stopSign;
+	
 function showNotification(word, translation, settingsArray) {
 	"use strict";
 	var options,
@@ -53,6 +54,7 @@ function showNotification(word, translation, settingsArray) {
 		}
 	});
 }
+
 // This function will be executed when the time to show comes.
 function showWord() {
 	"use strict";
@@ -75,6 +77,7 @@ function showWord() {
 			});
 	}
 }
+
 function setIcon() {
 	"use strict";
 	var switchState;
@@ -86,6 +89,7 @@ function setIcon() {
 		chrome.browserAction.setIcon({path: "images/default_icons/icon38_(without_color).png"});
 	}
 }
+
 function checkDictionary() {
 	"use strict";
 	var dictionaryArrayQueue;
@@ -93,6 +97,7 @@ function checkDictionary() {
 	dictionaryArrayQueue = JSON.parse(dictionaryArrayQueue);
 	return dictionaryArrayQueue;
 }
+
 function checkSettings() {
 	"use strict";
 	var settingsArray;
@@ -100,6 +105,7 @@ function checkSettings() {
 	settingsArray = JSON.parse(settingsArray);
 	return settingsArray;
 }
+
 // In case of it is first application launch or there were some troubles with lockalStorage.
 function checkStorage() {
 	"use strict";
@@ -169,6 +175,7 @@ function checkStorage() {
 		localStorage.setItem("intoLanguage", JSON.stringify(intoLanguage));
 	}
 }
+
 // Listener will be activated when user adds or deletes words from dictionary.
 chrome.runtime.onMessage.addListener(
 	function (request, sender, sendResponse) {
@@ -178,6 +185,7 @@ chrome.runtime.onMessage.addListener(
 		}
 	}
 );
+
 // Listener will be activated when user stops showing word cards.
 chrome.runtime.onMessage.addListener(
 	function (request, sender, sendResponse) {
@@ -188,6 +196,7 @@ chrome.runtime.onMessage.addListener(
 		}
 	}
 );
+
 // Listener will be activated when user starts showing word cards.
 chrome.runtime.onMessage.addListener(
 	function (request, sender, sendResponse) {
@@ -202,6 +211,7 @@ chrome.runtime.onMessage.addListener(
 		}
 	}
 );
+
 // Listener will be activated when user presses "Show Notification" in "options.js".
 chrome.runtime.onMessage.addListener(
 	function (request, sender, sendResponse) {
@@ -211,6 +221,7 @@ chrome.runtime.onMessage.addListener(
 		}
 	}
 );
+
 // Listener will be activated when user makes different kind of changes of settings.
 chrome.runtime.onMessage.addListener(
 	function (request, sender, sendResponse) {
@@ -225,6 +236,7 @@ chrome.runtime.onMessage.addListener(
 		}
 	}
 );
+
 // Listener will be activated when "content.js" sends message to make sure that word card
 // will be shown as native card and it may disable push notification showing.
 chrome.runtime.onMessage.addListener(
@@ -235,6 +247,7 @@ chrome.runtime.onMessage.addListener(
 		}
 	}
 );
+
 // Initialization.
 checkStorage();
 setIcon();

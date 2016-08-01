@@ -125,6 +125,21 @@
 				<p><label><input type="checkbox" id="showTimeline"><span id="showTextNextTo">It is an additional way to get your attention.</span></label></p>
 			</div>
 			<div class="rowSettings">
+				<p>You can restore your Dictionary if something goes wrong:</p>
+				<p><button id="exportDictionary">Export the Dictionary</button></p>
+			</div>
+			<div class="rowSettings">
+				<p>Restore the Dictionary that you exported earlier:</p>
+				<p>
+					<button id="importDictionary">
+						<input type="file" id="inputImport" accept="application/json" tabindex="-1"/>
+						<span>Import the Dictionary<span>
+					</button><br>
+					<input type="radio" id="inputReplace" name="importType" value="replace" checked>Replace
+					<input type="radio" id="inputAppend" name="importType" value="append">Append
+				</p>
+			</div>
+			<div class="rowSettings">
 				<p><a href="" id="saveButton">Save</a></p>
 				<p id="settingsSaved"></p>
 			</div>
@@ -149,8 +164,8 @@
 					<img src="images/help/help4.png" class="howImage">
 				</td>
 				<td class="howCell">
-					<a href="" id="showTestCard" class="testButton">Show word card</a>
-					<a href="" id="showTestNotification" class="testButton">Show Notification</a>
+					<a href="" id="showTestCard" class="testButton">Show a word card</a>
+					<a href="" id="showTestNotification" class="testButton">Show a Notification</a>
 				</td>
 			</tr>
 			<tr class="howRow">
@@ -160,7 +175,7 @@
 					Write the translation.
 				</td>
 				<td class="howCell">
-					Press add button.
+					Press the add button.
 				</td>
 				<td class="howCell">
 					The word appears in your dictionary.

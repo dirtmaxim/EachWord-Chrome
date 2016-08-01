@@ -2,47 +2,59 @@ body {
 	background-color: white;
 	margin: 0px;
 }
+
 table {
 	width: 100%;
 	text-align: center;
 	vertical-align: middle;
 	border-collapse: collapse;
 }
+
 tr:nth-child(even) {
 	background: #e8e8e8;
 }
+
 td {
 	padding-top: 5px;
 	padding-bottom: 5px;
 }
+
 th {
 	padding-top: 5px;
 	padding-bottom: 5px;
 	border-bottom: 2px solid #e8e8e8;
 	color: #4671d5;
 }
+
 th::selection {
 	background: transparent !important;
 }
+
 .firstColumn {
 	width: 42.5%;
 }
+
 .firstColumn::selection {
 	background: #c6cfda;
 }
+
 .thirdColumn {
 	border-left: 2px solid #06266f;
 	width: 40%;
 }
+
 .thirdColumn::selection {
 	background: #c6cfda;
 }
+
 .secondColumn {
 	width: 7.5%;
 }
+
 .fourthColumn {
 	width: 10%;
 }
+
 .deleteButton {
   	color: white;
 	padding-top: 3px;
@@ -54,12 +66,15 @@ th::selection {
   	background: #d44b38;
   	transition: 0.3s;
 }
+
 .deleteButton:hover {
 	background: #e85f4c;
 }
+
 .deleteButton:active {
   	background: #980f00;
 }
+
 .playWordButton {
 	background: url(images/icons/playWord18x15.png);
 	display: block;
@@ -67,12 +82,15 @@ th::selection {
 	height: 15px;
 	transition: 0.3s;
 } 
+
 .playWordButton:hover {
 	background: url(images/icons/playWord18x15_hover.png);
 }
+
 .playWordButton:active {
 	background: url(images/icons/playWord18x15_active.png);
 }
+
 ::selection {
 	background: transparent;
 }

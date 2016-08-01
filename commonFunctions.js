@@ -7,6 +7,7 @@ var disappearingStarted,
 // Functions from "background.js".
 // Special algorithm which shows word cards without reps
 // alike cards and does it with equal probability.
+	
 function chooseWord() {
 	"use strict";
 	var flag,
@@ -14,7 +15,6 @@ function chooseWord() {
 		randomNumber;
 	flag = false;
 	dictionaryArray = localStorage.getItem("dictionaryArray");
-	randomNumber = Math.floor(Math.random() * dictionaryArrayQueue.length);
 	if (dictionaryArrayQueue.length === 0) {
 		dictionaryArray = JSON.parse(dictionaryArray);
 		dictionaryArrayQueue = dictionaryArray;
@@ -26,6 +26,7 @@ function chooseWord() {
 		localStorage.setItem("dictionaryArrayQueue", JSON.stringify(dictionaryArrayQueue));
 		return lastWord;
 	}
+	randomNumber = Math.floor(Math.random() * dictionaryArrayQueue.length);
 	if (flag) {
 		if (dictionaryArrayQueue[randomNumber].word === lastWord.word && dictionaryArrayQueue[randomNumber].translation === lastWord.translation) {
 			if (randomNumber === 0) {
@@ -42,6 +43,7 @@ function chooseWord() {
 	localStorage.setItem("dictionaryArrayQueue", JSON.stringify(dictionaryArrayQueue));
 	return lastWord;
 }
+
 // End functions from "background.js".
 // Functions from "content.js".
 function disappearing() {
@@ -72,6 +74,7 @@ function disappearing() {
 		}
 	}, 10);
 }
+
 function closeButtonAction(event) {
 	"use strict";
 	event.preventDefault();
@@ -81,6 +84,7 @@ function closeButtonAction(event) {
 		disappearing();
 	}
 }
+
 function formatDelay(selectDelay) {
 	"use strict";
 	var formatedDelay,
@@ -106,6 +110,7 @@ function formatDelay(selectDelay) {
 	}
 	return formatedDelay;
 }
+
 function appearing(word, translation, settingsArray) {
 	"use strict";
 	var selectDelay,
@@ -125,7 +130,7 @@ function appearing(word, translation, settingsArray) {
 	wordCard.id = "wordCard8730011";
 	wordCard.style.top = "-30%";
 	// Primary html-code of creating card.
-	wordCard.innerHTML = "<div id=\"header8730011\"><span id=\"headerOne8730011\">Each</span><span id=\"headerTwo8730011\">Word</span><span id=\"headerOne8730011\"> &mdash; expand your vocabulary easily.</span></div><a href=\"\" id=\"closeButton8730011\" title=\"Close this card\" tabindex=\"-1\"></a><div id=\"words8730011\"><span id=\"word8730011\">" + word + "</span></span id=\"dash8730011\"> &mdash; </span><span id=\"translation8730011\">" + translation + "</span></div><div id=\"timer8730011\">" + formatDelay(selectDelay) + "</div>";
+	wordCard.innerHTML = "<div id=\"header8730011\"><span id=\"headerOne8730011\">Each</span><span id=\"headerTwo8730011\">Word</span><span id=\"headerOne8730011\"> &mdash; expand your vocabulary easily</span></div><a href=\"\" id=\"closeButton8730011\" title=\"Close this card\" tabindex=\"-1\"></a><div id=\"words8730011\"><span id=\"word8730011\">" + word + "</span></span id=\"dash8730011\"> &mdash; </span><span id=\"translation8730011\">" + translation + "</span></div><div id=\"timer8730011\">" + formatDelay(selectDelay) + "</div>";
 	if (settingsArray.showBlur) {
 		blurStyle = document.createElement("style");
 		blurStyle.id = "blurStyle8730011";
@@ -193,6 +198,7 @@ function appearing(word, translation, settingsArray) {
 		}
 	}, 10);
 }
+
 function drawCard(word, translation, settingsArray) {
 	"use strict";
 	if (!drawingStarted) {

@@ -94,6 +94,7 @@ function deleteWord() {
 	}
 	if (dictionaryArray.length === 0) {
 		chrome.runtime.sendMessage({type: "stopInterval"});
+		displayNothingToShow();
 	}
 	localStorage.setItem("dictionaryArray", JSON.stringify(dictionaryArray));
 	localStorage.setItem("dictionaryArrayQueue", JSON.stringify(dictionaryArrayQueue));
@@ -141,6 +142,7 @@ function addWord() {
 	localStorage.setItem("dictionaryArray", JSON.stringify(dictionaryArray));
 	localStorage.setItem("dictionaryArrayQueue", JSON.stringify(dictionaryArrayQueue));
 	frameDocument = document.getElementsByTagName("iframe")[0].contentWindow.document;
+	hideNothingToShow();
 	tr = document.createElement("tr");
 	td = document.createElement("td");
 	td.className = "firstColumn";
@@ -177,7 +179,7 @@ function addWord() {
 	return false;
 }
 
-// Press "enter" to add card to dictionary.
+// Press "enter" to add card to the dictionary.
 document.onkeyup = function (e) {
 	"use strict";
 	var word,
@@ -198,6 +200,28 @@ document.onkeyup = function (e) {
         addWord();
     }
 };
+
+// Show suggestion to add some words.
+function displayNothingToShow() {
+	var nothingToShowBlock,
+	frameDocument;
+	nothingToShowBlock = document.createElement("div");
+	nothingToShowBlock.id = "nothingToShowBlock";
+	nothingToShowBlock.innerHTML = "<div id=\"nothingToShowContent\">We have nothing to show you 😕<br>First of all, add some words.</div>";
+	frameDocument = document.getElementsByTagName("iframe")[0].contentWindow.document;
+	frameDocument.getElementsByTagName("table")[0].appendChild(nothingToShowBlock);
+}
+
+// Delete suggestion to add some words.
+function hideNothingToShow() {
+	var frameDocument,
+		nothingToShowBlock;
+	frameDocument = document.getElementsByTagName("iframe")[0].contentWindow.document;
+	nothingToShowBlock = frameDocument.getElementById("nothingToShowBlock");
+	if (nothingToShowBlock !== null) {
+		nothingToShowBlock.remove();
+	}
+}
 
 // Fill in extension window.
 window.onload = function () {
@@ -279,6 +303,9 @@ window.onload = function () {
 		tr.appendChild(td);
 		frameDocument.getElementsByTagName("table")[0].appendChild(tr);
 		tr.scrollIntoView(true);
+	}
+	if (dictionaryArray.length === 0) {
+		displayNothingToShow();
 	}
 	document.getElementById("fromLanguage").focus();
 };

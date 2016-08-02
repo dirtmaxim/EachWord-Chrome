@@ -5,6 +5,8 @@ body {
 	margin-bottom: 10px;
 	margin-left: auto;
 	margin-right: auto;
+	font-family: Arial;
+	font-size: 9pt;
 }
 
 .tableSettings {
@@ -46,6 +48,10 @@ body {
 	padding: 10px;
 	background: white;
 	line-height: 1.5;
+}
+
+#forShadow {
+	box-shadow: 0 0 200px 20px rgba(0, 0, 0, 0.2);
 }
 
 #showTextNextTo {

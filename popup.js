@@ -94,7 +94,9 @@ function deleteWord() {
 	}
 	if (dictionaryArray.length === 0) {
 		chrome.runtime.sendMessage({type: "stopInterval"});
-		displayNothingToShow();
+		if (!isExtensionUpdated()) {
+			showSimpleWindow("We have nothing to show you 😕<br>First of all, add some words.", "center", "80%", "25%");
+		}
 	}
 	localStorage.setItem("dictionaryArray", JSON.stringify(dictionaryArray));
 	localStorage.setItem("dictionaryArrayQueue", JSON.stringify(dictionaryArrayQueue));
@@ -142,7 +144,7 @@ function addWord() {
 	localStorage.setItem("dictionaryArray", JSON.stringify(dictionaryArray));
 	localStorage.setItem("dictionaryArrayQueue", JSON.stringify(dictionaryArrayQueue));
 	frameDocument = document.getElementsByTagName("iframe")[0].contentWindow.document;
-	hideNothingToShow();
+	hideSimpleWindow();
 	tr = document.createElement("tr");
 	td = document.createElement("td");
 	td.className = "firstColumn";
@@ -201,26 +203,114 @@ document.onkeyup = function (e) {
     }
 };
 
-// Show suggestion to add some words.
-function displayNothingToShow() {
-	var nothingToShowBlock,
-	frameDocument;
-	nothingToShowBlock = document.createElement("div");
-	nothingToShowBlock.id = "nothingToShowBlock";
-	nothingToShowBlock.innerHTML = "<div id=\"nothingToShowContent\">We have nothing to show you 😕<br>First of all, add some words.</div>";
+// Show simple window,
+// parametr @text is a main content,
+// parametr @textAlign is an align of main content,
+// parametr @width is a width of window as a string,
+// parametr @height is a height of window as a string.
+function showSimpleWindow(text, textAlign, width, height) {
+	"use strict";
+	var span,
+		simpleWindow,
+		simpleWindowContent,
+		frameDocument;
+	simpleWindow = document.getElementById("simpleWindow");
+	
+	// In case of buttonWindow is already shown.
+	if (simpleWindow !== null) {
+		simpleWindow.remove();
+	}
+	span = document.createElement("span");
+	span.innerHTML = text;
+	simpleWindowContent = document.createElement("div");
+	simpleWindowContent.id = "simpleWindowContent";
+	simpleWindowContent.appendChild(span);
+	simpleWindow = document.createElement("div");
+	simpleWindow.id = "simpleWindow";
+	simpleWindow.appendChild(simpleWindowContent);
 	frameDocument = document.getElementsByTagName("iframe")[0].contentWindow.document;
-	frameDocument.getElementsByTagName("table")[0].appendChild(nothingToShowBlock);
+	simpleWindow.style.width = width;
+	simpleWindow.style.height = height;
+	simpleWindowContent.style.textAlign = textAlign;
+	frameDocument.getElementsByTagName("body")[0].appendChild(simpleWindow);
 }
 
-// Delete suggestion to add some words.
-function hideNothingToShow() {
+// Hide simple window.
+function hideSimpleWindow() {
+	"use strict";
 	var frameDocument,
-		nothingToShowBlock;
+		simpleWindow;
 	frameDocument = document.getElementsByTagName("iframe")[0].contentWindow.document;
-	nothingToShowBlock = frameDocument.getElementById("nothingToShowBlock");
-	if (nothingToShowBlock !== null) {
-		nothingToShowBlock.remove();
+	simpleWindow = frameDocument.getElementById("simpleWindow");
+	if (simpleWindow !== null) {
+		simpleWindow.remove();
 	}
+}
+
+// Show window with the button,
+// parametr @text is a main content,
+// parametr @buttonText is a lable of button,
+// parametr @textAlign is an align of main content,
+// parametr @width is a width of window as a string,
+// parametr @height is a height of window as a string,
+// parametr @finalAction is an action that will be executed when button is pressed.
+function showButtonWindow(text, buttonText, textAlign, width, height, finalAction) {
+	"use strict";
+	var frameDocument,
+		span,
+		a,
+		buttonWindow,
+		buttonWindowContent,
+		buttonWindowButton;
+	buttonWindow = document.getElementById("buttonWindow");
+	
+	// In case of buttonWindow is already shown.
+	if (buttonWindow !== null) {
+		buttonWindow.remove();
+	}
+	if (textAlign !== "left" || textAlign !== "center" || textAlign !== "right") {
+		textAlign = "left";
+	}
+	span = document.createElement("span");
+	span.innerHTML = text;
+	a = document.createElement("a");
+	a.href = "";
+	a.id = "buttonWindowButton";
+	a.tabIndex = "-1";
+	a.innerHTML = buttonText;
+	buttonWindowContent = document.createElement("div");
+	buttonWindowContent.id = "buttonWindowContent";
+	buttonWindowContent.appendChild(span);
+	buttonWindowContent.appendChild(a);
+	buttonWindow = document.createElement("div");
+	buttonWindow.id = "buttonWindow";
+	buttonWindow.appendChild(buttonWindowContent);
+	frameDocument = document.getElementsByTagName("iframe")[0].contentWindow.document;
+	buttonWindow.style.width = width;
+	buttonWindow.style.height = height;
+	buttonWindowContent.style.textAlign = textAlign;
+	frameDocument.getElementsByTagName("body")[0].appendChild(buttonWindow);
+	buttonWindowButton = frameDocument.getElementById("buttonWindowButton");
+	buttonWindowButton.onclick = function () {
+		buttonWindow.remove();
+		finalAction();
+		return false;
+	};
+}
+
+// It checks if extension was updated in case of it is not first installed version.
+function isExtensionUpdated() {
+	"use strict";
+	var versionArray;
+	versionArray = JSON.parse(localStorage.getItem("versionArray"));
+	if (versionArray.length === 0) {
+		versionArray.push(chrome.app.getDetails().version);
+		localStorage.setItem("versionArray", JSON.stringify(versionArray));
+	}
+	else if (versionArray[versionArray.length - 1] !== chrome.app.getDetails().version) {
+		return true;
+	}
+	return false;
 }
 
 // Fill in extension window.
@@ -265,9 +355,11 @@ window.onload = function () {
 		switchButton.classList.remove("colorFirst");
 		switchButton.classList.add("colorSecond");
 	}
+	
 	// Array of words in localStorage.
 	dictionaryArray = localStorage.getItem("dictionaryArray");
 	dictionaryArray = JSON.parse(dictionaryArray);
+	
 	// Fill in words, translation and "deleteButton" into "iframe".
 	for (i = 0; i < dictionaryArray.length; i++) {
 		word = dictionaryArray[i].word;
@@ -284,6 +376,7 @@ window.onload = function () {
 		a.href = "";
 		a.title = "Listen";
 		a.className = "playWordButton";
+		a.tabIndex = "-1";
 		a.onclick = playWord;
 		td.appendChild(a);
 		tr.appendChild(td);
@@ -304,8 +397,20 @@ window.onload = function () {
 		frameDocument.getElementsByTagName("table")[0].appendChild(tr);
 		tr.scrollIntoView(true);
 	}
-	if (dictionaryArray.length === 0) {
-		displayNothingToShow();
+	if (isExtensionUpdated()) {
+		showButtonWindow("Really? I can't belive 😐<br>It's a new version of EachWord!<br>New features:<br>- Import and Export<br>- Design improved<br>- New card colors<br>If you like EachWord, please, share it on social networks using buttons above. It would really help us since we have no money for promotion.", "Got it", "left", "80%", "80%", function () {
+			var versionArray,
+				dictionaryArray;
+				versionArray = JSON.parse(localStorage.getItem("versionArray"));
+				dictionaryArray = JSON.parse(localStorage.getItem("dictionaryArray"));
+				versionArray.push(chrome.app.getDetails().version);
+				localStorage.setItem("versionArray", JSON.stringify(versionArray));
+				if (dictionaryArray.length === 0) {
+					showSimpleWindow("We have nothing to show you 😕<br>First of all, add some words.", "center", "80%", "25%");
+				}
+		});
+	} else if (dictionaryArray.length === 0) {
+		showSimpleWindow("We have nothing to show you 😕<br>First of all, add some words.", "center", "80%", "25%");
 	}
 	document.getElementById("fromLanguage").focus();
 };

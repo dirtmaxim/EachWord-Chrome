@@ -7,7 +7,13 @@ var disappearingStarted,
 // Functions from "background.js".
 // Special algorithm which shows word cards without reps
 // alike cards and does it with equal probability.
-	
+
+// Works as semaphore for "disappearing()".
+disappearingStarted = false;
+
+// Works as semaphore for "drawCard()".
+drawingStarted = false;
+
 function chooseWord() {
 	"use strict";
 	var flag,
@@ -205,6 +211,7 @@ function drawCard(word, translation, settingsArray) {
 		appearing(word, translation, settingsArray);
 	}
 }
+
 // End functions from "content.js".
 Array.prototype.indexOfObject = function (object) {
 	"use strict";
@@ -227,7 +234,3 @@ Array.prototype.indexOfObject = function (object) {
     }
     return -1;
 };
-// Works as semaphore for "disappearing()".
-disappearingStarted = false;
-// Works as semaphore for "drawCard()".
-drawingStarted = false;

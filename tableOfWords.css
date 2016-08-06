@@ -97,21 +97,44 @@ th::selection {
 	background: transparent;
 }
 
-#nothingToShowBlock {
+#simpleWindow, #buttonWindow {
 	position: fixed;
 	background-color: #393838;
 	color: white;
-	width: 80%;
-	height: 25%;
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
 	opacity: 0.9;
 }
 
-#nothingToShowContent {
-	padding-top: 25%;
-	transform: translate(0, -50%);
-	text-align: center;
+#buttonWindow {
+	z-index: 2;
+}
+
+#simpleWindowContent, #buttonWindowContent {
+	padding: 5%;
 	font-size: 11pt;
+}
+
+#buttonWindowButton {
+	position: absolute;
+	top: 195px;
+	left: 114px;
+	padding-top: 6px;
+	padding-bottom: 6px;
+	padding-left: 10px;
+	padding-right: 10px;
+	background: #40c781;
+	color: white;
+  	text-decoration: none;
+	outline: none;
+  	transition: 0.3s;
+}
+
+#buttonWindowButton:hover {
+	background: #35a76e;
+}
+
+#buttonWindowButton:active {
+  	background: #21935a;
 }

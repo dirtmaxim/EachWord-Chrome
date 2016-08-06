@@ -80,7 +80,7 @@ function exportDictionaryFile() {
 	showSettingsStateDelayed("Dictionary have been exported!", 1000);
 }
 
-// Append or replace dictionary.
+// Replace or merge dictionary.
 function importDictionaryFile(e) {
 	"use strict";
 	var file,

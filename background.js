@@ -115,7 +115,8 @@ function checkStorage() {
 		switchState,
 		fromLanguage,
 		intoLanguage,
-		versionArray;
+		versionArray,
+		welcomeIsShown;
 	settingsArray = localStorage.getItem("settingsArray");
 	dictionaryArray = localStorage.getItem("dictionaryArray");
 	dictionaryArrayQueue = localStorage.getItem("dictionaryArrayQueue");
@@ -123,6 +124,7 @@ function checkStorage() {
 	fromLanguage = localStorage.getItem("fromLanguage");
 	intoLanguage = localStorage.getItem("intoLanguage");
 	versionArray = localStorage.getItem("versionArray");
+	welcomeIsShown = localStorage.getItem("welcomeIsShown");
 	if (!settingsArray) {
 		settingsArray = {};
 	} else {
@@ -179,6 +181,10 @@ function checkStorage() {
 	if (!versionArray) {
 		versionArray = [];
 		localStorage.setItem("versionArray", JSON.stringify(versionArray));
+	}
+	if (!welcomeIsShown) {
+		welcomeIsShown = false;
+		localStorage.setItem("welcomeIsShown", JSON.stringify(welcomeIsShown));
 	}
 }
 

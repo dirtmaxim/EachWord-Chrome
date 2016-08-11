@@ -136,9 +136,13 @@
 							<input type="file" id="inputImport" accept="application/json" tabindex="-1"/>
 							<span>Import the Dictionary<span>
 						</button><br>
-						<input type="radio" id="inputReplace" name="importType" value="replace" checked>Replace
-						<input type="radio" id="inputAppend" name="importType" value="merge">Merge
+						<input type="radio" id="inputAppend" name="importType" value="append" checked>Append
+						<input type="radio" id="inputReplace" name="importType" value="replace">Replace
 					</p>
+				</div>
+				<div class="rowSettings">
+					<p>Word card themes:</p>
+					<p class="notSelectable"></p>
 				</div>
 				<div class="rowSettings">
 					<p><a href="" id="saveButton">Save</a></p>
@@ -171,9 +175,9 @@
 				</tr>
 				<tr class="howRow">
 					<td class="howCell">
-						Write the word.
+						Write a word.
 					<td class="howCell">
-						Write the translation.
+						Write a translation.
 					</td>
 					<td class="howCell">
 						Press the add button.

@@ -20,8 +20,8 @@ body {
 }
 
 .rowSettings > p {
-	padding: 12px;
 	display: table-cell;
+	padding: 12px;
 	width: 350px;
 	vertical-align: middle;
 }
@@ -158,4 +158,24 @@ body {
 
 #inputReplace {
 	margin-top: 10px;
+}
+
+#warningMessage {
+	color: red;
+}
+
+.notSelectable > label {
+	margin-right: 5px;
+}
+
+.colorSquare {
+	display: inline-block;
+	width: 30px;
+	height: 30px;
+	border-radius: 100%;
+	border: 2px solid black;
+}
+
+.notSelectable {
+	-webkit-user-select: none;
 }

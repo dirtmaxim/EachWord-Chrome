@@ -1,11 +1,12 @@
 var settingsArray,
 	// Duplicate of dictionaryArray in localStorage but it is needed for provide
 	// temporary storage for special algorithm which shows word cards.
+	selectedThemes,
 	intervalIdShowing,
 	timeoutIdNotification,
 	intervalTime,
-	stopSign;
-	
+	stopSign;	
+
 function showNotification(word, translation, settingsArray) {
 	"use strict";
 	var options,
@@ -58,8 +59,10 @@ function showNotification(word, translation, settingsArray) {
 // This function will be executed when the time to show comes.
 function showWord() {
 	"use strict";
-	var chosenWord;
+	var chosenWord,
+		choosenTheme;
 	chosenWord = chooseWord();
+	choosenTheme = chooseTheme();
 	if (settingsArray.showNotificationCardsChecked) {
 		timeoutIdNotification = setTimeout(function () {
 			// Defined in "commonFunction.js".
@@ -72,7 +75,8 @@ function showWord() {
 				chrome.tabs.sendMessage(tabs[0].id, {
 					type: "showWord",
 					settingsArray: settingsArray,
-					wordArray: chosenWord
+					wordArray: chosenWord,
+					theme: choosenTheme
 				});
 			});
 	}
@@ -106,6 +110,22 @@ function checkSettings() {
 	return settingsArray;
 }
 
+function checkSelectedThemes() {
+	"use strict";
+	var selectedThemes;
+	selectedThemes = localStorage.getItem("selectedThemes");
+	selectedThemes = JSON.parse(selectedThemes);
+	return selectedThemes;
+}
+
+function updateTheme() {
+	var theme;
+	themes = [];
+	themes[0] = "#wordCard8730011{background-color:#3cb371;}#timer8730011{color:#9d0019;}#headerOne8730011{color:#006363;}#headerTwo8730011{color:#9d0019;}#word8730011{color:#006363;}#translation8730011{color:#006363;}#dash8730011{color:#9d0019;}";
+	themes[1] = "#wordCard8730011{background-color:#8b8b7a;}#headerOne8730011{color:#006363;}#headerTwo8730011{color:#9d0019;}#word8730011{color:#006363;}#translation8730011{color:#006363;}#dash8730011{color:#9d0019;}#timer8730011{color:#9d0019;}";
+	localStorage.setItem("themes", JSON.stringify(themes));
+}
+
 // In case of it is first application launch or there were some troubles with lockalStorage.
 function checkStorage() {
 	"use strict";
@@ -116,7 +136,9 @@ function checkStorage() {
 		fromLanguage,
 		intoLanguage,
 		versionArray,
-		welcomeIsShown;
+		welcomeIsShown,
+		selectedThemes,
+		currentThemeNumber;
 	settingsArray = localStorage.getItem("settingsArray");
 	dictionaryArray = localStorage.getItem("dictionaryArray");
 	dictionaryArrayQueue = localStorage.getItem("dictionaryArrayQueue");
@@ -125,6 +147,8 @@ function checkStorage() {
 	intoLanguage = localStorage.getItem("intoLanguage");
 	versionArray = localStorage.getItem("versionArray");
 	welcomeIsShown = localStorage.getItem("welcomeIsShown");
+	selectedThemes = localStorage.getItem("selectedThemes");
+	currentThemeNumber = localStorage.getItem("currentThemeNumber");
 	if (!settingsArray) {
 		settingsArray = {};
 	} else {
@@ -186,9 +210,22 @@ function checkStorage() {
 		welcomeIsShown = false;
 		localStorage.setItem("welcomeIsShown", JSON.stringify(welcomeIsShown));
 	}
+	updateTheme();
+	if (!selectedThemes) {
+		selectedThemes = [];
+		themes = JSON.parse(localStorage.getItem("themes"));
+		for (var i = 0; i < themes.length; i++) {
+			selectedThemes.push(i);
+		}
+		localStorage.setItem("selectedThemes", JSON.stringify(selectedThemes));
+	}
+	if (!currentThemeNumber) {
+		currentThemeNumber = 0;
+		localStorage.setItem("currentThemeNumber", JSON.stringify(currentThemeNumber));
+	}
 }
 
-// Listener will be activated when user adds or deletes words from dictionary.
+// Listener will be activated when user adds or deletes words from the Dictionary.
 chrome.runtime.onMessage.addListener(
 	function (request, sender, sendResponse) {
 		"use strict";
@@ -240,6 +277,7 @@ chrome.runtime.onMessage.addListener(
 		"use strict";
 		if (request.type === "changeSettings") {
 			settingsArray = checkSettings();
+			selectedThemes = checkSelectedThemes();
 			intervalTime = settingsArray.selectInterval * 1000 * 60 + settingsArray.selectDelay * 1000;
 			if (!stopSign) {
 				clearInterval(intervalIdShowing);
@@ -254,6 +292,7 @@ chrome.runtime.onMessage.addListener(
 chrome.runtime.onMessage.addListener(
 	function (request, sender, sendResponse) {
 		"use strict";
+		var themeNumber;
 		if (request.type === "wordCardShown") {
 			clearTimeout(timeoutIdNotification);
 		}
@@ -264,8 +303,10 @@ chrome.runtime.onMessage.addListener(
 checkStorage();
 setIcon();
 settingsArray = checkSettings();
+selectedThemes = checkSelectedThemes();
 dictionaryArrayQueue = checkDictionary();
 intervalTime = settingsArray.selectInterval * 1000 * 60 + settingsArray.selectDelay * 1000;
+
 // Start interval if it is possible.
 if (JSON.parse(localStorage.getItem("dictionaryArray")).length !== 0 && JSON.parse(localStorage.getItem("switchState")) !== false) {
 	intervalIdShowing = setInterval(showWord, intervalTime);

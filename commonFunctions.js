@@ -1,12 +1,8 @@
 var disappearingStarted,
 	drawingStarted,
 	timeoutIdTimer,
-	// Variables from "background.js".
 	dictionaryArrayQueue,
 	lastWord;
-// Functions from "background.js".
-// Special algorithm which shows word cards without reps
-// alike cards and does it with equal probability.
 
 // Works as semaphore for "disappearing()".
 disappearingStarted = false;
@@ -14,6 +10,8 @@ disappearingStarted = false;
 // Works as semaphore for "drawCard()".
 drawingStarted = false;
 
+// Special algorithm which shows word cards without reps
+// alike cards and does it with equal probability.
 function chooseWord() {
 	"use strict";
 	var flag,
@@ -50,16 +48,32 @@ function chooseWord() {
 	return lastWord;
 }
 
-// End functions from "background.js".
-// Functions from "content.js".
+// It chooses color scheme to put it into web page when word card is showed.
+function chooseTheme() {
+	"use strict";
+	var themes,
+		selectedThemes,
+		currentThemeNumber;
+	themes = JSON.parse(localStorage.getItem("themes"));
+	selectedThemes = JSON.parse(localStorage.getItem("selectedThemes"));
+	currentThemeNumber = JSON.parse(localStorage.getItem("currentThemeNumber"));
+	if (!selectedThemes || !themes) {
+		return null;
+	}
+	return themes[selectedThemes[currentThemeNumber]];
+}
+
+// Hide a word card from the web page,
 function disappearing() {
 	"use strict";
 	var wordCard,
+		themeStyle,
 		blurStyle,
 		closeStyle,
 		intervalIdDisappearing;
 	disappearingStarted = true;
 	wordCard = document.getElementById("wordCard8730011");
+	themeStyle = document.getElementById("themeStyle8730011");
 	blurStyle = document.getElementById("blurStyle8730011");
 	closeStyle = document.getElementById("closeStyle8730011");
 	if (blurStyle) {
@@ -71,6 +85,7 @@ function disappearing() {
 			wordCard.style.top = checkToTopOverflow + "%";
 		} else {
 			wordCard.remove();
+			themeStyle.remove();
 			if (closeStyle) {
 				closeStyle.remove();
 			}
@@ -81,6 +96,7 @@ function disappearing() {
 	}, 10);
 }
 
+// Action that executes when close button on the word card is pressed.
 function closeButtonAction(event) {
 	"use strict";
 	event.preventDefault();
@@ -91,6 +107,7 @@ function closeButtonAction(event) {
 	}
 }
 
+// It makes remain time in clock format from "selectDelay" that is just simple number.
 function formatDelay(selectDelay) {
 	"use strict";
 	var formatedDelay,
@@ -117,11 +134,32 @@ function formatDelay(selectDelay) {
 	return formatedDelay;
 }
 
-function appearing(word, translation, settingsArray) {
+// Increment "currentThemeNumber" after word card is showed.
+function increaseCurrentThemeNumber() {
+	"use strict";
+	var currentThemeNumber,
+		selectedThemes;
+	currentThemeNumber = JSON.parse(localStorage.getItem("currentThemeNumber"));
+	selectedThemes = JSON.parse(localStorage.getItem("selectedThemes"));
+	if (currentThemeNumber < selectedThemes.length - 1) {
+		currentThemeNumber++;
+	} else {
+		currentThemeNumber = 0;
+	}
+	localStorage.setItem("currentThemeNumber", JSON.stringify(currentThemeNumber));
+}
+
+// Show a word card on the web page,
+// parametr @word is a word,
+// parametr @translation is a translation of the word,
+// parametr @theme is a color scheme,
+// parametr @settingsArray is an array of the settings fetched from the "backgroung.js".
+function appearing(word, translation, theme, settingsArray) {
 	"use strict";
 	var selectDelay,
 		showClose,
 		wordCard,
+		themeStyle,
 		blurStyle,
 		closeStyle,
 		closeButton,
@@ -136,21 +174,25 @@ function appearing(word, translation, settingsArray) {
 	wordCard.id = "wordCard8730011";
 	wordCard.style.top = "-30%";
 	// Primary html-code of creating card.
-	wordCard.innerHTML = "<div id=\"header8730011\"><span id=\"headerOne8730011\">Each</span><span id=\"headerTwo8730011\">Word</span><span id=\"headerOne8730011\"> &mdash; expand your vocabulary easily</span></div><a href=\"\" id=\"closeButton8730011\" title=\"Close this card\" tabindex=\"-1\"></a><div id=\"words8730011\"><span id=\"word8730011\">" + word + "</span></span id=\"dash8730011\"> &mdash; </span><span id=\"translation8730011\">" + translation + "</span></div><div id=\"timer8730011\">" + formatDelay(selectDelay) + "</div>";
+	wordCard.innerHTML = "<div id=\"header8730011\"><span id=\"headerOne8730011\">Each</span><span id=\"headerTwo8730011\">Word</span><span id=\"headerOne8730011\"> &mdash; expand your vocabulary easily</span></div><a href=\"\" id=\"closeButton8730011\" title=\"Close this card\" tabindex=\"-1\"></a><div id=\"words8730011\"><span id=\"word8730011\">" + word + "</span><span id=\"dash8730011\"> &mdash; </span><span id=\"translation8730011\">" + translation + "</span></div><div id=\"timer8730011\">" + formatDelay(selectDelay) + "</div>";
+	themeStyle = document.createElement("style");
+	themeStyle.id = "themeStyle8730011";
+	themeStyle.innerHTML = theme;
+	document.head.appendChild(themeStyle);
 	if (settingsArray.showBlur) {
 		blurStyle = document.createElement("style");
 		blurStyle.id = "blurStyle8730011";
 		blurStyle.innerHTML = "body{-webkit-filter:blur(10px);}";
-		document.documentElement.appendChild(blurStyle);
+		document.head.appendChild(blurStyle);
 	}
 	document.documentElement.insertBefore(wordCard, document.documentElement.firstChild);
 	closeButton = document.getElementById("closeButton8730011");
-	// If user enabled "show close button" in options.
+	// If user enabled "Show close button" in options.
 	if (showClose) {
 		closeStyle = document.createElement("style");
 		closeStyle.id = "closeStyle8730011";
 		closeStyle.innerHTML = "#closeButton8730011{background:url(" + chrome.extension.getURL("images/icons/closeButton32.png") + ");position:absolute;top:5%;right:5%;display:block;width:32px;height:32px;outline:none;transition:0.2s;}#closeButton8730011:hover{background:url(" + chrome.extension.getURL("images/icons/closeButton32_hover.png") + ");-webkit-transform:rotate(180deg);}#closeButton8730011:active{background:url(" + chrome.extension.getURL("images/icons/closeButton32_active.png") + ");-webkit-transform:rotate(180deg);}";
-		document.documentElement.appendChild(closeStyle);
+		document.head.appendChild(closeStyle);
 		closeButton.onclick = closeButtonAction;
 	} else {
 		closeButton.remove();
@@ -205,10 +247,16 @@ function appearing(word, translation, settingsArray) {
 	}, 10);
 }
 
-function drawCard(word, translation, settingsArray) {
+// Start appearing of the word card and pass the parameters to the "appearing" function,
+// parametr @word is a word,
+// parametr @translation is a translation of the word,
+// parametr @theme is a color scheme,
+// parametr @settingsArray is an array of the settings fetched from the "backgroung.js".
+function drawCard(word, translation, theme, settingsArray) {
 	"use strict";
 	if (!drawingStarted) {
-		appearing(word, translation, settingsArray);
+		appearing(word, translation, theme, settingsArray);
+		increaseCurrentThemeNumber();
 	}
 }
 
@@ -216,11 +264,10 @@ function drawCard(word, translation, settingsArray) {
 Array.prototype.indexOfObject = function (object) {
 	"use strict";
 	var i,
-		flag,
-		key;
+		flag;
     for (i = 0; i < this.length; i++) {
         flag = true;
-        for (key in object) {
+        for (var key in object) {
 			if (object.hasOwnProperty(key)) {
 				if (this[i][key] !== object[key]) {
 					flag = false;

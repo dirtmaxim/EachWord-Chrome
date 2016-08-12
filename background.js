@@ -119,17 +119,22 @@ function checkSelectedThemes() {
 }
 
 function updateTheme() {
-	var theme;
+	"use strict";
+	var themes;
 	themes = [];
 	themes[0] = "#wordCard8730011{background-color:#3cb371;}#timer8730011{color:#9d0019;}#headerOne8730011{color:#006363;}#headerTwo8730011{color:#9d0019;}#word8730011{color:#006363;}#translation8730011{color:#006363;}#dash8730011{color:#9d0019;}";
-	themes[1] = "#wordCard8730011{background-color:#8b8b7a;}#headerOne8730011{color:#006363;}#headerTwo8730011{color:#9d0019;}#word8730011{color:#006363;}#translation8730011{color:#006363;}#dash8730011{color:#9d0019;}#timer8730011{color:#9d0019;}";
+	themes[1] = "#wordCard8730011{background-color:#8b8b7a;}#headerOne8730011{color:#494915;}#headerTwo8730011{color:#005b8c;}#word8730011{color:#494915;}#translation8730011{color:#494915;}#dash8730011{color:#005b8c;}#timer8730011{color:#005b8c;}";
+	themes[2] = "#wordCard8730011{background-color:#5e9dd2;}#headerOne8730011{color:#065ba1;}#headerTwo8730011{color:#d9bd32;}#word8730011{color:#065ba1;}#translation8730011{color:#065ba1;}#dash8730011{color:#d9bd32;}#timer8730011{color:#d9bd32;}";
+	themes[3] = "#wordCard8730011{background-color:#e9d387;}#headerOne8730011{color:#806f39;}#headerTwo8730011{color:#005b8c;}#word8730011{color:#806f39}#translation8730011{color:#806f39;}#dash8730011{color:#005b8c;}#timer8730011{color:#005b8c;}";
 	localStorage.setItem("themes", JSON.stringify(themes));
+	return themes.length;
 }
 
 // In case of it is first application launch or there were some troubles with lockalStorage.
 function checkStorage() {
 	"use strict";
-	var settingsArray,
+	var i,
+		settingsArray,
 		dictionaryArray,
 		dictionaryArrayQueue,
 		switchState,
@@ -137,6 +142,8 @@ function checkStorage() {
 		intoLanguage,
 		versionArray,
 		welcomeIsShown,
+		themes,
+		themesLengthAfterUpdate,
 		selectedThemes,
 		currentThemeNumber;
 	settingsArray = localStorage.getItem("settingsArray");
@@ -147,6 +154,7 @@ function checkStorage() {
 	intoLanguage = localStorage.getItem("intoLanguage");
 	versionArray = localStorage.getItem("versionArray");
 	welcomeIsShown = localStorage.getItem("welcomeIsShown");
+	themes = localStorage.getItem("themes");
 	selectedThemes = localStorage.getItem("selectedThemes");
 	currentThemeNumber = localStorage.getItem("currentThemeNumber");
 	if (!settingsArray) {
@@ -210,12 +218,37 @@ function checkStorage() {
 		welcomeIsShown = false;
 		localStorage.setItem("welcomeIsShown", JSON.stringify(welcomeIsShown));
 	}
-	updateTheme();
+	themesLengthAfterUpdate = updateTheme();
+	if (!themes) {
+		themes = JSON.parse(localStorage.getItem("themes"));
+	} else {
+		themes = JSON.parse(themes);
+	}
 	if (!selectedThemes) {
 		selectedThemes = [];
 		themes = JSON.parse(localStorage.getItem("themes"));
-		for (var i = 0; i < themes.length; i++) {
+		for (i = 0; i < themes.length; i++) {
 			selectedThemes.push(i);
+		}
+		localStorage.setItem("selectedThemes", JSON.stringify(selectedThemes));
+	} else if (themes.length < themesLengthAfterUpdate) {
+		selectedThemes = JSON.parse(localStorage.getItem("selectedThemes"));
+		for (i = themes.length; i < themesLengthAfterUpdate; i++) {
+			selectedThemes.push(i);
+		}
+		localStorage.setItem("selectedThemes", JSON.stringify(selectedThemes));
+	} else if (themes.length > themesLengthAfterUpdate) {
+		themes = JSON.parse(localStorage.getItem("themes"));
+		selectedThemes = JSON.parse(localStorage.getItem("selectedThemes"));
+		for (i = 0; i < selectedThemes.length; i++) {
+			if (themes[selectedThemes[i]] === undefined) {
+				delete selectedThemes[i];
+			}
+		}
+		for (i = 0; i < selectedThemes.length; i++) {
+			if (selectedThemes[i] === undefined) {
+				selectedThemes.splice(i, 1);
+			}
 		}
 		localStorage.setItem("selectedThemes", JSON.stringify(selectedThemes));
 	}

@@ -1,4 +1,5 @@
-var saveButton,
+var i,
+	saveButton,
 	showTestCard,
 	showTestNotification,
 	selectInterval,
@@ -129,10 +130,11 @@ function exportDictionaryFile() {
 // Replace or merge dictionary.
 function importDictionaryFile(e) {
 	"use strict";
-	var file,
+	var i,
+		file,
 		fileReader;
 	file = e.target.files[0];
-	if (file != undefined && file.type === "application/json") {
+	if (file !== undefined && file.type === "application/json") {
 		fileReader = new FileReader();
 		fileReader.onload = function (e) {
 			var result,
@@ -142,7 +144,7 @@ function importDictionaryFile(e) {
 				if (!Array.isArray(result)) {
 					throw new Error("Parsed object is not an array");
 				} else {
-					for (var i = 0; i < result.length; i++) {
+					for (i = 0; i < result.length; i++) {
 						if (!result[i].hasOwnProperty("word") || !result[i].hasOwnProperty("translation")) {
 							throw new Error("Parsed array does not have appropriate property");
 						}
@@ -159,7 +161,7 @@ function importDictionaryFile(e) {
 				}
 				importType = document.getElementsByName("importType");
 				if (importType[0].checked) {
-					for(var i = 0; i < result.length; i++) {
+					for(i = 0; i < result.length; i++) {
 						dictionaryArray.push(result[i]);
 					}
 					localStorage.setItem("dictionaryArray", JSON.stringify(dictionaryArray));
@@ -169,7 +171,7 @@ function importDictionaryFile(e) {
 					localStorage.setItem("dictionaryArrayQueue", JSON.stringify([]));
 				}
 				showSettingsStateDelayed("Dictionary have been imported!", 500);
-			} catch(e) {
+			} catch(error) {
 				showSettingsStateDelayed("It is not a Dictionary format file!", 500);
 			} finally {
 				// It allows to load the same file twise.
@@ -262,7 +264,7 @@ window.onload = function () {
 	showNotificationCards.disabled = settingsArray.showNotificationCardsDisabled;
 	showTimeline.checked = settingsArray.showTimeline;
 	if (themes) {
-		for (var i = 0; i < themes.length; i++) {
+		for (i = 0; i < themes.length; i++) {
 			var p,
 				label,
 				span,
@@ -281,14 +283,14 @@ window.onload = function () {
 			p.appendChild(label);
 		}
 	}
-	for (var i = 0; i < selectedThemes.length; i++) {
+	for (i = 0; i < selectedThemes.length; i++) {
 		checkBoxTheme[selectedThemes[i]].checked = true;
 	}
 	if (selectedThemes.length == 1) {
 		controlCheckedTypesOfThemes.lastIndex = selectedThemes[0];
 		checkBoxTheme[selectedThemes[0]].disabled = true;
 	}
-	for (var i = 0; i < checkBoxTheme.length; i++) {
+	for (i = 0; i < checkBoxTheme.length; i++) {
 		checkBoxTheme[i].onchange = controlCheckedTypesOfThemes;
 	}
 };

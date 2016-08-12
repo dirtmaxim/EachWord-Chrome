@@ -170,8 +170,8 @@ body {
 
 .colorSquare {
 	display: inline-block;
-	width: 30px;
-	height: 30px;
+	width: 27px;
+	height: 27px;
 	border-radius: 100%;
 	border: 2px solid black;
 }

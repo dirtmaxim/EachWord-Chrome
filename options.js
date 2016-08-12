@@ -63,6 +63,7 @@ function testWordCard() {
 	var choosenTheme;
 	choosenTheme = chooseTheme();
 	drawCard("Word", "Translation", choosenTheme, settingsArray);
+	increaseCurrentThemeNumber();
 	return false;
 }
 

@@ -328,6 +328,7 @@ chrome.runtime.onMessage.addListener(
 		var themeNumber;
 		if (request.type === "wordCardShown") {
 			clearTimeout(timeoutIdNotification);
+			increaseCurrentThemeNumber();
 		}
 	}
 );

@@ -256,7 +256,6 @@ function drawCard(word, translation, theme, settingsArray) {
 	"use strict";
 	if (!drawingStarted) {
 		appearing(word, translation, theme, settingsArray);
-		increaseCurrentThemeNumber();
 	}
 }
 

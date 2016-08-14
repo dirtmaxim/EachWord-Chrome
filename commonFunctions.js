@@ -259,6 +259,19 @@ function drawCard(word, translation, theme, settingsArray) {
 	}
 }
 
+// Asynchronous loading of local Yandex Share Button Script.
+function loadShareButtonScript() {
+	"use strict";
+	var script,
+		firstScript;
+	script = document.createElement("script");
+	script.async = true;
+	script.src = "libraries/yandexShareButtons/share.js";
+	script.async = true;
+	firstScript = document.getElementsByTagName("script")[0];
+	firstScript.parentNode.insertBefore(script, firstScript);
+}
+
 // End functions from "content.js".
 Array.prototype.indexOfObject = function (object) {
 	"use strict";

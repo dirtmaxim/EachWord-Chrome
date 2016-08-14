@@ -82,6 +82,7 @@ th::selection {
 	display: block;
 	width: 18px;
 	height: 15px;
+	outline: none;
 	transition: 0.3s;
 } 
 
@@ -91,10 +92,6 @@ th::selection {
 
 .playWordButton:active {
 	background: url(images/icons/playWord18x15_active.png);
-}
-
-::selection {
-	background: transparent;
 }
 
 #simpleWindow, #buttonWindow {
@@ -137,4 +134,8 @@ th::selection {
 
 #buttonWindowButton:active {
   	background: #21935a;
+}
+
+::selection {
+	background: transparent;
 }

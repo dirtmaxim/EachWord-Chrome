@@ -24,6 +24,7 @@ function switchButtonChangeState() {
 		switchButton.title = "Turn on push cards";
 		switchButton.classList.remove("colorFirst");
 		switchButton.classList.add("colorSecond");
+		
 		// Change color icon to icon without color to indicate state of extension.
 		chrome.browserAction.setIcon({path: "images/default_icons/icon38_(without_color).png"});
 		if (JSON.parse(localStorage.getItem("dictionaryArray")).length !== 0) {
@@ -235,17 +236,21 @@ window.onload = function () {
 		tr,
 		td,
 		a;
+	loadShareButtonScript();
 	addButton = document.getElementById("addButton");
 	switchButton = document.getElementById("switchButton");
 	fromLanguage = document.getElementById("fromLanguage");
 	intoLanguage = document.getElementById("intoLanguage");
+	
 	// State of extension: "Turn on" or "Turn off".
 	switchState = localStorage.getItem("switchState");
 	addButton.onclick = addWord;
 	switchButton.onclick = switchButtonChangeState;
+	
 	// Save inputed letters in fields when extension closes.
 	fromLanguage.oninput = fromLanguageSave;
 	intoLanguage.oninput = intoLanguageSave;
+	
 	// Load saved letters from localStorage into fields.
 	fromLanguage.value = JSON.parse(localStorage.getItem("fromLanguage"));
 	intoLanguage.value = JSON.parse(localStorage.getItem("intoLanguage"));
@@ -270,7 +275,7 @@ window.onload = function () {
 	for (i = 0; i < dictionaryArray.length; i++) {
 		word = dictionaryArray[i].word;
 		translation = dictionaryArray[i].translation;
-		frameDocument = document.getElementsByTagName("iframe")[0].contentWindow.document;
+		frameDocument = document.getElementById("wordsList").contentWindow.document;
 		tr = document.createElement("tr");
 		td = document.createElement("td");
 		td.className = "firstColumn";

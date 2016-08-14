@@ -179,3 +179,16 @@ body {
 .notSelectable {
 	-webkit-user-select: none;
 }
+
+#shareMain {
+	height: 54px;
+}
+
+#shareButtons {
+	position: absolute;
+	text-align: center;
+	left: 50%;
+	transform: translate(-50%, 0);
+	padding: 15px;
+	background-color: #e8e8e8;
+}

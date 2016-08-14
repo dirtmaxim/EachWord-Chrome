@@ -34,6 +34,7 @@
   	"images/icons/closeButton32_hover.png",
   	"images/icons/closeButton32.png"
   ],
+  "content_security_policy": "script-src 'self' https://yastatic.net https://mc.yandex.ru; object-src 'self'",
   "options_page": "options.html",
   "author": "Maxim Kholiavchenko",
   "offline_enabled": true,

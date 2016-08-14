@@ -17,16 +17,26 @@ body {
 }
 
 #copyright {
+	height: 38px;
 	text-align: center;
 	background-color: #06266f;
 }
 
 #infoBlock {
+	height: 38px;
 	background-color: #4671d5;
 }
 
-#prompt {
-	padding-left: 90px;
+#shareButtons {
+	position: absolute;
+	top: 6px;
+	left: 105px;
+	padding-top: 3px;
+	padding-left: 15px;
+	padding-right: 15px;
+	padding-bottom: 3px;
+	border-radius: 20px;
+	background-color: #e8e8e8;
 }
 
 #wordsList {

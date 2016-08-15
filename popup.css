@@ -37,6 +37,7 @@ body {
 	padding-bottom: 3px;
 	border-radius: 20px;
 	background-color: #e8e8e8;
+	outline: none;
 }
 
 #wordsList {

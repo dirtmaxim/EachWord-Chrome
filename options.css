@@ -191,4 +191,5 @@ body {
 	transform: translate(-50%, 0);
 	padding: 15px;
 	background-color: #e8e8e8;
+	outline: none;
 }

@@ -266,7 +266,7 @@ function loadShareButtonScript() {
 		firstScript;
 	script = document.createElement("script");
 	script.async = true;
-	script.src = "libraries/yandexShareButtons/share.js";
+	script.src = "libraries/YandexShareButtons/share.js";
 	script.async = true;
 	firstScript = document.getElementsByTagName("script")[0];
 	firstScript.parentNode.insertBefore(script, firstScript);

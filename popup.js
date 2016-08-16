@@ -1,3 +1,12 @@
+var nothingToShowText,
+	welcomeText,
+	updateText;
+
+// Text message initialisation.
+nothingToShowMessage = "We have nothing to show you <img src=\"images/smiles/confused.svg\" width=\"18\"><br>First of all, add some words.";
+welcomeMessage = "Welcome to the EachWord <img src=\"images/smiles/sunglasses.svg\" width=\"18\"><br><br>For a start, add couple words that you want to learn and go on surfing the internet.<br><br>These words will be periodically shown to you. So you will learn them.<br><br>Check out options page.";
+updateMessage = "Really? I can't belive <img src=\"images/smiles/neutral_face.svg\" width=\"18\"><br>It's a new version of EachWord!<br>New features:<br>- Import and Export<br>- Design improved<br>- New card colors<br>If you like EachWord, please, share it on social networks using buttons above. It would really help us since we have no money for promotion.";
+
 function fromLanguageSave() {
 	"use strict";
 	localStorage.setItem("fromLanguage", JSON.stringify(document.getElementById("fromLanguage").value));
@@ -96,7 +105,7 @@ function deleteWord() {
 	if (dictionaryArray.length === 0) {
 		chrome.runtime.sendMessage({type: "stopInterval"});
 		if (!isExtensionUpdated()) {
-			showSimpleWindow("We have nothing to show you 😕<br>First of all, add some words.", "center", "80%", "25%");
+			showSimpleWindow(nothingToShowMessage, "center", "80%", "25%");
 		}
 	}
 	localStorage.setItem("dictionaryArray", JSON.stringify(dictionaryArray));
@@ -236,7 +245,8 @@ window.onload = function () {
 		tr,
 		td,
 		a;
-	loadShareButtonScript();
+		
+	loadShareButtonScript();	
 	addButton = document.getElementById("addButton");
 	switchButton = document.getElementById("switchButton");
 	fromLanguage = document.getElementById("fromLanguage");
@@ -309,7 +319,7 @@ window.onload = function () {
 		tr.scrollIntoView(true);
 	}
 	if (isExtensionUpdated()) {
-		showButtonWindow("Really? I can't belive 😐<br>It's a new version of EachWord!<br>New features:<br>- Import and Export<br>- Design improved<br>- New card colors<br>If you like EachWord, please, share it on social networks using buttons above. It would really help us since we have no money for promotion.", "Got it", "left", "80%", "80%", function () {
+		showButtonWindow(updateMessage, "Got it", "left", "80%", "80%", function () {
 			var versionArray,
 				dictionaryArray;
 				versionArray = JSON.parse(localStorage.getItem("versionArray"));
@@ -318,20 +328,20 @@ window.onload = function () {
 				localStorage.setItem("versionArray", JSON.stringify(versionArray));
 				localStorage.setItem("welcomeIsShown", JSON.stringify(false));
 				if (dictionaryArray.length === 0) {
-					showSimpleWindow("We have nothing to show you 😕<br>First of all, add some words.", "center", "80%", "25%");
+					showSimpleWindow(nothingToShowMessage, "center", "80%", "25%");
 				}
 		});
 	} else if (JSON.parse(localStorage.getItem("welcomeIsShown"))) {
-		showButtonWindow("Welcome to the EachWord 😎<br><br>For a start, add couple words that you want to learn and go on surfing the internet.<br><br>These words will be periodically shown to you. So you will learn them.<br><br>Check out options page.", "Got it", "left", "80%", "80%", function () {
+		showButtonWindow(welcomeMessage, "Got it", "left", "80%", "80%", function () {
 			var dictionaryArray;
 				dictionaryArray = JSON.parse(localStorage.getItem("dictionaryArray"));
 				localStorage.setItem("welcomeIsShown", JSON.stringify(false));
 				if (dictionaryArray.length === 0) {
-					showSimpleWindow("We have nothing to show you 😕<br>First of all, add some words.", "center", "80%", "25%");
+					showSimpleWindow(nothingToShowMessage, "center", "80%", "25%");
 				}
 		});
 	} else if (dictionaryArray.length === 0) {
-		showSimpleWindow("We have nothing to show you 😕<br>First of all, add some words.", "center", "80%", "25%");
+		showSimpleWindow(nothingToShowMessage, "center", "80%", "25%");
 	}
 	document.getElementById("fromLanguage").focus();
 };

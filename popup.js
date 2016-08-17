@@ -1,6 +1,10 @@
-var nothingToShowText,
-	welcomeText,
-	updateText;
+var nothingToShowMessage,
+	welcomeMessage,
+	updateMessage,
+	isCrucialUpdate;
+
+// It affects either updateMessage will be shown or not.
+isCrucialUpdate = false;
 
 // Text message initialisation.
 nothingToShowMessage = "We have nothing to show you <img src=\"images/smiles/confused.svg\" width=\"18\"><br>First of all, add some words.";
@@ -33,7 +37,7 @@ function switchButtonChangeState() {
 		switchButton.title = "Turn on push cards";
 		switchButton.classList.remove("colorFirst");
 		switchButton.classList.add("colorSecond");
-		
+
 		// Change color icon to icon without color to indicate state of extension.
 		chrome.browserAction.setIcon({path: "images/default_icons/icon38_(without_color).png"});
 		if (JSON.parse(localStorage.getItem("dictionaryArray")).length !== 0) {
@@ -53,6 +57,40 @@ function switchButtonChangeState() {
 	}
 	document.getElementById("fromLanguage").focus();
 	return false;
+}
+
+// It checks if extension was updated in case of it is not first installed version.
+function isExtensionUpdated() {
+	"use strict";
+	var versionArray;
+	versionArray = JSON.parse(localStorage.getItem("versionArray"));
+	if (versionArray.length === 0) {
+		localStorage.setItem("welcomeIsShown", JSON.stringify(true));
+		versionArray.push(chrome.app.getDetails().version);
+		localStorage.setItem("versionArray", JSON.stringify(versionArray));
+	} else if (versionArray[versionArray.length - 1] !== chrome.app.getDetails().version) {
+		return true;
+	}
+	return false;
+}
+
+// It checks cases to show different type of messages.
+function checkCasesToShowMessage() {
+	"use strict";
+	var dictionaryArray;
+	dictionaryArray = localStorage.getItem("dictionaryArray");
+	dictionaryArray = JSON.parse(dictionaryArray);
+	if (JSON.parse(localStorage.getItem("welcomeIsShown"))) {
+		showButtonWindow(welcomeMessage, "Got it", "left", "80%", "80%", function () {
+			dictionaryArray = JSON.parse(localStorage.getItem("dictionaryArray"));
+			localStorage.setItem("welcomeIsShown", JSON.stringify(false));
+			if (dictionaryArray.length === 0) {
+				showSimpleWindow(nothingToShowMessage, "center", "80%", "25%");
+			}
+		});
+	} else if (dictionaryArray.length === 0) {
+		showSimpleWindow(nothingToShowMessage, "center", "80%", "25%");
+	}
 }
 
 // Function to play word when user clicks to speaker.
@@ -213,22 +251,6 @@ document.onkeyup = function (e) {
     }
 };
 
-// It checks if extension was updated in case of it is not first installed version.
-function isExtensionUpdated() {
-	"use strict";
-	var versionArray;
-	versionArray = JSON.parse(localStorage.getItem("versionArray"));
-	if (versionArray.length === 0) {
-		localStorage.setItem("welcomeIsShown", JSON.stringify(true));
-		versionArray.push(chrome.app.getDetails().version);
-		localStorage.setItem("versionArray", JSON.stringify(versionArray));
-	}
-	else if (versionArray[versionArray.length - 1] !== chrome.app.getDetails().version) {
-		return true;
-	}
-	return false;
-}
-
 // Fill in extension window.
 window.onload = function () {
 	"use strict";
@@ -238,6 +260,7 @@ window.onload = function () {
 		intoLanguage,
 		switchState,
 		dictionaryArray,
+		versionArray,
 		i,
 		word,
 		translation,
@@ -245,22 +268,22 @@ window.onload = function () {
 		tr,
 		td,
 		a;
-		
-	loadShareButtonScript();	
+
+	loadShareButtonScript();
 	addButton = document.getElementById("addButton");
 	switchButton = document.getElementById("switchButton");
 	fromLanguage = document.getElementById("fromLanguage");
 	intoLanguage = document.getElementById("intoLanguage");
-	
+
 	// State of extension: "Turn on" or "Turn off".
 	switchState = localStorage.getItem("switchState");
 	addButton.onclick = addWord;
 	switchButton.onclick = switchButtonChangeState;
-	
+
 	// Save inputed letters in fields when extension closes.
 	fromLanguage.oninput = fromLanguageSave;
 	intoLanguage.oninput = intoLanguageSave;
-	
+
 	// Load saved letters from localStorage into fields.
 	fromLanguage.value = JSON.parse(localStorage.getItem("fromLanguage"));
 	intoLanguage.value = JSON.parse(localStorage.getItem("intoLanguage"));
@@ -276,11 +299,11 @@ window.onload = function () {
 		switchButton.classList.remove("colorFirst");
 		switchButton.classList.add("colorSecond");
 	}
-	
+
 	// Array of words in localStorage.
 	dictionaryArray = localStorage.getItem("dictionaryArray");
 	dictionaryArray = JSON.parse(dictionaryArray);
-	
+
 	// Fill in words, translation and "deleteButton" into "iframe".
 	for (i = 0; i < dictionaryArray.length; i++) {
 		word = dictionaryArray[i].word;
@@ -319,9 +342,8 @@ window.onload = function () {
 		tr.scrollIntoView(true);
 	}
 	if (isExtensionUpdated()) {
-		showButtonWindow(updateMessage, "Got it", "left", "80%", "80%", function () {
-			var versionArray,
-				dictionaryArray;
+		if (isCrucialUpdate) {
+			showButtonWindow(updateMessage, "Got it", "left", "80%", "80%", function () {
 				versionArray = JSON.parse(localStorage.getItem("versionArray"));
 				dictionaryArray = JSON.parse(localStorage.getItem("dictionaryArray"));
 				versionArray.push(chrome.app.getDetails().version);
@@ -330,18 +352,15 @@ window.onload = function () {
 				if (dictionaryArray.length === 0) {
 					showSimpleWindow(nothingToShowMessage, "center", "80%", "25%");
 				}
-		});
-	} else if (JSON.parse(localStorage.getItem("welcomeIsShown"))) {
-		showButtonWindow(welcomeMessage, "Got it", "left", "80%", "80%", function () {
-			var dictionaryArray;
-				dictionaryArray = JSON.parse(localStorage.getItem("dictionaryArray"));
-				localStorage.setItem("welcomeIsShown", JSON.stringify(false));
-				if (dictionaryArray.length === 0) {
-					showSimpleWindow(nothingToShowMessage, "center", "80%", "25%");
-				}
-		});
-	} else if (dictionaryArray.length === 0) {
-		showSimpleWindow(nothingToShowMessage, "center", "80%", "25%");
+			});
+		} else {
+			versionArray = JSON.parse(localStorage.getItem("versionArray"));
+			versionArray.push(chrome.app.getDetails().version);
+			localStorage.setItem("versionArray", JSON.stringify(versionArray));
+			checkCasesToShowMessage();
+		}
+	} else {
+		checkCasesToShowMessage();
 	}
 	document.getElementById("fromLanguage").focus();
 };

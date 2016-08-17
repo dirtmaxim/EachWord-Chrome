@@ -5,7 +5,7 @@ var settingsArray,
 	intervalIdShowing,
 	timeoutIdNotification,
 	intervalTime,
-	stopSign;	
+	stopSign;
 
 function showNotification(word, translation, settingsArray) {
 	"use strict";

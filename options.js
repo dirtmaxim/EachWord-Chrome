@@ -42,7 +42,7 @@ function controlCheckedTypesOfThemes() {
 	var count,
 		lastIndex;
 	count = 0;
-	for (var i = 0; i < checkBoxTheme.length && count < 2; i++) {
+	for (i = 0; i < checkBoxTheme.length && count < 2; i++) {
 		if (checkBoxTheme[i].checked === true) {
 			count++;
 			lastIndex = i;
@@ -98,6 +98,7 @@ function showSettingsStateDelayed(state, delay) {
 
 // It shows warning massege when user switch "Append" to "Replace".
 function showReplaceWarning() {
+	"use strict";
 	var span;
 	importType = document.getElementsByName("importType");
 	span = document.createElement("span");
@@ -108,6 +109,7 @@ function showReplaceWarning() {
 
 // It hides warning massege when user switch "Replace" to "Append".
 function hideReplaceWarning() {
+	"use strict";
 	var span;
 	span = document.getElementById("warningMessage");
 	if (span) {
@@ -120,7 +122,7 @@ function exportDictionaryFile() {
 	"use strict";
 	var a;
 	a = document.createElement("a");
-	a.href = URL.createObjectURL(new Blob([localStorage.getItem("dictionaryArray")], {type: "application/json"}));
+	a.href = URL.createObjectURL(new Blob([localStorage.getItem("dictionaryArray")]));
 	a.download = "yourDictionary.json";
 	document.body.appendChild(a);
 	a.click();
@@ -131,11 +133,10 @@ function exportDictionaryFile() {
 // Replace or merge dictionary.
 function importDictionaryFile(e) {
 	"use strict";
-	var i,
-		file,
+	var file,
 		fileReader;
 	file = e.target.files[0];
-	if (file !== undefined && file.type === "application/json") {
+	if (file !== undefined && file.name.endsWith(".json")) {
 		fileReader = new FileReader();
 		fileReader.onload = function (e) {
 			var result,
@@ -162,7 +163,7 @@ function importDictionaryFile(e) {
 				}
 				importType = document.getElementsByName("importType");
 				if (importType[0].checked) {
-					for(i = 0; i < result.length; i++) {
+					for (i = 0; i < result.length; i++) {
 						dictionaryArray.push(result[i]);
 					}
 					localStorage.setItem("dictionaryArray", JSON.stringify(dictionaryArray));
@@ -172,7 +173,7 @@ function importDictionaryFile(e) {
 					localStorage.setItem("dictionaryArrayQueue", JSON.stringify([]));
 				}
 				showSettingsStateDelayed("Dictionary have been imported!", 500);
-			} catch(error) {
+			} catch (error) {
 				showSettingsStateDelayed("It is not a Dictionary format file!", 500);
 			} finally {
 				// It allows to load the same file twise.
@@ -180,8 +181,7 @@ function importDictionaryFile(e) {
 			}
 		};
 		fileReader.readAsText(file);
-	}
-	else {
+	} else {
 		showSettingsStateDelayed("It is not a Dictionary format file!", 500);
 	}
 }
@@ -207,7 +207,7 @@ function save() {
 	settingsArray.showNotificationCardsDisabled = showNotificationCards.disabled;
 	settingsArray.showTimeline = showTimeline.checked;
 	selectedThemes = [];
-	for (var i = 0; i < checkBoxTheme.length; i++) {
+	for (i = 0; i < checkBoxTheme.length; i++) {
 		if (checkBoxTheme[i].checked) {
 			selectedThemes.push(i);
 		}
@@ -274,9 +274,9 @@ window.onload = function () {
 			span = document.createElement("span");
 			span.className = "colorSquare";
 			span.id = "color" + i;
-			
+
 			// RegExp to set up "background-color" of themes rounds in "options.js".
-			span.style.backgroundColor = themes[i].match(/#wordCard8730011\s?{\s?background-color\s?:\s?(#\w{3,6})\s?;\s?}/)[1];
+			span.style.backgroundColor = themes[i].match(/#wordCard8730011\s?\{\s?background-color\s?:\s?(#\w{3,6})\s?;\s?\}/)[1];
 			input = document.createElement("input");
 			input.type = "checkbox";
 			input.className = "checkBoxTheme";
@@ -290,7 +290,7 @@ window.onload = function () {
 	for (i = 0; i < selectedThemes.length; i++) {
 		checkBoxTheme[selectedThemes[i]].checked = true;
 	}
-	if (selectedThemes.length == 1) {
+	if (selectedThemes.length === 1) {
 		controlCheckedTypesOfThemes.lastIndex = selectedThemes[0];
 		checkBoxTheme[selectedThemes[0]].disabled = true;
 	}

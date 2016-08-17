@@ -10,7 +10,7 @@ function showSimpleWindow(text, textAlign, width, height) {
 		simpleWindowContent,
 		frameDocument;
 	simpleWindow = document.getElementById("simpleWindow");
-	
+
 	// In case of buttonWindow is already shown.
 	if (simpleWindow !== null) {
 		simpleWindow.remove();
@@ -58,7 +58,7 @@ function showButtonWindow(text, buttonText, textAlign, width, height, finalActio
 		buttonWindowContent,
 		buttonWindowButton;
 	buttonWindow = document.getElementById("buttonWindow");
-	
+
 	// In case of buttonWindow is already shown.
 	if (buttonWindow !== null) {
 		buttonWindow.remove();

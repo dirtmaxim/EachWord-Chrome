@@ -276,10 +276,11 @@ function loadShareButtonScript() {
 Array.prototype.indexOfObject = function (object) {
 	"use strict";
 	var i,
-		flag;
+		flag,
+		key;
     for (i = 0; i < this.length; i++) {
         flag = true;
-        for (var key in object) {
+        for (key in object) {
 			if (object.hasOwnProperty(key)) {
 				if (this[i][key] !== object[key]) {
 					flag = false;

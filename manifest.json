@@ -2,8 +2,9 @@
   "manifest_version": 2,
   "name": "EachWord - expand your vocabulary",
   "short_name": "EachWord",
-  "version": "1.1.10",
-  "description": "Add new words when you watch movies, series or read books and they will be occasionally shown as push notifications.",
+  "version": "1.1.11",
+  "description": "__MSG_description__",
+  "default_locale": "en",
   "icons": {
 	"16": "images/icons/icon16.png",
 	"32": "images/icons/icon32.png",

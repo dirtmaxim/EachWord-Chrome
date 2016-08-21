@@ -148,7 +148,7 @@ function importDictionaryFile(e) {
 				} else {
 					for (i = 0; i < result.length; i++) {
 						if (!result[i].hasOwnProperty("word") || !result[i].hasOwnProperty("translation")) {
-							throw new Error("Parsed array does not have appropriate property");
+							throw new Error("Parsed array does not have an appropriate property");
 						}
 					}
 				}

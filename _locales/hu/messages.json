@@ -1,0 +1,6 @@
+{
+	"description": {
+		"message": "Új szavak felvétele a szótárba, és lesznek alkalmanként jelenik kártyákat.",
+		"description": "Leírása a kiterjesztés manifest.json."
+	}
+}

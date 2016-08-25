@@ -1,0 +1,6 @@
+{
+	"description": {
+		"message": "Dodajanje nove besede v slovar in se bodo občasno prikazana kot kartice.",
+		"description": "Opis razširitev v manifest.json."
+	}
+}

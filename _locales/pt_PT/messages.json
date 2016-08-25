@@ -1,0 +1,6 @@
+{
+	"description": {
+		"message": "Adicionar novas palavras ao dicionário e eles vão ser ocasionalmente apresentados como cartões.",
+		"description": "Descrição da extensão no manifest.json."
+	}
+}

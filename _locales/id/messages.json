@@ -1,0 +1,6 @@
+{
+	"description": {
+		"message": "Menambahkan kata baru ke kamus dan mereka akan sesekali ditampilkan sebagai kartu.",
+		"description": "Deskripsi ekstensi di manifest.json."
+	}
+}

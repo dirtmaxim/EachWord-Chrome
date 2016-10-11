@@ -130,15 +130,3 @@ input::selection {
 ::selection {
 	background: transparent;
 }
-
-::-webkit-scrollbar {
-    width: 5px;
-}
-
-::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-}
-
-::-webkit-scrollbar-thumb {
-    background: rgba(0, 0, 0, 0.4);
-}

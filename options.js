@@ -226,7 +226,6 @@ function save() {
 
 window.onload = function () {
 	"use strict";
-	loadShareButtonScript();
 	saveButton = document.getElementById("saveButton");
 	showTestCard = document.getElementById("showTestCard");
 	showTestNotification = document.getElementById("showTestNotification");

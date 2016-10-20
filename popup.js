@@ -269,7 +269,6 @@ window.onload = function () {
 		td,
 		a;
 
-	loadShareButtonScript();
 	addButton = document.getElementById("addButton");
 	switchButton = document.getElementById("switchButton");
 	fromLanguage = document.getElementById("fromLanguage");

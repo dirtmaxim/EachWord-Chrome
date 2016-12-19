@@ -1,6 +1,6 @@
 {
-	"description": {
-		"message": "Tilføj nye ord til ordbogen, og de vil blive lejlighedsvis vises som kort.",
-		"description": "Beskrivelse af udvidelse i manifest.json."
-	}
+  "description": {
+    "message": "Tilføj nye ord til ordbogen, og de vil blive lejlighedsvis vises som kort.",
+    "description": "Beskrivelse af udvidelse i manifest.json."
+  }
 }

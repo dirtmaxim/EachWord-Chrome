@@ -1,6 +1,6 @@
 {
-	"description": {
-		"message": "Pridávať nové slová do slovníka a budú občas zobrazené ako karty.",
-		"description": "Opis rozšírenie v manifest.json."
-	}
+  "description": {
+    "message": "Pridávať nové slová do slovníka a budú občas zobrazené ako karty.",
+    "description": "Opis rozšírenie v manifest.json."
+  }
 }

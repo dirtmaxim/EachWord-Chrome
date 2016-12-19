@@ -1,6 +1,6 @@
 {
-	"description": {
-		"message": "Dodaj nowe słowo do słownika, a od czasu do czasu będą one pokazane jako karty.",
-		"description": "Opis przedłużenie manifest.json."
-	}
+  "description": {
+    "message": "Dodaj nowe słowo do słownika, a od czasu do czasu będą one pokazane jako karty.",
+    "description": "Opis przedłużenie manifest.json."
+  }
 }

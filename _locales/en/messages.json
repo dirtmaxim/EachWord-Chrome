@@ -1,6 +1,6 @@
 {
-	"description": {
-		"message": "Add new words to the dictionary and they will be occasionally shown as cards.",
-		"description": "Description of extension in manifest.json."
-	}
+  "description": {
+    "message": "Add new words to the dictionary and they will be occasionally shown as cards.",
+    "description": "Description of extension in manifest.json."
+  }
 }

@@ -1,6 +1,6 @@
 {
-	"description": {
-		"message": "ወደ መዝገበ ቃላት አዳዲስ ቃላት አክል እና አልፎ አልፎ እንደ ካርዶች ይታያሉ.",
-		"description": "በ manifest.json ውስጥ ቅጥያ መግለጫ."
-	}
+  "description": {
+    "message": "ወደ መዝገበ ቃላት አዳዲስ ቃላት አክል እና አልፎ አልፎ እንደ ካርዶች ይታያሉ.",
+    "description": "በ manifest.json ውስጥ ቅጥያ መግለጫ."
+  }
 }

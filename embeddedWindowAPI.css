@@ -1,41 +1,38 @@
 #simpleWindow, #buttonWindow {
-	position: fixed;
-	background-color: #393838;
-	color: white;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	opacity: 0.9;
+    position: fixed;
+    background-color: #393838;
+    color: white;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0.9;
 }
 
 #buttonWindow {
-	z-index: 2;
+    z-index: 2;
 }
 
 #simpleWindowContent, #buttonWindowContent {
-	padding: 5%;
-	font-size: 11pt;
+    padding: 5%;
+    font-size: 11pt;
 }
 
 #buttonWindowButton {
-	position: absolute;
-	top: 195px;
-	left: 114px;
-	padding-top: 6px;
-	padding-bottom: 6px;
-	padding-left: 10px;
-	padding-right: 10px;
-	background: #40c781;
-	color: white;
-  	text-decoration: none;
-	outline: none;
-  	transition: 0.3s;
+    position: absolute;
+    top: 195px;
+    left: 114px;
+    padding: 6px 10px;
+    background: #40c781;
+    color: white;
+    text-decoration: none;
+    outline: none;
+    transition: 0.3s;
 }
 
 #buttonWindowButton:hover {
-	background: #35a76e;
+    background: #35a76e;
 }
 
 #buttonWindowButton:active {
-  	background: #21935a;
+    background: #21935a;
 }

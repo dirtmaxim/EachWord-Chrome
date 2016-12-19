@@ -1,6 +1,6 @@
 {
-	"description": {
-		"message": "添加新词到字典中，他们会偶尔显示为卡。",
-		"description": "扩展的manifest.json的说明。"
-	}
+  "description": {
+    "message": "添加新词到字典中，他们会偶尔显示为卡。",
+    "description": "扩展的manifest.json的说明。"
+  }
 }

@@ -1,6 +1,6 @@
 {
-	"description": {
-		"message": "sözlüğe yeni kelimeler ekleme ve zaman zaman kartları olarak gösterilecektir.",
-		"description": "manifest.json uzatma açıklaması."
-	}
+  "description": {
+    "message": "sözlüğe yeni kelimeler ekleme ve zaman zaman kartları olarak gösterilecektir.",
+    "description": "manifest.json uzatma açıklaması."
+  }
 }

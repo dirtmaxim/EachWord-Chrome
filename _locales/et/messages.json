@@ -1,6 +1,6 @@
 {
-	"description": {
-		"message": "Lisa uus sõna sõnaraamatusse ja neid aeg-ajalt näidatakse kaarte.",
-		"description": "Kirjeldus laiendus manifest.json."
-	}
+  "description": {
+    "message": "Lisa uus sõna sõnaraamatusse ja neid aeg-ajalt näidatakse kaarte.",
+    "description": "Kirjeldus laiendus manifest.json."
+  }
 }

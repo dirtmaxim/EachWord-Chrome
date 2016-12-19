@@ -1,6 +1,6 @@
 {
-	"description": {
-		"message": "Nieuwe woorden toevoegen aan het woordenboek en ze zal af en toe worden weergegeven als kaarten.",
-		"description": "Beschrijving van de extensie in het manifest.json."
-	}
+  "description": {
+    "message": "Nieuwe woorden toevoegen aan het woordenboek en ze zal af en toe worden weergegeven als kaarten.",
+    "description": "Beschrijving van de extensie in het manifest.json."
+  }
 }

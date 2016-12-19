@@ -1,6 +1,6 @@
 {
-	"description": {
-		"message": "Afegir paraules al diccionari i que se li apareixen ocasionalment com targetes.",
-		"description": "Descripció de l'extensió en manifest.json."
-	}
+  "description": {
+    "message": "Afegir paraules al diccionari i que se li apareixen ocasionalment com targetes.",
+    "description": "Descripció de l'extensió en manifest.json."
+  }
 }

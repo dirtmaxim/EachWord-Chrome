@@ -1,101 +1,98 @@
 body {
-	background-color: white;
-	margin: 0px;
-	font-family: Arial;
-	font-size: 9pt;
+    background-color: white;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    font-size: 9pt;
 }
 
 table {
-	width: 100%;
-	text-align: center;
-	vertical-align: middle;
-	border-collapse: collapse;
+    width: 100%;
+    text-align: center;
+    vertical-align: middle;
+    border-collapse: collapse;
 }
 
 tr:nth-child(even) {
-	background: #e8e8e8;
+    background: #e8e8e8;
 }
 
 td {
-	padding-top: 5px;
-	padding-bottom: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 
 th {
-	padding-top: 5px;
-	padding-bottom: 5px;
-	border-bottom: 2px solid #e8e8e8;
-	color: #4671d5;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-bottom: 2px solid #e8e8e8;
+    color: #4671d5;
 }
 
 th::selection {
-	background: transparent !important;
+    background: transparent !important;
 }
 
 .firstColumn {
-	width: 42.5%;
+    width: 42.5%;
 }
 
 .firstColumn::selection {
-	background: #c6cfda;
+    background: #c6cfda;
 }
 
 .thirdColumn {
-	border-left: 2px solid #06266f;
-	width: 40%;
+    border-left: 2px solid #06266f;
+    width: 40%;
 }
 
 .thirdColumn::selection {
-	background: #c6cfda;
+    background: #c6cfda;
 }
 
 .secondColumn {
-	width: 7.5%;
+    width: 7.5%;
 }
 
 .fourthColumn {
-	width: 10%;
+    width: 10%;
 }
 
 .deleteButton {
-  	color: white;
-	padding-top: 3px;
-	padding-bottom: 3px;
-	padding-left: 7px;
-	padding-right: 7px;
-  	text-decoration: none;
-	outline: none;
-  	background: #d44b38;
-  	transition: 0.3s;
+    color: white;
+    padding: 3px 7px;
+    text-decoration: none;
+    outline: none;
+    background: #d44b38;
+    transition: 0.3s;
 }
 
 .deleteButton:hover {
-	background: #e85f4c;
+    background: #e85f4c;
 }
 
 .deleteButton:active {
-  	background: #980f00;
+    background: #980f00;
 }
 
 .playWordButton {
-	background: url(images/icons/playWord18x15.png);
-	display: block;
-	width: 18px;
-	height: 15px;
-	outline: none;
-	transition: 0.3s;
-} 
+    background: url(images/icons/playWord18x15.png);
+    display: block;
+    width: 18px;
+    height: 15px;
+    outline: none;
+    transition: 0.3s;
+}
 
 .playWordButton:hover {
-	background: url(images/icons/playWord18x15_hover.png);
+    background: url(images/icons/playWord18x15_hover.png);
 }
 
 .playWordButton:active {
-	background: url(images/icons/playWord18x15_active.png);
+    background: url(images/icons/playWord18x15_active.png);
 }
 
 ::selection {
-	background: transparent;
+    background: transparent;
 }
 
 ::-webkit-scrollbar {
@@ -103,7 +100,7 @@ th::selection {
 }
 
 ::-webkit-scrollbar-track {
-	background: white;
+    background: white;
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 }
 

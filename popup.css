@@ -1,132 +1,123 @@
 body {
-	background-color: #6c8cd5;
-	margin: 0px;
-	font-family: Arial;
-	font-size: 9pt;
+    background-color: #6c8cd5;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    font-size: 9pt;
 }
 
 #mainBlock {
-	margin: 15px;
+    margin: 15px;
 }
 
 #infoBlock, #copyright {
-	color: white;
-	padding-top: 2px;
-	padding-bottom: 2px;
-	font-weight: bold;
+    color: white;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    font-weight: bold;
 }
 
 #copyright {
-	height: 38px;
-	text-align: center;
-	background-color: #06266f;
+    height: 38px;
+    text-align: center;
+    background-color: #06266f;
 }
 
 #infoBlock {
-	height: 38px;
-	background-color: #4671d5;
+    height: 38px;
+    background-color: #4671d5;
 }
 
 #shareButtons {
-	position: absolute;
-	top: 6px;
-	left: 105px;
-	padding-top: 3px;
-	padding-left: 15px;
-	padding-right: 15px;
-	padding-bottom: 3px;
-	border-radius: 20px;
-	background-color: #e8e8e8;
-	outline: none;
+    position: absolute;
+    top: 6px;
+    left: 105px;
+    padding: 3px 15px;
+    border-radius: 20px;
+    background-color: #e8e8e8;
+    outline: none;
 }
 
 #wordsList {
-	margin-bottom: 14px;
+    margin-bottom: 14px;
 }
 
 input {
-	padding: 5px;
-	width: 101px;
+    padding: 5px;
+    width: 101px;
 }
 
 input::selection {
-	background: #c6cfda;
+    background: #c6cfda;
 }
 
 #addButton {
-	float: right;
-	padding-top: 6px;
-	padding-bottom: 6px;
-	padding-left: 32px;
-	padding-right: 32px;
-	background: #40c781;
-	color: white;
-  	text-decoration: none;
-	outline: none;
-  	transition: 0.3s;
+    float: right;
+    padding: 6px 32px;
+    background: #40c781;
+    color: white;
+    text-decoration: none;
+    outline: none;
+    transition: 0.3s;
 }
 
 #addButton:hover {
-	background: #35a76e;
+    background: #35a76e;
 }
 
 #addButton:active {
-  	background: #21935a;
+    background: #21935a;
 }
 
 #switchButton {
-	position: absolute;
-	top: 8px;
-	right: 14px;
-	padding-top: 6px;
-	padding-bottom: 6px;
-	padding-left: 10px;
-	padding-right: 10px;
-	color: white;
-  	text-decoration: none;
-	outline: none;
-  	transition: 0.3s;
+    position: absolute;
+    top: 8px;
+    right: 14px;
+    padding: 6px 10px;
+    color: white;
+    text-decoration: none;
+    outline: none;
+    transition: 0.3s;
 }
 
 .colorFirst {
-	background: #f62c4c;
+    background: #f62c4c;
 }
 
 .colorFirst:hover {
-	background: #d00b2a;
+    background: #d00b2a;
 }
 
 .colorFirst:active {
-  	background: #a60820;
+    background: #a60820;
 }
 
 .colorSecond {
-	background: #32CD32;
+    background: #32CD32;
 }
 
 .colorSecond:hover {
-	background: #2bb32b;
+    background: #2bb32b;
 }
 
 .colorSecond:active {
-  	background: #1f801f;
+    background: #1f801f;
 }
 
 #settingsIcon {
-	float: left;
-	padding-top: 7px;
-	padding-left: 13px;
-	transition: 0.3s;
+    float: left;
+    padding-top: 7px;
+    padding-left: 13px;
+    transition: 0.3s;
 }
 
 #settingsIcon:hover {
-	opacity: 0.8;
+    opacity: 0.8;
 }
 
 #settingsIcon:active {
-	opacity: 0.6;
+    opacity: 0.6;
 }
 
 ::selection {
-	background: transparent;
+    background: transparent;
 }

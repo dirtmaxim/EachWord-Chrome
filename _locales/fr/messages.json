@@ -1,6 +1,6 @@
 {
-	"description": {
-		"message": "Ajouter un mot dans le dictionnaire et ils seront parfois présentés sous forme de cartes.",
-		"description": "Description de l'extension dans manifest.json."
-	}
+  "description": {
+    "message": "Ajouter un mot dans le dictionnaire et ils seront parfois présentés sous forme de cartes.",
+    "description": "Description de l'extension dans manifest.json."
+  }
 }

@@ -1,6 +1,6 @@
 {
-	"description": {
-		"message": "Agregar palabras al diccionario y que se le aparecen ocasionalmente como tarjetas.",
-		"description": "Descripción de la extensión en manifest.json."
-	}
+  "description": {
+    "message": "Agregar palabras al diccionario y que se le aparecen ocasionalmente como tarjetas.",
+    "description": "Descripción de la extensión en manifest.json."
+  }
 }

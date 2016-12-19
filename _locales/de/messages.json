@@ -1,6 +1,6 @@
 {
-	"description": {
-		"message": "Hinzufügen neuer Wörter in das Wörterbuch, und sie werden gelegentlich als Karten dargestellt werden.",
-		"description": "Beschreibung der Erweiterung in manifest.json."
-	}
+  "description": {
+    "message": "Hinzufügen neuer Wörter in das Wörterbuch, und sie werden gelegentlich als Karten dargestellt werden.",
+    "description": "Beschreibung der Erweiterung in manifest.json."
+  }
 }

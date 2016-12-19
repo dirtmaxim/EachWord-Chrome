@@ -1,207 +1,222 @@
 <!DOCTYPE html>
 <html>
-  <head>
-	<meta charset="utf-8">
-	<link rel="icon" href="images/icons/icon16.png" type="image/png">
-	<link rel="stylesheet" href="wordCard.css" type="text/css">	
-	<link rel="stylesheet" href="options.css" type="text/css">
-	<script async src="https://yastatic.net/share2/share.js"></script>
-	<script src="commonFunctions.js" type="text/javascript"></script>
-	<script src="options.js" type="text/javascript"></script>
-  </head>
-  <body>
-	<div id="forShadow">
-		<div class="caption">
-			<p>You are able to tune some options here:</p>
-		</div>
-		<div class="main">
-			<div class="tableSettings">
-				<div class="rowSettings">
-					<p>Interval between the displaying cards:</p>
-					<p><select id="selectInterval">
-						<option value="1">1 minute</option>
-				    	<option value="2">2 minutes</option>
-				    	<option value="3">3 minutes</option>
-				    	<option value="4">4 minutes</option>
-				    	<option value="5">5 minutes</option>
-				    	<option value="6">6 minutes</option>
-				    	<option value="7">7 minutes</option>
-			    		<option value="8">8 minutes</option>
-				    	<option value="9">9 minutes</option>
-				    	<option value="10">10 minutes</option>
-				    	<option value="11">11 minutes</option>
-						<option value="12">12 minutes</option>
-						<option value="13">13 minutes</option>
-						<option value="14">14 minutes</option>
-						<option value="15">15 minutes</option>
-						<option value="16">16 minutes</option>
-						<option value="17">17 minutes</option>
-						<option value="18">18 minutes</option>
-						<option value="19">19 minutes</option>
-						<option value="20">20 minutes</option>
-						<option value="21">21 minutes</option>
-						<option value="22">22 minutes</option>
-						<option value="23">23 minutes</option>
-						<option value="24">24 minutes</option>
-						<option value="25">25 minutes</option>
-						<option value="26">26 minutes</option>
-						<option value="27">27 minutes</option>
-						<option value="28">28 minutes</option>
-						<option value="29">29 minutes</option>
-						<option value="30">30 minutes</option>
-						<option value="31">31 minutes</option>
-						<option value="32">32 minutes</option>
-						<option value="33">33 minutes</option>
-						<option value="34">34 minutes</option>
-						<option value="35">35 minutes</option>
-						<option value="36">36 minutes</option>
-						<option value="37">37 minutes</option>
-						<option value="38">38 minutes</option>
-						<option value="39">39 minutes</option>
-						<option value="40">40 minutes</option>
-						<option value="41">41 minutes</option>
-						<option value="42">42 minutes</option>
-						<option value="43">43 minutes</option>
-						<option value="44">44 minutes</option>
-						<option value="45">45 minutes</option>
-						<option value="46">46 minutes</option>
-						<option value="47">47 minutes</option>
-						<option value="48">48 minutes</option>
-						<option value="49">49 minutes</option>
-						<option value="50">50 minutes</option>
-						<option value="51">51 minutes</option>
-						<option value="52">52 minutes</option>
-						<option value="53">53 minutes</option>
-						<option value="54">54 minutes</option>
-						<option value="55">55 minutes</option>
-						<option value="56">56 minutes</option>
-						<option value="57">57 minutes</option>
-						<option value="58">58 minutes</option>
-						<option value="59">59 minutes</option>
-						<option value="60">1 hour</option>
-					</select></p>
-				</div>
-				<div class="rowSettings">
-					<p>Delay in the display of cards:</p>
-					<p><select id="selectDelay">
-						<option value="1">1 second</option>
-						<option value="2">2 seconds</option>
-						<option value="3">3 seconds</option>
-						<option value="4">4 seconds</option>
-						<option value="5">5 seconds</option>
-						<option value="6">6 seconds</option>
-						<option value="7">7 seconds</option>
-						<option value="8">8 seconds</option>
-						<option value="9">9 seconds</option>
-						<option value="10">10 seconds</option>
-						<option value="11">11 seconds</option>
-						<option value="12">12 seconds</option>
-						<option value="13">13 seconds</option>
-						<option value="14">14 seconds</option>
-						<option value="15">15 seconds</option>
-						<option value="16">16 seconds</option>
-						<option value="17">17 seconds</option>
-						<option value="18">18 seconds</option>
-						<option value="19">19 seconds</option>
-						<option value="20">20 seconds</option>
-					</select></p>
-				</div>
-				<div class="rowSettings">
-					<p>Show close button on cards:</p>
-					<p><label><input type="checkbox" id="showClose"><span id="showTextNextTo">Actually, you should disable this option since you have to suppress the desire to close the card and look at it even if you are busy at that moment.</span></label></p>
-				</div>
-				<div class="rowSettings">
-					<p>Blur page when a card is displayed:</p>
-					<p><label><input type="checkbox" id="showBlur"><span id="showTextNextTo">It will prevent you to browse the website while word card is being shown.</span></label></p>
-				</div>
-				<div class="rowSettings">
-					<p>Show cards on websites:</p>
-					<p><label><input type="checkbox" id="showNativeCards"><span id="showTextNextTo">If you disable this option, word cards will always be displayed as Chrome Notifications.</span></label></p>
-				</div>
-				<div class="rowSettings">
-					<p>Show cards as Notifications when browser is closed:</p>
-					<p><label><input type="checkbox" id="showNotificationCards"><span id="showTextNextTo">Keep this option switched on if you do not want to miss any cards and want to learn words faster.</span></label></p>
-				</div>
-				<div class="rowSettings">
-					<p>Show timeline on Notifications:</p>
-					<p><label><input type="checkbox" id="showTimeline"><span id="showTextNextTo">It is an additional way to get your attention.</span></label></p>
-				</div>
-				<div class="rowSettings">
-					<p>You can restore your Dictionary if something goes wrong:</p>
-					<p><button id="exportDictionary">Export the Dictionary</button></p>
-				</div>
-				<div class="rowSettings">
-					<p>Restore the Dictionary that you exported earlier:</p>
-					<p>
-						<button id="importDictionary">
-							<input type="file" id="inputImport" accept=".json" tabindex="-1"/>
-							<span>Import the Dictionary<span>
-						</button><br>
-						<label><input type="radio" id="inputAppend" name="importType" value="append" checked>Append</label>
-						<label><input type="radio" id="inputReplace" name="importType" value="replace">Replace</label>
-					</p>
-				</div>
-				<div class="rowSettings">
-					<p>Word card themes:</p>
-					<p class="notSelectable"></p>
-				</div>
-				<div class="rowSettings">
-					<p><a href="" id="saveButton">Save</a></p>
-					<p id="settingsSaved"></p>
-				</div>
-			</div>
-		</div>	
-		<div class="caption">
-			<p>How it works:</p>
-		</div>
-		<div class="main">
-			<table id="howTable">
-				<tr class="howRow">
-					<td class="howCell">
-						<img src="images/help/help1.png" class="howImage">
-					</td>
-					<td class="howCell">
-						<img src="images/help/help2.png" class="howImage">
-					</td>
-					<td class="howCell">
-						<img src="images/help/help3.png" class="howImage">
-					</td>
-					<td class="howCell">
-						<img src="images/help/help4.png" class="howImage">
-					</td>
-					<td class="howCell">
-						<a href="" id="showTestCard" class="testButton">Show a word card</a>
-						<a href="" id="showTestNotification" class="testButton">Show a Notification</a>
-					</td>
-				</tr>
-				<tr class="howRow">
-					<td class="howCell">
-						Write a word.
-					<td class="howCell">
-						Write a translation.
-					</td>
-					<td class="howCell">
-						Press the add button.
-					</td>
-					<td class="howCell">
-						The word appears in your dictionary.
-					</td>
-					<td class="howCell">
-						Press the button to see the test card.
-					</td>
-				</tr>
-			</table>
-		</div>
-		<div class="caption">
-			<p>Share us:</p>
-		</div>
-		<div id="shareMain" class="main">
-			<div id="shareButtons" class="ya-share2" data-lang="en" data-counter data-services="vkontakte,facebook,odnoklassniki,twitter" data-url="https://chrome.google.com/webstore/detail/eachword-expand-your-voca/ndbpgappknhobbikhmjenceoklpaalam" data-title="I have learned many words using this extension. It is free. Try it." data-description="EachWord - expand your vocabulary" data-image="https://lh3.googleusercontent.com/t11pa_NWqQcF_1WHta9ynPWsPERRqyriMQ6N0ppyi9xqGsWZ0-EFVP6aLPT1DgaSh3EknHwNlds" tabindex="-1">
-			</div>
-		</div>
-		<div class="caption">
-			<p>&copy; 2016 EachWord<p>
-		</div>
-	</div>
-  </body>
+<head>
+    <meta charset="utf-8">
+    <link rel="icon" href="images/icons/icon16.png" type="image/png">
+    <link rel="stylesheet" href="wordCard.css" type="text/css">
+    <link rel="stylesheet" href="options.css" type="text/css">
+    <script async src="https://yastatic.net/share2/share.js"></script>
+    <script src="commonFunctions.js" type="text/javascript"></script>
+    <script src="options.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="forShadow">
+    <div class="caption">
+        <p>You are able to tune some options here:</p>
+    </div>
+    <div class="main">
+        <div class="tableSettings">
+            <div class="rowSettings">
+                <p>Interval between the displaying cards:</p>
+                <p><select id="selectInterval">
+                    <option value="1">1 minute</option>
+                    <option value="2">2 minutes</option>
+                    <option value="3">3 minutes</option>
+                    <option value="4">4 minutes</option>
+                    <option value="5">5 minutes</option>
+                    <option value="6">6 minutes</option>
+                    <option value="7">7 minutes</option>
+                    <option value="8">8 minutes</option>
+                    <option value="9">9 minutes</option>
+                    <option value="10">10 minutes</option>
+                    <option value="11">11 minutes</option>
+                    <option value="12">12 minutes</option>
+                    <option value="13">13 minutes</option>
+                    <option value="14">14 minutes</option>
+                    <option value="15">15 minutes</option>
+                    <option value="16">16 minutes</option>
+                    <option value="17">17 minutes</option>
+                    <option value="18">18 minutes</option>
+                    <option value="19">19 minutes</option>
+                    <option value="20">20 minutes</option>
+                    <option value="21">21 minutes</option>
+                    <option value="22">22 minutes</option>
+                    <option value="23">23 minutes</option>
+                    <option value="24">24 minutes</option>
+                    <option value="25">25 minutes</option>
+                    <option value="26">26 minutes</option>
+                    <option value="27">27 minutes</option>
+                    <option value="28">28 minutes</option>
+                    <option value="29">29 minutes</option>
+                    <option value="30">30 minutes</option>
+                    <option value="31">31 minutes</option>
+                    <option value="32">32 minutes</option>
+                    <option value="33">33 minutes</option>
+                    <option value="34">34 minutes</option>
+                    <option value="35">35 minutes</option>
+                    <option value="36">36 minutes</option>
+                    <option value="37">37 minutes</option>
+                    <option value="38">38 minutes</option>
+                    <option value="39">39 minutes</option>
+                    <option value="40">40 minutes</option>
+                    <option value="41">41 minutes</option>
+                    <option value="42">42 minutes</option>
+                    <option value="43">43 minutes</option>
+                    <option value="44">44 minutes</option>
+                    <option value="45">45 minutes</option>
+                    <option value="46">46 minutes</option>
+                    <option value="47">47 minutes</option>
+                    <option value="48">48 minutes</option>
+                    <option value="49">49 minutes</option>
+                    <option value="50">50 minutes</option>
+                    <option value="51">51 minutes</option>
+                    <option value="52">52 minutes</option>
+                    <option value="53">53 minutes</option>
+                    <option value="54">54 minutes</option>
+                    <option value="55">55 minutes</option>
+                    <option value="56">56 minutes</option>
+                    <option value="57">57 minutes</option>
+                    <option value="58">58 minutes</option>
+                    <option value="59">59 minutes</option>
+                    <option value="60">1 hour</option>
+                </select></p>
+            </div>
+            <div class="rowSettings">
+                <p>Delay in the display of cards:</p>
+                <p><select id="selectDelay">
+                    <option value="1">1 second</option>
+                    <option value="2">2 seconds</option>
+                    <option value="3">3 seconds</option>
+                    <option value="4">4 seconds</option>
+                    <option value="5">5 seconds</option>
+                    <option value="6">6 seconds</option>
+                    <option value="7">7 seconds</option>
+                    <option value="8">8 seconds</option>
+                    <option value="9">9 seconds</option>
+                    <option value="10">10 seconds</option>
+                    <option value="11">11 seconds</option>
+                    <option value="12">12 seconds</option>
+                    <option value="13">13 seconds</option>
+                    <option value="14">14 seconds</option>
+                    <option value="15">15 seconds</option>
+                    <option value="16">16 seconds</option>
+                    <option value="17">17 seconds</option>
+                    <option value="18">18 seconds</option>
+                    <option value="19">19 seconds</option>
+                    <option value="20">20 seconds</option>
+                </select></p>
+            </div>
+            <div class="rowSettings">
+                <p>Show close button on cards:</p>
+                <p><label><input type="checkbox" id="showClose"><span class="showTextNextTo">Actually, you should disable this option since you have to suppress the desire to close the card and look at it even if you are busy at that moment.</span></label>
+                </p>
+            </div>
+            <div class="rowSettings">
+                <p>Blur page when a card is displayed:</p>
+                <p><label><input type="checkbox" id="showBlur"><span class="showTextNextTo">It will prevent you to browse the website while word card is being shown.</span></label>
+                </p>
+            </div>
+            <div class="rowSettings">
+                <p>Show cards on websites:</p>
+                <p><label><input type="checkbox" id="showNativeCards"><span class="showTextNextTo">If you disable this option, word cards will always be displayed as Chrome Notifications.</span></label>
+                </p>
+            </div>
+            <div class="rowSettings">
+                <p>Show cards as Notifications when browser is closed:</p>
+                <p><label><input type="checkbox" id="showNotificationCards"><span class="showTextNextTo">Keep this option switched on if you do not want to miss any cards and want to learn words faster.</span></label>
+                </p>
+            </div>
+            <div class="rowSettings">
+                <p>Show timeline on Notifications:</p>
+                <p><label><input type="checkbox" id="showTimeline"><span class="showTextNextTo">It is an additional way to get your attention.</span></label>
+                </p>
+            </div>
+            <div class="rowSettings">
+                <p>You can restore your Dictionary if something goes wrong:</p>
+                <p>
+                    <button id="exportDictionary">Export the Dictionary</button>
+                </p>
+            </div>
+            <div class="rowSettings">
+                <p>Restore the Dictionary that you exported earlier:</p>
+                <p>
+                    <button id="importDictionary">
+                        <input type="file" id="inputImport" accept=".json" tabindex="-1"/>
+                        <span>Import the Dictionary</span>
+                    </button>
+                    <br>
+                    <label><input type="radio" id="inputAppend" name="importType" value="append" checked>Append</label>
+                    <label><input type="radio" id="inputReplace" name="importType" value="replace">Replace</label>
+                </p>
+            </div>
+            <div class="rowSettings">
+                <p>Word card themes:</p>
+                <p class="notSelectable"></p>
+            </div>
+            <div class="rowSettings">
+                <p><a href="" id="saveButton">Save</a></p>
+                <p id="settingsSaved"></p>
+            </div>
+        </div>
+    </div>
+    <div class="caption">
+        <p>How it works:</p>
+    </div>
+    <div class="main">
+        <table id="howTable">
+            <tr class="howRow">
+                <td class="howCell">
+                    <img src="images/help/help1.png" class="howImage">
+                </td>
+                <td class="howCell">
+                    <img src="images/help/help2.png" class="howImage">
+                </td>
+                <td class="howCell">
+                    <img src="images/help/help3.png" class="howImage">
+                </td>
+                <td class="howCell">
+                    <img src="images/help/help4.png" class="howImage">
+                </td>
+                <td class="howCell">
+                    <a href="" id="showTestCard" class="testButton">Show a word card</a>
+                    <a href="" id="showTestNotification" class="testButton">Show a Notification</a>
+                </td>
+            </tr>
+            <tr class="howRow">
+                <td class="howCell">
+                    Write a word.
+                <td class="howCell">
+                    Write a translation.
+                </td>
+                <td class="howCell">
+                    Press the add button.
+                </td>
+                <td class="howCell">
+                    The word appears in your dictionary.
+                </td>
+                <td class="howCell">
+                    Press the button to see the test card.
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="caption">
+        <p>Share us:</p>
+    </div>
+    <div id="shareMain" class="main">
+        <div id="shareButtons" class="ya-share2" data-lang="en" data-counter
+             data-services="vkontakte,facebook,odnoklassniki,twitter"
+             data-url="https://chrome.google.com/webstore/detail/eachword-expand-your-voca/ndbpgappknhobbikhmjenceoklpaalam"
+             data-title="I have learned many words using this extension. It is free. Try it."
+             data-description="EachWord - expand your vocabulary"
+             data-image="https://lh3.googleusercontent.com/t11pa_NWqQcF_1WHta9ynPWsPERRqyriMQ6N0ppyi9xqGsWZ0-EFVP6aLPT1DgaSh3EknHwNlds"
+             tabindex="-1">
+        </div>
+    </div>
+    <div class="caption">
+        <p>&copy; 2016 EachWord
+        <p>
+    </div>
+</div>
+</body>
 </html>

@@ -1,6 +1,6 @@
 {
-	"description": {
-		"message": "Lägga till nya ord i ordlistan och de kommer att ibland visas som kort.",
-		"description": "Beskrivning av förlängningen i manifest.json."
-	}
+  "description": {
+    "message": "Lägga till nya ord i ordlistan och de kommer att ibland visas som kort.",
+    "description": "Beskrivning av förlängningen i manifest.json."
+  }
 }

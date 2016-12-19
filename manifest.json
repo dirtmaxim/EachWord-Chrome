@@ -2,48 +2,58 @@
   "manifest_version": 2,
   "name": "EachWord - expand your vocabulary",
   "short_name": "EachWord",
-  "version": "1.1.15",
+  "version": "1.2.0",
   "description": "__MSG_description__",
   "default_locale": "en",
   "icons": {
-	"16": "images/icons/icon16.png",
-	"32": "images/icons/icon32.png",
-	"48": "images/icons/icon48.png",
+    "16": "images/icons/icon16.png",
+    "32": "images/icons/icon32.png",
+    "48": "images/icons/icon48.png",
     "128": "images/icons/icon128.png"
   },
   "browser_action": {
-      "default_icon": {
-        "19": "images/default_icons/icon19.png",
-        "38": "images/default_icons/icon38.png"
-      },
-      "default_title": "EachWord",
-      "default_popup": "popup.html"
+    "default_icon": {
+      "19": "images/default_icons/icon19.png",
+      "38": "images/default_icons/icon38.png"
+    },
+    "default_title": "EachWord",
+    "default_popup": "popup.html"
   },
   "content_scripts": [
-      {
-          "matches": ["*://*/*"],
-          "css": ["wordCard.css"],
-          "js": ["commonFunctions.js", "content.js"]
-      }
+    {
+      "matches": [
+        "*://*/*"
+      ],
+      "css": [
+        "wordCard.css"
+      ],
+      "js": [
+        "commonFunctions.js",
+        "content.js"
+      ]
+    }
   ],
   "background": {
-    "scripts": ["commonFunctions.js", "background.js"],
-	"persistent": true
+    "scripts": [
+      "commonFunctions.js",
+      "background.js"
+    ],
+    "persistent": true
   },
   "web_accessible_resources": [
-  	"images/icons/closeButton32_active.png",
-  	"images/icons/closeButton32_hover.png",
-  	"images/icons/closeButton32.png"
+    "images/icons/closeButton32_active.png",
+    "images/icons/closeButton32_hover.png",
+    "images/icons/closeButton32.png"
   ],
   "content_security_policy": "script-src 'self' https://yastatic.net https://mc.yandex.ru; object-src 'self'",
   "options_page": "options.html",
-  "author": "Maxim Kholiavchenko",
+  "author": "Maksim Kholyavchenko",
   "offline_enabled": true,
   "permissions": [
     "tabs",
-	"notifications",
-	"unlimitedStorage",
-	"tts",
+    "notifications",
+    "unlimitedStorage",
+    "tts",
     "*://*/*"
   ]
 }

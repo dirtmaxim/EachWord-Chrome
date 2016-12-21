@@ -1,4 +1,4 @@
-// Warning, some variables defined in "commonFunction.js".
+// Warning: some variables defined in "commonFunction.js".
 let settingsArray;
 let selectedThemes;
 let intervalIdShowing;

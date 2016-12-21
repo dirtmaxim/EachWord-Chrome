@@ -177,10 +177,10 @@ function increaseCurrentThemeNumber() {
 /**
  * Show a word card on the web page.
  *
- * @param word {string}
- * @param translation {string}
- * @param theme {string} Based on html theme
- * @param settingsArray array of the settings fetched from the "background.js"
+ * @param {string} word
+ * @param {string} translation
+ * @param {string} theme Based on html theme
+ * @param {object} settingsArray array of the settings fetched from the "background.js"
  */
 function appearing(word, translation, theme, settingsArray) {
     let selectDelay = settingsArray.selectDelay;
@@ -286,10 +286,10 @@ function appearing(word, translation, theme, settingsArray) {
 /**
  * Start appearing of the word card and pass the parameters to the "appearing" function.
  *
- * @param word {string}
- * @param translation {string}
- * @param theme {string} Based on html theme
- * @param settingsArray array of the settings fetched from the "background.js"
+ * @param {string} word
+ * @param {string} translation
+ * @param {string} theme Based on html theme
+ * @param {object} settingsArray array of the settings fetched from the "background.js"
  */
 function drawCard(word, translation, theme, settingsArray) {
     if (!drawingStarted) {

@@ -1,4 +1,4 @@
-// Warning, some variables defined in "commonFunction.js".
+// Warning: some variables defined in "commonFunction.js".
 let isSearchActivated = false;
 let notFoundMessage;
 let nothingToShowMessage;

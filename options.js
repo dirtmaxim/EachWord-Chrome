@@ -152,13 +152,18 @@ function hideReplaceWarning() {
  */
 function exportDictionaryFile() {
     let a = document.createElement("a");
+    let dictionaryArray = localStorage.getItem("dictionaryArray");
 
-    a.href = URL.createObjectURL(new Blob([localStorage.getItem("dictionaryArray")]));
-    a.download = "yourDictionary.json";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    showSettingsStateDelayed("Dictionary have been exported!", 1000);
+    if (JSON.parse(dictionaryArray).length !== 0) {
+        a.href = URL.createObjectURL(new Blob([localStorage.getItem("dictionaryArray")]));
+        a.download = "yourDictionary.json";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        showSettingsStateDelayed("Dictionary have been exported!", 1000);
+    } else {
+        showSettingsStateDelayed("Your dictionary is empty!", 1000);
+    }
 }
 
 /**

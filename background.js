@@ -1,19 +1,31 @@
-var settingsArray,
-    // Duplicate of dictionaryArray in localStorage but it is needed for provide
-    // temporary storage for special algorithm which shows word cards.
-    selectedThemes,
-    intervalIdShowing,
-    timeoutIdNotification,
-    intervalTime,
-    stopSign;
+let settingsArray;
+let selectedThemes;
+let intervalIdShowing;
+let timeoutIdNotification;
+let intervalTime;
+let stopSign;
+
+// Initialization.
+checkStorage();
+setIcon();
+settingsArray = checkSettings();
+selectedThemes = checkSelectedThemes();
+intervalTime = settingsArray.selectInterval * 1000 * 60 + settingsArray.selectDelay * 1000;
+
+// Start interval if it is possible.
+if (JSON.parse(localStorage.getItem("dictionaryArray")).length !== 0 && JSON.parse(localStorage.getItem("switchState")) !== false) {
+    intervalIdShowing = setInterval(showWord, intervalTime);
+    stopSign = false;
+} else {
+    stopSign = true;
+}
 
 function showNotification(word, translation, settingsArray) {
-    "use strict";
-    var options,
-        showTimeline,
-        _notificationId,
-        progressCounter,
-        intervalIdNotification;
+    let options;
+    let showTimeline;
+    let _notificationId;
+    let progressCounter;
+    let intervalIdNotification;
 
     options = {
         type: "progress",
@@ -48,6 +60,7 @@ function showNotification(word, translation, settingsArray) {
         }
 
         chrome.notifications.update(_notificationId, options);
+
         // In order to reduce losses in the division: settingsArray["selectDelay"] * 10 == settingsArray["selectDelay"] / 100 * 1000.
     }, settingsArray.selectDelay * 10);
     chrome.notifications.onClosed.addListener(function (notificationId, byUser) {
@@ -66,18 +79,16 @@ function showNotification(word, translation, settingsArray) {
  * This function will be executed when the time to show comes.
  */
 function showWord() {
-    "use strict";
-    var chosenWord,
-        chosenTheme;
+    let chosenWord = chooseWord();
+    let chosenTheme = chooseTheme();
 
-    chosenWord = chooseWord();
-    chosenTheme = chooseTheme();
     if (settingsArray.showNotificationCardsChecked) {
         timeoutIdNotification = setTimeout(function () {
             // Defined in "commonFunction.js".
             showNotification(chosenWord.word, chosenWord.translation, settingsArray);
         }, 1000);
     }
+
     if (settingsArray.showNativeCardsChecked) {
         chrome.tabs.query({"active": true, "currentWindow": true},
             function (tabs) {
@@ -92,11 +103,7 @@ function showWord() {
 }
 
 function setIcon() {
-    "use strict";
-    var switchState;
-
-    switchState = localStorage.getItem("switchState");
-    switchState = JSON.parse(switchState);
+    let switchState = JSON.parse(localStorage.getItem("switchState"));
 
     if (switchState) {
         chrome.browserAction.setIcon({path: "images/default_icons/icon38.png"});
@@ -105,39 +112,16 @@ function setIcon() {
     }
 }
 
-function checkDictionary() {
-    "use strict";
-    var dictionaryArrayQueue;
-
-    dictionaryArrayQueue = localStorage.getItem("dictionaryArrayQueue");
-    dictionaryArrayQueue = JSON.parse(dictionaryArrayQueue);
-
-    return dictionaryArrayQueue;
-}
-
 function checkSettings() {
-    "use strict";
-    var settingsArray;
-
-    settingsArray = localStorage.getItem("settingsArray");
-    settingsArray = JSON.parse(settingsArray);
-
-    return settingsArray;
+    return JSON.parse(localStorage.getItem("settingsArray"));
 }
 
 function checkSelectedThemes() {
-    "use strict";
-    var selectedThemes;
-
-    selectedThemes = localStorage.getItem("selectedThemes");
-    selectedThemes = JSON.parse(selectedThemes);
-
-    return selectedThemes;
+    return JSON.parse(localStorage.getItem("selectedThemes"));
 }
 
 function updateTheme() {
-    "use strict";
-    var themes;
+    let themes;
 
     themes = [];
     themes[0] = "#wordCard8730011{background-color:#3cb371;}#timer8730011{color:#9d0019;}#headerOne8730011,#headerThree8730011{color:#006363;}#headerTwo8730011{color:#9d0019;}#word8730011{color:#006363;}#translation8730011{color:#006363;}#dash8730011{color:#9d0019;}";
@@ -145,7 +129,6 @@ function updateTheme() {
     themes[2] = "#wordCard8730011{background-color:#5e9dd2;}#headerOne8730011,#headerThree8730011{color:#065ba1;}#headerTwo8730011{color:#d9bd32;}#word8730011{color:#065ba1;}#translation8730011{color:#065ba1;}#dash8730011{color:#d9bd32;}#timer8730011{color:#d9bd32;}";
     themes[3] = "#wordCard8730011{background-color:#e9d387;}#headerOne8730011,#headerThree8730011{color:#806f39;}#headerTwo8730011{color:#005b8c;}#word8730011{color:#806f39}#translation8730011{color:#806f39;}#dash8730011{color:#005b8c;}#timer8730011{color:#005b8c;}";
     localStorage.setItem("themes", JSON.stringify(themes));
-
     return themes.length;
 }
 
@@ -153,32 +136,19 @@ function updateTheme() {
  * In case of it is first application launch or there were some troubles with localStorage.
  */
 function checkStorage() {
-    "use strict";
-    var i,
-        settingsArray,
-        dictionaryArray,
-        dictionaryArrayQueue,
-        switchState,
-        fromLanguage,
-        intoLanguage,
-        versionArray,
-        welcomeIsShown,
-        themes,
-        themesLengthAfterUpdate,
-        selectedThemes,
-        currentThemeNumber;
-
-    settingsArray = localStorage.getItem("settingsArray");
-    dictionaryArray = localStorage.getItem("dictionaryArray");
-    dictionaryArrayQueue = localStorage.getItem("dictionaryArrayQueue");
-    switchState = localStorage.getItem("switchState");
-    fromLanguage = localStorage.getItem("fromLanguage");
-    intoLanguage = localStorage.getItem("intoLanguage");
-    versionArray = localStorage.getItem("versionArray");
-    welcomeIsShown = localStorage.getItem("welcomeIsShown");
-    themes = localStorage.getItem("themes");
-    selectedThemes = localStorage.getItem("selectedThemes");
-    currentThemeNumber = localStorage.getItem("currentThemeNumber");
+    let settingsArray = localStorage.getItem("settingsArray");
+    let dictionaryArray = localStorage.getItem("dictionaryArray");
+    let dictionaryArrayQueue = localStorage.getItem("dictionaryArrayQueue");
+    let switchState = localStorage.getItem("switchState");
+    let fromLanguage = localStorage.getItem("fromLanguage");
+    let intoLanguage = localStorage.getItem("intoLanguage");
+    let searchInput = localStorage.getItem("searchInput");
+    let versionArray = localStorage.getItem("versionArray");
+    let welcomeIsShown = localStorage.getItem("welcomeIsShown");
+    let themes = localStorage.getItem("themes");
+    let selectedThemes = localStorage.getItem("selectedThemes");
+    let currentThemeNumber = localStorage.getItem("currentThemeNumber");
+    let themesLengthAfterUpdate;
 
     if (!settingsArray) {
         settingsArray = {};
@@ -249,6 +219,11 @@ function checkStorage() {
         localStorage.setItem("intoLanguage", JSON.stringify(intoLanguage));
     }
 
+    if (!searchInput) {
+        searchInput = "";
+        localStorage.setItem("searchInput", JSON.stringify(searchInput));
+    }
+
     if (!versionArray) {
         versionArray = [];
         localStorage.setItem("versionArray", JSON.stringify(versionArray));
@@ -271,7 +246,7 @@ function checkStorage() {
         selectedThemes = [];
         themes = JSON.parse(localStorage.getItem("themes"));
 
-        for (i = 0; i < themes.length; i++) {
+        for (let i = 0; i < themes.length; i++) {
             selectedThemes.push(i);
         }
 
@@ -279,7 +254,7 @@ function checkStorage() {
     } else if (themes.length < themesLengthAfterUpdate) {
         selectedThemes = JSON.parse(localStorage.getItem("selectedThemes"));
 
-        for (i = themes.length; i < themesLengthAfterUpdate; i++) {
+        for (let i = themes.length; i < themesLengthAfterUpdate; i++) {
             selectedThemes.push(i);
         }
 
@@ -288,13 +263,13 @@ function checkStorage() {
         themes = JSON.parse(localStorage.getItem("themes"));
         selectedThemes = JSON.parse(localStorage.getItem("selectedThemes"));
 
-        for (i = 0; i < selectedThemes.length; i++) {
+        for (let i = 0; i < selectedThemes.length; i++) {
             if (themes[selectedThemes[i]] === undefined) {
                 delete selectedThemes[i];
             }
         }
 
-        for (i = 0; i < selectedThemes.length; i++) {
+        for (let i = 0; i < selectedThemes.length; i++) {
             if (selectedThemes[i] === undefined) {
                 selectedThemes.splice(i, 1);
             }
@@ -310,23 +285,10 @@ function checkStorage() {
 }
 
 /**
- * Listener will be activated when user adds or deletes words from the Dictionary.
- */
-chrome.runtime.onMessage.addListener(
-    function (request, sender, sendResponse) {
-        "use strict";
-        if (request.type === "changeDictionary") {
-            dictionaryArrayQueue = checkDictionary();
-        }
-    }
-);
-
-/**
  * Listener will be activated when user stops showing word cards.
  */
 chrome.runtime.onMessage.addListener(
     function (request, sender, sendResponse) {
-        "use strict";
         if (request.type === "stopInterval") {
             clearInterval(intervalIdShowing);
             stopSign = true;
@@ -339,10 +301,9 @@ chrome.runtime.onMessage.addListener(
  */
 chrome.runtime.onMessage.addListener(
     function (request, sender, sendResponse) {
-        "use strict";
         if (request.type === "startInterval") {
-            var switchState = localStorage.getItem("switchState");
-            switchState = JSON.parse(switchState);
+            let switchState = JSON.parse(localStorage.getItem("switchState"));
+
             if (switchState) {
                 stopSign = false;
                 intervalIdShowing = setInterval(showWord, intervalTime);
@@ -356,7 +317,6 @@ chrome.runtime.onMessage.addListener(
  */
 chrome.runtime.onMessage.addListener(
     function (request, sender, sendResponse) {
-        "use strict";
         if (request.type === "showNotification") {
             showNotification("Word", "Translation", settingsArray);
         }
@@ -368,7 +328,6 @@ chrome.runtime.onMessage.addListener(
  */
 chrome.runtime.onMessage.addListener(
     function (request, sender, sendResponse) {
-        "use strict";
         if (request.type === "changeSettings") {
             settingsArray = checkSettings();
             selectedThemes = checkSelectedThemes();
@@ -387,30 +346,9 @@ chrome.runtime.onMessage.addListener(
  */
 chrome.runtime.onMessage.addListener(
     function (request, sender, sendResponse) {
-        "use strict";
-        var themeNumber;
-
         if (request.type === "wordCardShown") {
             clearTimeout(timeoutIdNotification);
             increaseCurrentThemeNumber();
         }
     }
 );
-
-/**
- * Initialization.
- */
-checkStorage();
-setIcon();
-settingsArray = checkSettings();
-selectedThemes = checkSelectedThemes();
-dictionaryArrayQueue = checkDictionary();
-intervalTime = settingsArray.selectInterval * 1000 * 60 + settingsArray.selectDelay * 1000;
-
-// Start interval if it is possible.
-if (JSON.parse(localStorage.getItem("dictionaryArray")).length !== 0 && JSON.parse(localStorage.getItem("switchState")) !== false) {
-    intervalIdShowing = setInterval(showWord, intervalTime);
-    stopSign = false;
-} else {
-    stopSign = true;
-}

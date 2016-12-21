@@ -2,16 +2,24 @@
 <html>
 <head>
     <meta charset="utf-8">
+    <link href="libraries/jquery-ui.min.css" type="text/css" rel="stylesheet">
+    <link href="libraries/jquery-ui.structure.min.css" type="text/css" rel="stylesheet">
+    <link href="libraries/jquery-ui.theme.min.css" type="text/css" rel="stylesheet">
     <link href="popup.css" type="text/css" rel="stylesheet">
     <script async src="https://yastatic.net/share2/share.js"></script>
+    <script src="libraries/jquery.min.js" type="text/javascript"></script>
+    <script src="libraries/jquery-ui.min.js" type="text/javascript"></script>
     <script src="commonFunctions.js" type="text/javascript"></script>
     <script src="embeddedWindowAPI.js" type="text/javascript"></script>
     <script src="popup.js" type="text/javascript"></script>
 </head>
 <body>
 <div id="infoBlock">
-    <a href="options.html" target="_blank" title="Options and help" tabindex="-1">
+    <a href="options.html" id="settingsButton" target="_blank" title="Options and help" tabindex="-1">
         <img id="settingsIcon" src="images/icons/settings24.png">
+    </a>
+    <a href="" id="searchButton" title="Find words" tabindex="-1">
+        <img id="searchIcon" src="images/icons/search24.png">
     </a>
     <div id="shareButtons" class="ya-share2" data-lang="en" data-services="vkontakte,facebook,odnoklassniki,twitter"
          data-url="https://chrome.google.com/webstore/detail/eachword-expand-your-voca/ndbpgappknhobbikhmjenceoklpaalam"
@@ -20,20 +28,21 @@
          data-image="https://lh3.googleusercontent.com/t11pa_NWqQcF_1WHta9ynPWsPERRqyriMQ6N0ppyi9xqGsWZ0-EFVP6aLPT1DgaSh3EknHwNlds"
          tabindex="-1">
     </div>
+    <input id="searchInput" type="search" placeholder="Search" tabindex="3">
     <a href="" id="switchButton" tabindex="-1"></a>
 </div>
 <div id="mainBlock">
     <iframe id="wordsList" src="tableOfWords.html" width="350" height="300" frameborder="no" scrolling="yes"
             tabindex="-1"></iframe>
     <div id="addLine">
-        <input id="fromLanguage" type="text" placeholder="Word" maxlength="50" tabindex="1">
+        <input id="fromLanguage" type="text" placeholder="Word" tabindex="1">
         <span>&mdash;</span>
-        <input id="intoLanguage" type="text" placeholder="Translation" maxlength="50" tabindex="2">
+        <input id="intoLanguage" type="text" placeholder="Translation" tabindex="2">
         <a href="" id="addButton" title="Add word card into your dictionary" tabindex="-1">Add</a>
     </div>
 </div>
 <div id="copyright">
-    <p>&copy; 2016 EachWord
+    <p>&copy; 2017 EachWord
     <p>
 </div>
 </body>

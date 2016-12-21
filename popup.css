@@ -27,14 +27,28 @@ body {
     background-color: #4671d5;
 }
 
+#infoBlock > a {
+    outline: none;
+}
+
 #shareButtons {
     position: absolute;
     top: 6px;
-    left: 105px;
+    left: 112px;
     padding: 3px 15px;
     border-radius: 20px;
     background-color: #e8e8e8;
     outline: none;
+}
+
+#searchInput {
+    position: absolute;
+    -webkit-appearance: textfield;
+    display: none;
+    top: 8px;
+    left: 112px;
+    padding: 3.5pt;
+    width: 138px;
 }
 
 #wordsList {
@@ -118,6 +132,28 @@ input::selection {
     opacity: 0.6;
 }
 
+#searchIcon {
+    float: left;
+    padding-top: 7px;
+    padding-left: 7px;
+    transition: 0.3s;
+}
+
+#searchIcon:hover {
+    opacity: 0.8;
+}
+
+#searchIcon:active {
+    opacity: 0.6;
+}
+
 ::selection {
     background: transparent;
+}
+
+input[type="search"] {
+    -webkit-appearance: searchfield;
+}
+input[type="search"]::-webkit-search-cancel-button {
+    -webkit-appearance: searchfield-cancel-button;
 }

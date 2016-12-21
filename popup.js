@@ -1,27 +1,33 @@
-var nothingToShowMessage,
-    welcomeMessage,
-    updateMessage,
-    isCrucialUpdate;
+let notFoundMessage;
+let nothingToShowMessage;
+let welcomeMessage;
+let updateMessage;
+let isCrucialUpdate;
+let dictionaryArray;
+let isSearchActivated = false;
 
 // It affects either updateMessage will be shown or not.
 isCrucialUpdate = false;
 
 // Text message initialisation.
+notFoundMessage = "We haven't found such words <img src=\"images/smiles/confused.svg\" width=\"18\"><br>Have you added them?<br>";
 nothingToShowMessage = "We have nothing to show you <img src=\"images/smiles/confused.svg\" width=\"18\"><br>First of all, add some words.";
 welcomeMessage = "Welcome to the EachWord <img src=\"images/smiles/sunglasses.svg\" width=\"18\"><br><br>For a start, add couple words that you want to learn and go on surfing the internet.<br><br>These words will be periodically shown to you. So you will learn them.<br><br>Check out options page.";
 updateMessage = "Really? I can't believe <img src=\"images/smiles/neutral_face.svg\" width=\"18\"><br>It's a new version of EachWord!<br>New features:<br>- Import and Export<br>- Design improved<br>- New card colors<br>If you like EachWord, please, share it on social networks using buttons above. It would really help us since we have no money for promotion.";
 
 function fromLanguageSave() {
-    "use strict";
     localStorage.setItem("fromLanguage", JSON.stringify(document.getElementById("fromLanguage").value));
 }
 
 /**
- * To save inputed letters in "Translation" field when user closes extension window.
+ * To save entered letters in "Translation" field when user closes extension window.
  */
 function intoLanguageSave() {
-    "use strict";
     localStorage.setItem("intoLanguage", JSON.stringify(document.getElementById("intoLanguage").value));
+}
+
+function searchInputSave() {
+    localStorage.setItem("searchInput", JSON.stringify(document.getElementById("searchInput").value));
 }
 
 /**
@@ -30,13 +36,8 @@ function intoLanguageSave() {
  * @returns {boolean}
  */
 function switchButtonChangeState() {
-    "use strict";
-    var switchState,
-        switchButton;
-
-    switchState = localStorage.getItem("switchState");
-    switchState = JSON.parse(switchState);
-    switchButton = document.getElementById("switchButton");
+    let switchState = JSON.parse(localStorage.getItem("switchState"));
+    let switchButton = document.getElementById("switchButton");
 
     if (switchState) {
         switchState = false;
@@ -77,10 +78,7 @@ function switchButtonChangeState() {
  * @returns {boolean}
  */
 function isExtensionUpdated() {
-    "use strict";
-    var versionArray;
-
-    versionArray = JSON.parse(localStorage.getItem("versionArray"));
+    let versionArray = JSON.parse(localStorage.getItem("versionArray"));
 
     if (versionArray.length === 0) {
         localStorage.setItem("welcomeIsShown", JSON.stringify(true));
@@ -97,14 +95,8 @@ function isExtensionUpdated() {
  * It checks cases to show different type of messages.
  */
 function checkCasesToShowMessage() {
-    "use strict";
-    var dictionaryArray;
-    dictionaryArray = localStorage.getItem("dictionaryArray");
-    dictionaryArray = JSON.parse(dictionaryArray);
-
     if (JSON.parse(localStorage.getItem("welcomeIsShown"))) {
         showButtonWindow(welcomeMessage, "Got it", "left", "80%", "80%", function () {
-            dictionaryArray = JSON.parse(localStorage.getItem("dictionaryArray"));
             localStorage.setItem("welcomeIsShown", JSON.stringify(false));
 
             if (dictionaryArray.length === 0) {
@@ -118,23 +110,17 @@ function checkCasesToShowMessage() {
 
 /**
  * Function to play word when user clicks to speaker.
+ *
  * @returns {boolean}
  */
 function playWord() {
-    "use strict";
-    var settingsArray,
-        tr,
-        trNodesArray,
-        i;
+    let settingsArray = JSON.parse(localStorage.getItem("settingsArray"));
+    let tr = this.parentNode.parentNode;
+    let trNodesArray = tr.parentNode.children;
 
-    settingsArray = localStorage.getItem("settingsArray");
-    settingsArray = JSON.parse(settingsArray);
-    tr = this.parentNode.parentNode;
-    trNodesArray = tr.parentNode.children;
-
-    for (i = 1; i < trNodesArray.length; i++) {
+    for (let i = 1; i < trNodesArray.length; i++) {
         if (this === trNodesArray[i].children[1].children[0]) {
-            chrome.tts.speak(trNodesArray[i].children[0].innerHTML, {"voiceName": "Google UK English Male"});
+            chrome.tts.speak($(trNodesArray[i].children[0]).text(), {"voiceName": "Google UK English Male"});
             break;
         }
     }
@@ -142,21 +128,63 @@ function playWord() {
     return false;
 }
 
+/**
+ * Add word to the table.
+ *
+ * @param word {string}
+ * @param translation {string}
+ */
+function addWordToList(word, translation) {
+    let tr;
+    let td;
+    let a;
+
+    tr = document.createElement("tr");
+    td = document.createElement("td");
+    td.className = "firstColumn";
+    td.innerHTML = word;
+    tr.appendChild(td);
+    td = document.createElement("td");
+    td.className = "secondColumn";
+    a = document.createElement("a");
+    a.href = "";
+    a.title = "Listen";
+    a.className = "playWordButton";
+    a.tabIndex = "-1";
+    a.onclick = playWord;
+    td.appendChild(a);
+    tr.appendChild(td);
+    td = document.createElement("td");
+    td.className = "thirdColumn";
+    td.innerHTML = translation;
+    tr.appendChild(td);
+    td = document.createElement("td");
+    td.className = "fourthColumn";
+    a = document.createElement("a");
+    a.href = "";
+    a.className = "deleteButton";
+    a.tabIndex = "-1";
+    a.innerHTML = "X";
+    a.onclick = deleteWord;
+    td.appendChild(a);
+    tr.appendChild(td);
+    $("#wordsList").contents().find("table")[0].appendChild(tr);
+    tr.scrollIntoView(true);
+}
+
+/**
+ * Delete word from the dictionary.
+ *
+ * @returns {boolean}
+ */
 function deleteWord() {
-    "use strict";
-    var tr,
-        trNodesArray,
-        index,
-        dictionaryArray,
-        dictionaryArrayQueue,
-        deleteIndex,
-        i;
+    let tr = this.parentNode.parentNode;
+    let trNodesArray = tr.parentNode.children;
+    let index = 0;
+    let dictionaryArrayQueue;
+    let deleteIndex;
 
-    tr = this.parentNode.parentNode;
-    trNodesArray = tr.parentNode.children;
-    index = 0;
-
-    for (i = 1; i < trNodesArray.length; i++) {
+    for (let i = 1; i < trNodesArray.length; i++) {
         if (this === trNodesArray[i].children[3].children[0]) {
             break;
         } else {
@@ -164,10 +192,7 @@ function deleteWord() {
         }
     }
 
-    dictionaryArray = localStorage.getItem("dictionaryArray");
-    dictionaryArrayQueue = localStorage.getItem("dictionaryArrayQueue");
-    dictionaryArray = JSON.parse(dictionaryArray);
-    dictionaryArrayQueue = JSON.parse(dictionaryArrayQueue);
+    dictionaryArrayQueue = JSON.parse(localStorage.getItem("dictionaryArrayQueue"));
     deleteIndex = dictionaryArrayQueue.indexOfObject(dictionaryArray.splice(index, 1)[0]);
 
     if (deleteIndex !== -1) {
@@ -187,23 +212,19 @@ function deleteWord() {
     tr.remove();
     document.getElementById("fromLanguage").focus();
     chrome.runtime.sendMessage({type: "changeDictionary"});
-
     return false;
 }
 
+/**
+ * Add word to the dictionary.
+ *
+ * @returns {boolean}
+ */
 function addWord() {
-    "use strict";
-    var word,
-        translation,
-        dictionaryArray,
-        dictionaryArrayQueue,
-        frameDocument,
-        tr,
-        td,
-        a;
+    let word = document.getElementById("fromLanguage").value;
+    let translation = document.getElementById("intoLanguage").value;
+    let dictionaryArrayQueue;
 
-    word = document.getElementById("fromLanguage").value;
-    translation = document.getElementById("intoLanguage").value;
     word = word.trim();
     translation = translation.trim();
 
@@ -221,10 +242,7 @@ function addWord() {
     translation = translation[0].toUpperCase() + translation.slice(1);
     document.getElementById("fromLanguage").value = null;
     document.getElementById("intoLanguage").value = null;
-    dictionaryArray = localStorage.getItem("dictionaryArray");
-    dictionaryArrayQueue = localStorage.getItem("dictionaryArrayQueue");
-    dictionaryArray = JSON.parse(dictionaryArray);
-    dictionaryArrayQueue = JSON.parse(dictionaryArrayQueue);
+    dictionaryArrayQueue = JSON.parse(localStorage.getItem("dictionaryArrayQueue"));
     dictionaryArray.push({word: word, translation: translation});
     dictionaryArrayQueue.push({word: word, translation: translation});
 
@@ -234,55 +252,154 @@ function addWord() {
 
     localStorage.setItem("dictionaryArray", JSON.stringify(dictionaryArray));
     localStorage.setItem("dictionaryArrayQueue", JSON.stringify(dictionaryArrayQueue));
-    frameDocument = document.getElementsByTagName("iframe")[0].contentWindow.document;
-    hideSimpleWindow();
-    tr = document.createElement("tr");
-    td = document.createElement("td");
-    td.className = "firstColumn";
-    td.innerHTML = word;
-    tr.appendChild(td);
-    td = document.createElement("td");
-    td.className = "secondColumn";
-    a = document.createElement("a");
-    a.href = "";
-    a.title = "Listen";
-    a.className = "playWordButton";
-    a.onclick = playWord;
-    td.appendChild(a);
-    tr.appendChild(td);
-    td = document.createElement("td");
-    td.className = "thirdColumn";
-    td.innerHTML = translation;
-    tr.appendChild(td);
-    td = document.createElement("td");
-    td.className = "fourthColumn";
-    a = document.createElement("a");
-    a.href = "";
-    a.className = "deleteButton";
-    a.innerHTML = "X";
-    a.onclick = deleteWord;
-    td.appendChild(a);
-    tr.appendChild(td);
-    frameDocument.getElementsByTagName("table")[0].appendChild(tr);
+
+    if (isSearchActivated) {
+        findWords();
+    } else {
+        hideSimpleWindow();
+        addWordToList(word, translation);
+    }
     localStorage.setItem("fromLanguage", JSON.stringify(""));
     localStorage.setItem("intoLanguage", JSON.stringify(""));
-    tr.scrollIntoView(true);
     document.getElementById("fromLanguage").focus();
     chrome.runtime.sendMessage({type: "changeDictionary"});
+    return false;
+}
+
+/**
+ * Complete character from regular expression with double slash.
+ */
+function escapeRegularExpression(text) {
+    return text.replace(/[\-\[\]{}()*+?.,\\\^$|#\s]/g, "\\$&");
+}
+
+/**
+ * Clear table from content before performing actions.
+ */
+function clearTable() {
+    /**
+     * @type {JQuery}
+     */
+    let $table = $("#wordsList").contents().find("table");
+
+    // Delete all rows in the table except the first.
+    $table[0].innerHTML = $table[0].rows[0].innerHTML;
+}
+
+/**
+ * Filter words in dictionary and display them.
+ */
+function findWords() {
+    let searchValue = $("#searchInput").val().toString().trim();
+    let regExp = new RegExp("^" + escapeRegularExpression(searchValue), "ig");
+    let flag = false;
+    let word;
+    let translation;
+    let result;
+
+    isSearchActivated = true;
+    clearTable();
+
+    // Display found words.
+    if (searchValue !== 0) {
+        for (let i = 0; i < dictionaryArray.length; i++) {
+            let found = false;
+            word = dictionaryArray[i].word;
+            translation = dictionaryArray[i].translation;
+
+            if ((result = regExp.exec(word)) !== null) {
+                word = word.replace(regExp, "<span class='highlight'>$&</span>");
+                found = true;
+            }
+
+            if ((result = regExp.exec(translation)) !== null) {
+                translation = translation.replace(regExp, "<span class='highlight'>$&</span>");
+                found = true;
+            }
+
+            if (found) {
+                if (!flag) {
+                    hideSimpleWindow();
+                }
+
+                addWordToList(word, translation);
+                flag = true;
+            }
+        }
+
+        if (!flag) {
+            hideSimpleWindow();
+            showSimpleWindow(notFoundMessage, "center", "80%", "25%");
+        }
+        // In case if there is no text in search field.
+    } else {
+        isSearchActivated = false;
+
+        for (let i = 0; i < dictionaryArray.length; i++) {
+            addWordToList(dictionaryArray[i].word, dictionaryArray[i].translation);
+        }
+    }
+}
+
+/**
+ * Enter pattern to find in your dictionary.
+ */
+function showHideSearch() {
+    let $shareButtons = $("#shareButtons");
+    let $searchInput = $("#searchInput");
+
+    if (typeof showHideSearch.toggleFlag === "undefined") {
+        let timeoutIdType;
+        showHideSearch.toggleFlag = false;
+        $searchInput.on("input", function () {
+            clearTimeout(timeoutIdType);
+            timeoutIdType = setTimeout(function () {
+                findWords();
+            }, 400);
+        })
+    }
+
+    if (!showHideSearch.toggleFlag) {
+        $shareButtons.hide("slide", 300, function () {
+            $searchInput.show("slide", 300, function () {
+                showHideSearch.toggleFlag = true;
+                $searchInput.focus();
+
+                if ($searchInput.val().toString().trim().length !== 0) {
+                    findWords();
+                }
+            });
+        });
+    } else {
+        $searchInput.hide("slide", 500, function () {
+            $shareButtons.show("slide", 500, function () {
+                showHideSearch.toggleFlag = false;
+
+                if ($searchInput.val().toString().trim().length !== 0) {
+                    hideSimpleWindow();
+                    clearTable();
+
+                    for (let i = 0; i < dictionaryArray.length; i++) {
+                        addWordToList(dictionaryArray[i].word, dictionaryArray[i].translation);
+                    }
+                }
+            });
+        });
+    }
 
     return false;
 }
 
 /**
  * Press "enter" to add card to the dictionary.
- * @param e
+ *
+ * @param {object} event
  */
-document.onkeyup = function (e) {
-    "use strict";
-    var word,
-        translation;
+document.onkeyup = function (event) {
+    let word;
+    let translation;
 
-    if (e.keyCode === 13) {
+    if (event.keyCode === 13) {
         word = document.getElementById("fromLanguage").value;
         translation = document.getElementById("intoLanguage").value;
         word = word.trim();
@@ -303,42 +420,60 @@ document.onkeyup = function (e) {
 };
 
 /**
+ * It needs to show or hide search input using "Cmd + F" or "Ctrl + F" keys according to platform.
+ *
+ * @param {object} event
+ * @returns {boolean}
+ */
+function keysForSearch(event) {
+    let platformFlag = navigator.userAgent.indexOf("Mac") >= 0;
+
+    if (!event.shiftKey && ((!platformFlag && event.ctrlKey) ||
+        (platformFlag && event.metaKey)) &&
+        String.fromCharCode(event.which).toLowerCase() === "f") {
+        showHideSearch();
+        return false;
+    }
+}
+
+/**
  * Fill in extension window.
  */
 window.onload = function () {
-    "use strict";
-    var addButton,
-        switchButton,
-        fromLanguage,
-        intoLanguage,
-        switchState,
-        dictionaryArray,
-        versionArray,
-        i,
-        word,
-        translation,
-        frameDocument,
-        tr,
-        td,
-        a;
+    let addButton = document.getElementById("addButton");
+    let switchButton = document.getElementById("switchButton");
+    let fromLanguage = document.getElementById("fromLanguage");
+    let intoLanguage = document.getElementById("intoLanguage");
+    let searchInput = document.getElementById("searchInput");
+    let $infoBlock = $("#infoBlock");
+    let $searchButton = $("#searchButton");
+    let switchState;
+    let versionArray;
+    let word;
+    let translation;
 
-    addButton = document.getElementById("addButton");
-    switchButton = document.getElementById("switchButton");
-    fromLanguage = document.getElementById("fromLanguage");
-    intoLanguage = document.getElementById("intoLanguage");
+    // Prevent to drag images in links.
+    $infoBlock.find("img").on("dragstart", function () {
+        return false;
+    });
+    $searchButton.on("click", showHideSearch);
+    $(window).bind("keydown", keysForSearch);
+    $("#wordsList").contents().bind("keydown", keysForSearch);
 
     // State of extension: "Turn on" or "Turn off".
     switchState = localStorage.getItem("switchState");
     addButton.onclick = addWord;
     switchButton.onclick = switchButtonChangeState;
 
-    // Save inputed letters in fields when extension closes.
+    // Save entered letters in fields when extension closes.
     fromLanguage.oninput = fromLanguageSave;
     intoLanguage.oninput = intoLanguageSave;
+    searchInput.oninput = searchInputSave;
 
     // Load saved letters from localStorage into fields.
     fromLanguage.value = JSON.parse(localStorage.getItem("fromLanguage"));
     intoLanguage.value = JSON.parse(localStorage.getItem("intoLanguage"));
+    searchInput.value = JSON.parse(localStorage.getItem("searchInput"));
     switchState = JSON.parse(switchState);
 
     if (switchState) {
@@ -354,52 +489,19 @@ window.onload = function () {
     }
 
     // Array of words in localStorage.
-    dictionaryArray = localStorage.getItem("dictionaryArray");
-    dictionaryArray = JSON.parse(dictionaryArray);
+    dictionaryArray = JSON.parse(localStorage.getItem("dictionaryArray"));
 
     // Fill in words, translation and "deleteButton" into "iframe".
-    for (i = 0; i < dictionaryArray.length; i++) {
+    for (let i = 0; i < dictionaryArray.length; i++) {
         word = dictionaryArray[i].word;
         translation = dictionaryArray[i].translation;
-        frameDocument = document.getElementById("wordsList").contentWindow.document;
-        tr = document.createElement("tr");
-        td = document.createElement("td");
-        td.className = "firstColumn";
-        td.innerHTML = word;
-        tr.appendChild(td);
-        td = document.createElement("td");
-        td.className = "secondColumn";
-        a = document.createElement("a");
-        a.href = "";
-        a.title = "Listen";
-        a.className = "playWordButton";
-        a.tabIndex = "-1";
-        a.onclick = playWord;
-        td.appendChild(a);
-        tr.appendChild(td);
-        td = document.createElement("td");
-        td.className = "thirdColumn";
-        td.innerHTML = translation;
-        tr.appendChild(td);
-        td = document.createElement("td");
-        td.className = "fourthColumn";
-        a = document.createElement("a");
-        a.href = "";
-        a.className = "deleteButton";
-        a.tabIndex = "-1";
-        a.innerHTML = "X";
-        a.onclick = deleteWord;
-        td.appendChild(a);
-        tr.appendChild(td);
-        frameDocument.getElementsByTagName("table")[0].appendChild(tr);
-        tr.scrollIntoView(true);
+        addWordToList(word, translation);
     }
 
     if (isExtensionUpdated()) {
         if (isCrucialUpdate) {
             showButtonWindow(updateMessage, "Got it", "left", "80%", "80%", function () {
                 versionArray = JSON.parse(localStorage.getItem("versionArray"));
-                dictionaryArray = JSON.parse(localStorage.getItem("dictionaryArray"));
                 versionArray.push(chrome.app.getDetails().version);
                 localStorage.setItem("versionArray", JSON.stringify(versionArray));
                 localStorage.setItem("welcomeIsShown", JSON.stringify(false));

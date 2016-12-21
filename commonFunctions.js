@@ -1,8 +1,8 @@
-var disappearingStarted,
-    drawingStarted,
-    timeoutIdTimer,
-    dictionaryArrayQueue,
-    lastWord;
+let disappearingStarted;
+let drawingStarted;
+let timeoutIdTimer;
+let dictionaryArrayQueue;
+let lastWord;
 
 // Works as semaphore for "disappearing()".
 disappearingStarted = false;
@@ -12,19 +12,16 @@ drawingStarted = false;
 
 /**
  * Special algorithm which shows word cards without reps alike cards and does it with equal probability.
+ *
  * @returns {string} Last word
  */
 function chooseWord() {
-    "use strict";
-    var flag,
-        dictionaryArray,
-        randomNumber;
-
-    flag = false;
-    dictionaryArray = localStorage.getItem("dictionaryArray");
+    let flag = false;
+    let dictionaryArray;
+    let randomNumber;
 
     if (dictionaryArrayQueue.length === 0) {
-        dictionaryArray = JSON.parse(dictionaryArray);
+        dictionaryArray = JSON.parse(localStorage.getItem("dictionaryArray"));
         dictionaryArrayQueue = dictionaryArray;
         localStorage.setItem("dictionaryArrayQueue", JSON.stringify(dictionaryArrayQueue));
         flag = true;
@@ -39,7 +36,8 @@ function chooseWord() {
     randomNumber = Math.floor(Math.random() * dictionaryArrayQueue.length);
 
     if (flag) {
-        if (dictionaryArrayQueue[randomNumber].word === lastWord.word && dictionaryArrayQueue[randomNumber].translation === lastWord.translation) {
+        if (dictionaryArrayQueue[randomNumber].word === lastWord.word &&
+            dictionaryArrayQueue[randomNumber].translation === lastWord.translation) {
             if (randomNumber === 0) {
                 lastWord = dictionaryArrayQueue.splice(randomNumber + 1, 1)[0];
                 localStorage.setItem("dictionaryArrayQueue", JSON.stringify(dictionaryArrayQueue));
@@ -48,14 +46,12 @@ function chooseWord() {
 
             lastWord = dictionaryArrayQueue.splice(randomNumber - 1, 1)[0];
             localStorage.setItem("dictionaryArrayQueue", JSON.stringify(dictionaryArrayQueue));
-
             return lastWord;
         }
     }
 
     lastWord = dictionaryArrayQueue.splice(randomNumber, 1)[0];
     localStorage.setItem("dictionaryArrayQueue", JSON.stringify(dictionaryArrayQueue));
-
     return lastWord;
 }
 
@@ -65,14 +61,9 @@ function chooseWord() {
  * @returns {null|string} Based on html theme.
  */
 function chooseTheme() {
-    "use strict";
-    var themes,
-        selectedThemes,
-        currentThemeNumber;
-
-    themes = JSON.parse(localStorage.getItem("themes"));
-    selectedThemes = JSON.parse(localStorage.getItem("selectedThemes"));
-    currentThemeNumber = JSON.parse(localStorage.getItem("currentThemeNumber"));
+    let themes = JSON.parse(localStorage.getItem("themes"));
+    let selectedThemes = JSON.parse(localStorage.getItem("selectedThemes"));
+    let currentThemeNumber = JSON.parse(localStorage.getItem("currentThemeNumber"));
 
     if (!selectedThemes || !themes) {
         return null;
@@ -85,25 +76,20 @@ function chooseTheme() {
  * Hide a word card from the web page.
  */
 function disappearing() {
-    "use strict";
-    var wordCard,
-        themeStyle,
-        blurStyle,
-        closeStyle,
-        intervalIdDisappearing;
+    let wordCard = document.getElementById("wordCard8730011");
+    let themeStyle = document.getElementById("themeStyle8730011");
+    let blurStyle = document.getElementById("blurStyle8730011");
+    let closeStyle = document.getElementById("closeStyle8730011");
+    let intervalIdDisappearing;
 
     disappearingStarted = true;
-    wordCard = document.getElementById("wordCard8730011");
-    themeStyle = document.getElementById("themeStyle8730011");
-    blurStyle = document.getElementById("blurStyle8730011");
-    closeStyle = document.getElementById("closeStyle8730011");
 
     if (blurStyle) {
         blurStyle.remove();
     }
 
     intervalIdDisappearing = setInterval(function () {
-        var checkToTopOverflow = parseFloat(wordCard.style.top) - 1.5;
+        const checkToTopOverflow = parseFloat(wordCard.style.top) - 1.5;
 
         if (checkToTopOverflow > -30) {
             wordCard.style.top = checkToTopOverflow + "%";
@@ -128,7 +114,6 @@ function disappearing() {
  * @param event
  */
 function closeButtonAction(event) {
-    "use strict";
     event.preventDefault();
     event.stopPropagation();
     clearTimeout(timeoutIdTimer);
@@ -145,10 +130,9 @@ function closeButtonAction(event) {
  * @returns {string}
  */
 function formatDelay(selectDelay) {
-    "use strict";
-    var formattedDelay,
-        minutesDelay,
-        modulo;
+    let formattedDelay;
+    let minutesDelay;
+    let modulo;
 
     if (selectDelay < 10) {
         formattedDelay = "00:0" + selectDelay;
@@ -170,6 +154,7 @@ function formatDelay(selectDelay) {
             formattedDelay += modulo;
         }
     }
+
     return formattedDelay;
 }
 
@@ -177,12 +162,8 @@ function formatDelay(selectDelay) {
  * Increment "currentThemeNumber" after word card is showed.
  */
 function increaseCurrentThemeNumber() {
-    "use strict";
-    var currentThemeNumber,
-        selectedThemes;
-
-    currentThemeNumber = JSON.parse(localStorage.getItem("currentThemeNumber"));
-    selectedThemes = JSON.parse(localStorage.getItem("selectedThemes"));
+    let currentThemeNumber = JSON.parse(localStorage.getItem("currentThemeNumber"));
+    let selectedThemes = JSON.parse(localStorage.getItem("selectedThemes"));
 
     if (currentThemeNumber < selectedThemes.length - 1) {
         currentThemeNumber++;
@@ -202,22 +183,19 @@ function increaseCurrentThemeNumber() {
  * @param settingsArray array of the settings fetched from the "background.js"
  */
 function appearing(word, translation, theme, settingsArray) {
-    "use strict";
-    var selectDelay,
-        showClose,
-        wordCard,
-        themeStyle,
-        blurStyle,
-        closeStyle,
-        closeButton,
-        commonLength,
-        words,
-        timer,
-        intervalIdAppearing;
+    let selectDelay = settingsArray.selectDelay;
+    let showClose = settingsArray.showClose;
+    let wordCard;
+    let themeStyle;
+    let blurStyle;
+    let closeStyle;
+    let closeButton;
+    let commonLength;
+    let words;
+    let timer;
+    let intervalIdAppearing;
 
     drawingStarted = true;
-    selectDelay = settingsArray.selectDelay;
-    showClose = settingsArray.showClose;
     wordCard = document.createElement("div");
     wordCard.id = "wordCard8730011";
     wordCard.style.top = "-30%";
@@ -278,8 +256,9 @@ function appearing(word, translation, theme, settingsArray) {
 
     timer = document.getElementById("timer8730011");
     intervalIdAppearing = setInterval(function () {
-        var checkToTopOverflow,
-            tempDelay;
+        let checkToTopOverflow;
+        let tempDelay;
+
         checkToTopOverflow = parseFloat(wordCard.style.top) + 1.5;
 
         if (checkToTopOverflow >= 0) {
@@ -313,7 +292,6 @@ function appearing(word, translation, theme, settingsArray) {
  * @param settingsArray array of the settings fetched from the "background.js"
  */
 function drawCard(word, translation, theme, settingsArray) {
-    "use strict";
     if (!drawingStarted) {
         appearing(word, translation, theme, settingsArray);
     }
@@ -322,16 +300,14 @@ function drawCard(word, translation, theme, settingsArray) {
 /**
  * End functions from "content.js".
  *
- * @param object
+ * @param {object} object
  * @returns {number}
  */
 Array.prototype.indexOfObject = function (object) {
-    "use strict";
-    var i,
-        flag,
-        key;
+    let flag;
+    let key;
 
-    for (i = 0; i < this.length; i++) {
+    for (let i = 0; i < this.length; i++) {
         flag = true;
 
         for (key in object) {
@@ -347,5 +323,6 @@ Array.prototype.indexOfObject = function (object) {
             return i;
         }
     }
+
     return -1;
 };

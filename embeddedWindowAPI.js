@@ -7,11 +7,10 @@
  * @param height {string} Height of window
  */
 function showSimpleWindow(text, textAlign, width, height) {
-    "use strict";
-    var span,
-        simpleWindow,
-        simpleWindowContent,
-        frameDocument;
+    let span;
+    let simpleWindow;
+    let simpleWindowContent;
+    let frameDocument;
 
     simpleWindow = document.getElementById("simpleWindow");
 
@@ -39,12 +38,8 @@ function showSimpleWindow(text, textAlign, width, height) {
  * Hide simple window.
  */
 function hideSimpleWindow() {
-    "use strict";
-    var frameDocument,
-        simpleWindow;
-
-    frameDocument = document.getElementsByTagName("iframe")[0].contentWindow.document;
-    simpleWindow = frameDocument.getElementById("simpleWindow");
+    let frameDocument = document.getElementsByTagName("iframe")[0].contentWindow.document;
+    let simpleWindow = frameDocument.getElementById("simpleWindow");
 
     if (simpleWindow !== null) {
         simpleWindow.remove();
@@ -62,13 +57,12 @@ function hideSimpleWindow() {
  * @param finalAction {function} An action that will be executed when button is pressed
  */
 function showButtonWindow(text, buttonText, textAlign, width, height, finalAction) {
-    "use strict";
-    var frameDocument,
-        span,
-        a,
-        buttonWindow,
-        buttonWindowContent,
-        buttonWindowButton;
+    let frameDocument;
+    let span;
+    let a;
+    let buttonWindow;
+    let buttonWindowContent;
+    let buttonWindowButton;
 
     buttonWindow = document.getElementById("buttonWindow");
 

@@ -1,42 +1,36 @@
-var i,
-    saveButton,
-    showTestCard,
-    showTestNotification,
-    selectInterval,
-    selectDelay,
-    showClose,
-    showBlur,
-    showNativeCards,
-    showNotificationCards,
-    showTimeline,
-    settingsArray,
-    settingsSaved,
-    exportDictionary,
-    inputImport,
-    importType,
-    checkBoxTheme,
-    themes,
-    selectedThemes,
-    currentThemeNumber;
+let saveButton;
+let showTestCard;
+let showTestNotification;
+let selectInterval;
+let selectDelay;
+let showClose;
+let showBlur;
+let showNativeCards;
+let showNotificationCards;
+let showTimeline;
+let settingsArray;
+let settingsSaved;
+let exportDictionary;
+let inputImport;
+let importType;
+let checkBoxTheme;
+let themes;
+let selectedThemes;
+let currentThemeNumber;
 
 function controlCheckedTypesOfNative() {
-    "use strict";
     showNotificationCards.disabled = showNativeCards.checked === false;
 }
 
 function controlCheckedTypesOfNotification() {
-    "use strict";
     showNativeCards.disabled = showNotificationCards.checked === false;
 }
 
 function controlCheckedTypesOfThemes() {
-    "use strict";
-    var count,
-        lastIndex;
+    let count = 0;
+    let lastIndex;
 
-    count = 0;
-
-    for (i = 0; i < checkBoxTheme.length && count < 2; i++) {
+    for (let i = 0; i < checkBoxTheme.length && count < 2; i++) {
         if (checkBoxTheme[i].checked === true) {
             count++;
             lastIndex = i;
@@ -58,13 +52,11 @@ function controlCheckedTypesOfThemes() {
  * @returns {boolean}
  */
 function testWordCard() {
-    "use strict";
-    var choosenTheme;
+    let chosenTheme;
 
-    choosenTheme = chooseTheme();
-    drawCard("Word", "Translation", choosenTheme, settingsArray);
+    chosenTheme = chooseTheme();
+    drawCard("Word", "Translation", chosenTheme, settingsArray);
     increaseCurrentThemeNumber();
-
     return false;
 }
 
@@ -74,9 +66,7 @@ function testWordCard() {
  * @returns {boolean}
  */
 function testNotification() {
-    "use strict";
     chrome.runtime.sendMessage({type: "showNotification"});
-
     return false;
 }
 
@@ -86,11 +76,9 @@ function testNotification() {
  * @param state {string}
  */
 function showSettingsState(state) {
-    "use strict";
     settingsSaved = document.getElementById("settingsSaved");
     settingsSaved.innerHTML = state;
     settingsSaved.style.opacity = 1;
-
     setTimeout(function settingsSavedDisappearing() {
         settingsSaved.style.opacity -= 0.05;
         if (settingsSaved.style.opacity > 0) {
@@ -106,7 +94,6 @@ function showSettingsState(state) {
  * @param delay {number}
  */
 function showSettingsStateDelayed(state, delay) {
-    "use strict";
     setTimeout(function () {
         showSettingsState(state);
     }, delay);
@@ -116,10 +103,9 @@ function showSettingsStateDelayed(state, delay) {
  * It shows warning massege when user switch "Append" to "Replace".
  */
 function showReplaceWarning() {
-    "use strict";
-    var span;
+    let span = document.createElement("span");
+
     importType = document.getElementsByName("importType");
-    span = document.createElement("span");
     span.id = "warningMessage";
     span.innerHTML = "<br>Warning! Your current dictionary will be lost.";
     importType[1].parentNode.appendChild(span);
@@ -129,10 +115,7 @@ function showReplaceWarning() {
  * It hides warning massege when user switch "Replace" to "Append".
  */
 function hideReplaceWarning() {
-    "use strict";
-    var span;
-
-    span = document.getElementById("warningMessage");
+    let span = document.getElementById("warningMessage");
 
     if (span) {
         span.remove();
@@ -143,10 +126,8 @@ function hideReplaceWarning() {
  * Download the file with data when the button is pressed. It is used to export the Dictionary.
  */
 function exportDictionaryFile() {
-    "use strict";
-    var a;
+    let a = document.createElement("a");
 
-    a = document.createElement("a");
     a.href = URL.createObjectURL(new Blob([localStorage.getItem("dictionaryArray")]));
     a.download = "yourDictionary.json";
     document.body.appendChild(a);
@@ -158,32 +139,29 @@ function exportDictionaryFile() {
 /**
  * Replace or merge dictionary.
  */
-function importDictionaryFile(e) {
-    "use strict";
-    var file,
-        fileReader;
+function importDictionaryFile(event) {
+    let file = event.target.files[0];
+    let fileReader = new FileReader();
 
-    file = e.target.files[0];
     if (file !== undefined && file.name.endsWith(".json")) {
-        fileReader = new FileReader();
-        fileReader.onload = function (e) {
-            var result,
-                dictionaryArray;
+        fileReader.onload = function (event) {
+            let result;
+            let dictionaryArray;
+
             try {
-                result = JSON.parse(e.target.result);
+                result = JSON.parse(event.target.result);
 
                 if (!Array.isArray(result)) {
                     throw new Error("Parsed object is not an array");
                 } else {
-                    for (i = 0; i < result.length; i++) {
+                    for (let i = 0; i < result.length; i++) {
                         if (!result[i].hasOwnProperty("word") || !result[i].hasOwnProperty("translation")) {
                             throw new Error("Parsed array does not have an appropriate property");
                         }
                     }
                 }
 
-                dictionaryArray = localStorage.getItem("dictionaryArray");
-                dictionaryArray = JSON.parse(dictionaryArray);
+                dictionaryArray = JSON.parse(localStorage.getItem("dictionaryArray"));
 
                 if (JSON.parse(localStorage.getItem("switchState")) !== false) {
                     if (result.length === 0) {
@@ -196,17 +174,17 @@ function importDictionaryFile(e) {
                 importType = document.getElementsByName("importType");
 
                 if (importType[0].checked) {
-                    for (i = 0; i < result.length; i++) {
+                    for (let i = 0; i < result.length; i++) {
                         dictionaryArray.push(result[i]);
                     }
                     localStorage.setItem("dictionaryArray", JSON.stringify(dictionaryArray));
                     localStorage.setItem("dictionaryArrayQueue", JSON.stringify([]));
                 } else if (importType[1].checked) {
-                    localStorage.setItem("dictionaryArray", e.target.result);
+                    localStorage.setItem("dictionaryArray", event.target.result);
                     localStorage.setItem("dictionaryArrayQueue", JSON.stringify([]));
                 }
 
-                showSettingsStateDelayed("Dictionary have been imported!", 500);
+                showSettingsStateDelayed("Dictionary has been successfully imported!", 500);
             } catch (error) {
                 showSettingsStateDelayed("It is not a Dictionary format file!", 500);
             } finally {
@@ -227,15 +205,12 @@ function importDictionaryFile(e) {
  * @returns {boolean}
  */
 function save() {
-    "use strict";
     selectInterval = document.getElementById("selectInterval");
     selectDelay = document.getElementById("selectDelay");
     showClose = document.getElementById("showClose");
     showBlur = document.getElementById("showBlur");
-    settingsArray = localStorage.getItem("settingsArray");
-    settingsArray = JSON.parse(settingsArray);
-    currentThemeNumber = localStorage.getItem("currentThemeNumber");
-    currentThemeNumber = JSON.parse(currentThemeNumber);
+    settingsArray = JSON.parse(localStorage.getItem("settingsArray"));
+    currentThemeNumber = JSON.parse(localStorage.getItem("currentThemeNumber"));
     settingsArray.selectInterval = selectInterval.selectedIndex + 1;
     settingsArray.selectDelay = selectDelay.selectedIndex + 1;
     settingsArray.showClose = showClose.checked;
@@ -247,7 +222,7 @@ function save() {
     settingsArray.showTimeline = showTimeline.checked;
     selectedThemes = [];
 
-    for (i = 0; i < checkBoxTheme.length; i++) {
+    for (let i = 0; i < checkBoxTheme.length; i++) {
         if (checkBoxTheme[i].checked) {
             selectedThemes.push(i);
         }
@@ -264,12 +239,10 @@ function save() {
     window.getSelection().empty();
     showSettingsState("Settings have been saved!");
     chrome.runtime.sendMessage({type: "changeSettings"});
-
     return false;
 }
 
 window.onload = function () {
-    "use strict";
     saveButton = document.getElementById("saveButton");
     showTestCard = document.getElementById("showTestCard");
     showTestNotification = document.getElementById("showTestNotification");
@@ -310,11 +283,12 @@ window.onload = function () {
     showTimeline.checked = settingsArray.showTimeline;
 
     if (themes) {
-        for (i = 0; i < themes.length; i++) {
-            var p,
-                label,
-                span,
-                input;
+        for (let i = 0; i < themes.length; i++) {
+            let span;
+            let p;
+            let label;
+            let input;
+
             span = document.createElement("span");
             span.className = "colorSquare";
             span.id = "color" + i;
@@ -332,7 +306,7 @@ window.onload = function () {
         }
     }
 
-    for (i = 0; i < selectedThemes.length; i++) {
+    for (let i = 0; i < selectedThemes.length; i++) {
         checkBoxTheme[selectedThemes[i]].checked = true;
     }
 
@@ -341,7 +315,7 @@ window.onload = function () {
         checkBoxTheme[selectedThemes[0]].disabled = true;
     }
 
-    for (i = 0; i < checkBoxTheme.length; i++) {
+    for (let i = 0; i < checkBoxTheme.length; i++) {
         checkBoxTheme[i].onchange = controlCheckedTypesOfThemes;
     }
 };

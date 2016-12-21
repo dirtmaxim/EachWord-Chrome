@@ -8,6 +8,7 @@ let showBlur;
 let showNativeCards;
 let showNotificationCards;
 let showTimeline;
+let searchFromBegin;
 let settingsArray;
 let settingsSaved;
 let exportDictionary;
@@ -17,6 +18,8 @@ let checkBoxTheme;
 let themes;
 let selectedThemes;
 let currentThemeNumber;
+let confirmClear;
+let clearDictionary;
 
 function controlCheckedTypesOfNative() {
     showNotificationCards.disabled = showNativeCards.checked === false;
@@ -40,9 +43,30 @@ function controlCheckedTypesOfThemes() {
     if (count === 1) {
         controlCheckedTypesOfThemes.lastIndex = lastIndex;
         checkBoxTheme[lastIndex].disabled = true;
+    } else if (controlCheckedTypesOfThemes.lastIndex === undefined) {
+        controlCheckedTypesOfThemes.lastIndex = -1;
     } else if (controlCheckedTypesOfThemes.lastIndex !== -1) {
         checkBoxTheme[controlCheckedTypesOfThemes.lastIndex].disabled = false;
         controlCheckedTypesOfThemes.lastIndex = -1;
+    }
+}
+
+function enableDisableClearButton() {
+    clearDictionary.disabled = !confirmClear.checked;
+}
+
+/**
+ * Clear all Dictionary.
+ */
+function clearEntireDictionary() {
+    if (JSON.parse(localStorage.getItem("dictionaryArray")).length !== 0) {
+        localStorage.setItem("dictionaryArray", JSON.stringify([]));
+        localStorage.setItem("dictionaryArrayQueue", JSON.stringify([]));
+        chrome.runtime.sendMessage({type: "stopInterval"});
+        chrome.runtime.sendMessage({type: "changeDictionary"});
+        showSettingsStateDelayed("Dictionary have been cleared!", 500);
+    } else {
+        showSettingsStateDelayed("Dictionary is empty!", 500);
     }
 }
 
@@ -73,7 +97,7 @@ function testNotification() {
 /**
  * Show state of settings next to the "Save" button.
  *
- * @param state {string}
+ * @param {string} state
  */
 function showSettingsState(state) {
     settingsSaved = document.getElementById("settingsSaved");
@@ -90,8 +114,8 @@ function showSettingsState(state) {
 /**
  * Invokes "showSettingsState" with delay.
  *
- * @param state {string}
- * @param delay {number}
+ * @param {string} state
+ * @param {number} delay
  */
 function showSettingsStateDelayed(state, delay) {
     setTimeout(function () {
@@ -105,6 +129,7 @@ function showSettingsStateDelayed(state, delay) {
 function showReplaceWarning() {
     let span = document.createElement("span");
 
+    hideReplaceWarning();
     importType = document.getElementsByName("importType");
     span.id = "warningMessage";
     span.innerHTML = "<br>Warning! Your current dictionary will be lost.";
@@ -137,7 +162,7 @@ function exportDictionaryFile() {
 }
 
 /**
- * Replace or merge dictionary.
+ * Replace or merge the dictionary.
  */
 function importDictionaryFile(event) {
     let file = event.target.files[0];
@@ -220,6 +245,8 @@ function save() {
     settingsArray.showNotificationCardsChecked = showNotificationCards.checked;
     settingsArray.showNotificationCardsDisabled = showNotificationCards.disabled;
     settingsArray.showTimeline = showTimeline.checked;
+    settingsArray.searchFromBegin = searchFromBegin.checked;
+
     selectedThemes = [];
 
     for (let i = 0; i < checkBoxTheme.length; i++) {
@@ -253,16 +280,16 @@ window.onload = function () {
     showNativeCards = document.getElementById("showNativeCards");
     showNotificationCards = document.getElementById("showNotificationCards");
     showTimeline = document.getElementById("showTimeline");
+    searchFromBegin = document.getElementById("searchFromBegin");
     exportDictionary = document.getElementById("exportDictionary");
     inputImport = document.getElementById("inputImport");
     importType = document.getElementsByName("importType");
     checkBoxTheme = document.getElementsByClassName("checkBoxTheme");
-    settingsArray = localStorage.getItem("settingsArray");
-    settingsArray = JSON.parse(settingsArray);
-    themes = localStorage.getItem("themes");
-    themes = JSON.parse(themes);
-    selectedThemes = localStorage.getItem("selectedThemes");
-    selectedThemes = JSON.parse(selectedThemes);
+    confirmClear = document.getElementById("confirmClear");
+    clearDictionary = document.getElementById("clearDictionary");
+    settingsArray = JSON.parse(localStorage.getItem("settingsArray"));
+    themes = JSON.parse(localStorage.getItem("themes"));
+    selectedThemes = JSON.parse(localStorage.getItem("selectedThemes"));
     exportDictionary.onclick = exportDictionaryFile;
     inputImport.onchange = importDictionaryFile;
     saveButton.onclick = save;
@@ -281,6 +308,9 @@ window.onload = function () {
     showNotificationCards.checked = settingsArray.showNotificationCardsChecked;
     showNotificationCards.disabled = settingsArray.showNotificationCardsDisabled;
     showTimeline.checked = settingsArray.showTimeline;
+    searchFromBegin.checked = settingsArray.searchFromBegin;
+    confirmClear.onchange = enableDisableClearButton;
+    clearDictionary.onclick = clearEntireDictionary;
 
     if (themes) {
         for (let i = 0; i < themes.length; i++) {

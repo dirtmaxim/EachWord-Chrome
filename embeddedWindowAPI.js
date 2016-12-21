@@ -5,33 +5,45 @@
  * @param textAlign {string} Align of text
  * @param width {string} Width of window
  * @param height {string} Height of window
+ * @param priority {string} Priority of window
  */
-function showSimpleWindow(text, textAlign, width, height) {
+function showSimpleWindow(text, textAlign, width, height, priority) {
+    let frameDocument = document.getElementsByTagName("iframe")[0].contentWindow.document;
+    let messageWindow = frameDocument.getElementById("messageWindow");
     let span;
     let simpleWindow;
     let simpleWindowContent;
-    let frameDocument;
-
-    simpleWindow = document.getElementById("simpleWindow");
 
     // In case of buttonWindow is already shown.
-    if (simpleWindow !== null) {
-        simpleWindow.remove();
+    if (messageWindow !== null) {
+        if (parseInt(messageWindow.getAttribute("priority")) <= priority) {
+            messageWindow.remove();
+        } else {
+            return;
+        }
+    }
+
+    if (textAlign !== "left" || textAlign !== "center" || textAlign !== "right") {
+        textAlign = "center";
     }
 
     span = document.createElement("span");
     span.innerHTML = text;
     simpleWindowContent = document.createElement("div");
     simpleWindowContent.id = "simpleWindowContent";
+    simpleWindowContent.style.textAlign = textAlign;
     simpleWindowContent.appendChild(span);
     simpleWindow = document.createElement("div");
     simpleWindow.id = "simpleWindow";
-    simpleWindow.appendChild(simpleWindowContent);
-    frameDocument = document.getElementsByTagName("iframe")[0].contentWindow.document;
     simpleWindow.style.width = width;
     simpleWindow.style.height = height;
-    simpleWindowContent.style.textAlign = textAlign;
-    frameDocument.getElementsByTagName("body")[0].appendChild(simpleWindow);
+    simpleWindow.appendChild(simpleWindowContent);
+    messageWindow = document.createElement("div");
+    messageWindow.id = "messageWindow";
+    messageWindow.setAttribute("priority", priority);
+    messageWindow.appendChild(simpleWindow);
+    frameDocument = document.getElementsByTagName("iframe")[0].contentWindow.document;
+    frameDocument.getElementsByTagName("body")[0].appendChild(messageWindow);
 }
 
 /**
@@ -39,10 +51,11 @@ function showSimpleWindow(text, textAlign, width, height) {
  */
 function hideSimpleWindow() {
     let frameDocument = document.getElementsByTagName("iframe")[0].contentWindow.document;
+    let messageWindow = frameDocument.getElementById("messageWindow");
     let simpleWindow = frameDocument.getElementById("simpleWindow");
 
     if (simpleWindow !== null) {
-        simpleWindow.remove();
+        messageWindow.remove();
     }
 }
 
@@ -54,21 +67,25 @@ function hideSimpleWindow() {
  * @param textAlign {string} Align of main content
  * @param width {string} Width of window
  * @param height {string} Height of window
+ * @param priority {string} Priority of window
  * @param finalAction {function} An action that will be executed when button is pressed
  */
-function showButtonWindow(text, buttonText, textAlign, width, height, finalAction) {
-    let frameDocument;
+function showButtonWindow(text, buttonText, textAlign, width, height, priority, finalAction) {
+    let frameDocument = document.getElementsByTagName("iframe")[0].contentWindow.document;
+    let messageWindow = frameDocument.getElementById("messageWindow");
     let span;
     let a;
     let buttonWindow;
     let buttonWindowContent;
     let buttonWindowButton;
 
-    buttonWindow = document.getElementById("buttonWindow");
-
-    // In case of buttonWindow is already shown.
-    if (buttonWindow !== null) {
-        buttonWindow.remove();
+    // In case of messageWindow is already shown.
+    if (messageWindow !== null) {
+        if (parseInt(messageWindow.getAttribute("priority")) <= priority) {
+            messageWindow.remove();
+        } else {
+            return;
+        }
     }
 
     if (textAlign !== "left" || textAlign !== "center" || textAlign !== "right") {
@@ -84,20 +101,29 @@ function showButtonWindow(text, buttonText, textAlign, width, height, finalActio
     a.innerHTML = buttonText;
     buttonWindowContent = document.createElement("div");
     buttonWindowContent.id = "buttonWindowContent";
+    buttonWindowContent.style.textAlign = textAlign;
     buttonWindowContent.appendChild(span);
     buttonWindowContent.appendChild(a);
     buttonWindow = document.createElement("div");
     buttonWindow.id = "buttonWindow";
-    buttonWindow.appendChild(buttonWindowContent);
-    frameDocument = document.getElementsByTagName("iframe")[0].contentWindow.document;
     buttonWindow.style.width = width;
     buttonWindow.style.height = height;
-    buttonWindowContent.style.textAlign = textAlign;
-    frameDocument.getElementsByTagName("body")[0].appendChild(buttonWindow);
+    buttonWindow.appendChild(buttonWindowContent);
+    messageWindow = document.createElement("div");
+    messageWindow.id = "messageWindow";
+    messageWindow.setAttribute("priority", priority);
+    messageWindow.appendChild(buttonWindow);
+    frameDocument = document.getElementsByTagName("iframe")[0].contentWindow.document;
+    frameDocument.getElementsByTagName("body")[0].appendChild(messageWindow);
     buttonWindowButton = frameDocument.getElementById("buttonWindowButton");
     buttonWindowButton.onclick = function () {
-        buttonWindow.remove();
+        messageWindow.remove();
         finalAction();
         return false;
     };
+    frameDocument.onkeypress = function (event) {
+        if (event.keyCode === 13) {
+            buttonWindowButton.click();
+        }
+    }
 }

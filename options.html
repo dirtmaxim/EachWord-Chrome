@@ -137,6 +137,11 @@
                 </p>
             </div>
             <div class="rowSettings">
+                <p>Search only from the beginning of the line:</p>
+                <p><label><input type="checkbox" id="searchFromBegin"><span class="showTextNextTo">For example, it can help you to look up words that starts with certain letter.</span></label>
+                </p>
+            </div>
+            <div class="rowSettings">
                 <p>You can restore your Dictionary if something goes wrong:</p>
                 <p>
                     <button id="exportDictionary">Export the Dictionary</button>
@@ -157,6 +162,13 @@
             <div class="rowSettings">
                 <p>Word card themes:</p>
                 <p class="notSelectable"></p>
+            </div>
+            <div class="rowSettings">
+                <p>Clear the Dictionary:</p>
+                <p>
+                    <label><input type="checkbox" id="confirmClear"><span class="showTextNextTo">I understand that my entire Dictionary will be lost.</span></label><br>
+                    <button id="clearDictionary" disabled>Clear the Dictionary</button>
+                </p>
             </div>
             <div class="rowSettings">
                 <p><a href="" id="saveButton">Save</a></p>

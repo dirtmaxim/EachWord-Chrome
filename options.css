@@ -155,6 +155,8 @@ body {
 }
 
 #warningMessage {
+    line-height: 20px;
+    margin: 10px;
     color: red;
 }
 
@@ -186,4 +188,8 @@ body {
     padding: 15px;
     background-color: #e8e8e8;
     outline: none;
+}
+
+#clearDictionary {
+    margin-top: 5px;
 }

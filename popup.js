@@ -1,13 +1,14 @@
+// Warning, some variables defined in "commonFunction.js".
+let isSearchActivated = false;
 let notFoundMessage;
 let nothingToShowMessage;
 let welcomeMessage;
 let updateMessage;
 let isCrucialUpdate;
 let dictionaryArray;
-let isSearchActivated = false;
 
 // It affects either updateMessage will be shown or not.
-isCrucialUpdate = false;
+isCrucialUpdate = true;
 
 // Text message initialisation.
 notFoundMessage = "We haven't found such words <img src=\"images/smiles/confused.svg\" width=\"18\"><br>Have you added them?<br>";
@@ -96,15 +97,17 @@ function isExtensionUpdated() {
  */
 function checkCasesToShowMessage() {
     if (JSON.parse(localStorage.getItem("welcomeIsShown"))) {
-        showButtonWindow(welcomeMessage, "Got it", "left", "80%", "80%", function () {
+        showButtonWindow(welcomeMessage, "Got it", "left", "80%", "80%", "10", function () {
             localStorage.setItem("welcomeIsShown", JSON.stringify(false));
 
-            if (dictionaryArray.length === 0) {
-                showSimpleWindow(nothingToShowMessage, "center", "80%", "25%");
+            if (isSearchActivated && showHideSearch.toggleFlag) {
+                findWords();
+            } else if (dictionaryArray.length === 0) {
+                showSimpleWindow(nothingToShowMessage, "center", "80%", "25%", "1");
             }
         });
     } else if (dictionaryArray.length === 0) {
-        showSimpleWindow(nothingToShowMessage, "center", "80%", "25%");
+        showSimpleWindow(nothingToShowMessage, "center", "80%", "25%", "1");
     }
 }
 
@@ -131,10 +134,11 @@ function playWord() {
 /**
  * Add word to the table.
  *
- * @param word {string}
- * @param translation {string}
+ * @param {string} word
+ * @param {string} translation
+ * @param {string} index
  */
-function addWordToList(word, translation) {
+function addWordToList(word, translation, index) {
     let tr;
     let td;
     let a;
@@ -168,6 +172,7 @@ function addWordToList(word, translation) {
     a.onclick = deleteWord;
     td.appendChild(a);
     tr.appendChild(td);
+    tr.setAttribute("index", index);
     $("#wordsList").contents().find("table")[0].appendChild(tr);
     tr.scrollIntoView(true);
 }
@@ -180,18 +185,10 @@ function addWordToList(word, translation) {
 function deleteWord() {
     let tr = this.parentNode.parentNode;
     let trNodesArray = tr.parentNode.children;
-    let index = 0;
-    let dictionaryArrayQueue;
+    let index;
     let deleteIndex;
 
-    for (let i = 1; i < trNodesArray.length; i++) {
-        if (this === trNodesArray[i].children[3].children[0]) {
-            break;
-        } else {
-            index++;
-        }
-    }
-
+    index = parseInt(this.parentNode.parentNode.getAttribute("index"));
     dictionaryArrayQueue = JSON.parse(localStorage.getItem("dictionaryArrayQueue"));
     deleteIndex = dictionaryArrayQueue.indexOfObject(dictionaryArray.splice(index, 1)[0]);
 
@@ -201,14 +198,17 @@ function deleteWord() {
 
     if (dictionaryArray.length === 0) {
         chrome.runtime.sendMessage({type: "stopInterval"});
-
-        if (!isExtensionUpdated()) {
-            showSimpleWindow(nothingToShowMessage, "center", "80%", "25%");
-        }
+        showSimpleWindow(nothingToShowMessage, "center", "80%", "25%", "1");
     }
 
     localStorage.setItem("dictionaryArray", JSON.stringify(dictionaryArray));
     localStorage.setItem("dictionaryArrayQueue", JSON.stringify(dictionaryArrayQueue));
+
+    // Shift all indices after deleted element.
+    for (let i = $(this.parentNode.parentNode).index() + 1; i < trNodesArray.length; i++) {
+        trNodesArray[i].setAttribute("index", (parseInt(trNodesArray[i].getAttribute("index")) - 1).toString());
+    }
+
     tr.remove();
     document.getElementById("fromLanguage").focus();
     chrome.runtime.sendMessage({type: "changeDictionary"});
@@ -253,11 +253,11 @@ function addWord() {
     localStorage.setItem("dictionaryArray", JSON.stringify(dictionaryArray));
     localStorage.setItem("dictionaryArrayQueue", JSON.stringify(dictionaryArrayQueue));
 
-    if (isSearchActivated) {
+    if (isSearchActivated && showHideSearch.toggleFlag) {
         findWords();
     } else {
         hideSimpleWindow();
-        addWordToList(word, translation);
+        addWordToList(word, translation, (dictionaryArray.length - 1).toString());
     }
     localStorage.setItem("fromLanguage", JSON.stringify(""));
     localStorage.setItem("intoLanguage", JSON.stringify(""));
@@ -291,7 +291,8 @@ function clearTable() {
  */
 function findWords() {
     let searchValue = $("#searchInput").val().toString().trim();
-    let regExp = new RegExp("^" + escapeRegularExpression(searchValue), "ig");
+    let searchFromBegin = JSON.parse(localStorage.getItem("settingsArray")).searchFromBegin;
+    let regExp = new RegExp((searchFromBegin ? "^" : "") + escapeRegularExpression(searchValue), "ig");
     let flag = false;
     let word;
     let translation;
@@ -301,7 +302,7 @@ function findWords() {
     clearTable();
 
     // Display found words.
-    if (searchValue !== 0) {
+    if (searchValue.length !== 0) {
         for (let i = 0; i < dictionaryArray.length; i++) {
             let found = false;
             word = dictionaryArray[i].word;
@@ -322,21 +323,26 @@ function findWords() {
                     hideSimpleWindow();
                 }
 
-                addWordToList(word, translation);
+                addWordToList(word, translation, i.toString());
                 flag = true;
             }
         }
 
         if (!flag) {
-            hideSimpleWindow();
-            showSimpleWindow(notFoundMessage, "center", "80%", "25%");
+            showSimpleWindow(notFoundMessage, "center", "80%", "25%", "1");
         }
         // In case if there is no text in search field.
     } else {
         isSearchActivated = false;
 
-        for (let i = 0; i < dictionaryArray.length; i++) {
-            addWordToList(dictionaryArray[i].word, dictionaryArray[i].translation);
+        if (dictionaryArray.length === 0) {
+            showSimpleWindow(nothingToShowMessage, "center", "80%", "25%", "1");
+        } else {
+            hideSimpleWindow();
+
+            for (let i = 0; i < dictionaryArray.length; i++) {
+                addWordToList(dictionaryArray[i].word, dictionaryArray[i].translation, i.toString());
+            }
         }
     }
 }
@@ -347,13 +353,13 @@ function findWords() {
 function showHideSearch() {
     let $shareButtons = $("#shareButtons");
     let $searchInput = $("#searchInput");
+    let $fromLanguage = $("#fromLanguage");
 
-    if (typeof showHideSearch.toggleFlag === "undefined") {
-        let timeoutIdType;
+    if (showHideSearch.toggleFlag === undefined) {
         showHideSearch.toggleFlag = false;
         $searchInput.on("input", function () {
-            clearTimeout(timeoutIdType);
-            timeoutIdType = setTimeout(function () {
+            clearTimeout(showHideSearch.timeoutId);
+            showHideSearch.timeoutId = setTimeout(function () {
                 findWords();
             }, 400);
         })
@@ -376,13 +382,23 @@ function showHideSearch() {
                 showHideSearch.toggleFlag = false;
 
                 if ($searchInput.val().toString().trim().length !== 0) {
-                    hideSimpleWindow();
-                    clearTable();
+                    if (dictionaryArray.length === 0) {
+                        showSimpleWindow(nothingToShowMessage, "center", "80%", "25%", "1");
+                    } else {
+                        hideSimpleWindow();
+                        clearTable();
 
-                    for (let i = 0; i < dictionaryArray.length; i++) {
-                        addWordToList(dictionaryArray[i].word, dictionaryArray[i].translation);
+                        for (let i = 0; i < dictionaryArray.length; i++) {
+                            addWordToList(dictionaryArray[i].word, dictionaryArray[i].translation, i.toString());
+                        }
+                    }
+                } else {
+                    if (dictionaryArray.length === 0) {
+                        showSimpleWindow(nothingToShowMessage, "center", "80%", "25%", "1");
                     }
                 }
+
+                $fromLanguage.focus();
             });
         });
     }
@@ -395,7 +411,7 @@ function showHideSearch() {
  *
  * @param {object} event
  */
-document.onkeyup = function (event) {
+function keyForAddition(event) {
     let word;
     let translation;
 
@@ -417,7 +433,7 @@ document.onkeyup = function (event) {
 
         addWord();
     }
-};
+}
 
 /**
  * It needs to show or hide search input using "Cmd + F" or "Ctrl + F" keys according to platform.
@@ -447,10 +463,9 @@ window.onload = function () {
     let searchInput = document.getElementById("searchInput");
     let $infoBlock = $("#infoBlock");
     let $searchButton = $("#searchButton");
+    let $wordList = $("#wordsList").contents();
     let switchState;
     let versionArray;
-    let word;
-    let translation;
 
     // Prevent to drag images in links.
     $infoBlock.find("img").on("dragstart", function () {
@@ -458,7 +473,17 @@ window.onload = function () {
     });
     $searchButton.on("click", showHideSearch);
     $(window).bind("keydown", keysForSearch);
-    $("#wordsList").contents().bind("keydown", keysForSearch);
+    $wordList.bind("keydown", keysForSearch);
+    fromLanguage.onkeypress = keyForAddition;
+    intoLanguage.onkeypress = keyForAddition;
+
+    // User typed text to find and press "enter" key.
+    searchInput.onkeypress = function (event) {
+        if (event.keyCode === 13) {
+            clearTimeout(showHideSearch.timeoutId);
+            findWords();
+        }
+    };
 
     // State of extension: "Turn on" or "Turn off".
     switchState = localStorage.getItem("switchState");
@@ -493,21 +518,26 @@ window.onload = function () {
 
     // Fill in words, translation and "deleteButton" into "iframe".
     for (let i = 0; i < dictionaryArray.length; i++) {
+        let word;
+        let translation;
+
         word = dictionaryArray[i].word;
         translation = dictionaryArray[i].translation;
-        addWordToList(word, translation);
+        addWordToList(word, translation, i.toString());
     }
 
     if (isExtensionUpdated()) {
         if (isCrucialUpdate) {
-            showButtonWindow(updateMessage, "Got it", "left", "80%", "80%", function () {
+            showButtonWindow(updateMessage, "Got it", "left", "80%", "80%", "9", function () {
                 versionArray = JSON.parse(localStorage.getItem("versionArray"));
                 versionArray.push(chrome.app.getDetails().version);
                 localStorage.setItem("versionArray", JSON.stringify(versionArray));
                 localStorage.setItem("welcomeIsShown", JSON.stringify(false));
 
-                if (dictionaryArray.length === 0) {
-                    showSimpleWindow(nothingToShowMessage, "center", "80%", "25%");
+                if (isSearchActivated && showHideSearch.toggleFlag) {
+                    findWords();
+                } else if (dictionaryArray.length === 0) {
+                    showSimpleWindow(nothingToShowMessage, "center", "80%", "25%", "1");
                 }
             });
         } else {

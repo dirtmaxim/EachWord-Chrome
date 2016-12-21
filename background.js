@@ -1,3 +1,4 @@
+// Warning, some variables defined in "commonFunction.js".
 let settingsArray;
 let selectedThemes;
 let intervalIdShowing;
@@ -10,6 +11,7 @@ checkStorage();
 setIcon();
 settingsArray = checkSettings();
 selectedThemes = checkSelectedThemes();
+dictionaryArrayQueue = checkDictionary();
 intervalTime = settingsArray.selectInterval * 1000 * 60 + settingsArray.selectDelay * 1000;
 
 // Start interval if it is possible.
@@ -112,6 +114,14 @@ function setIcon() {
     }
 }
 
+function checkDictionary() {
+    let dictionaryArrayQueue;
+
+    dictionaryArrayQueue = localStorage.getItem("dictionaryArrayQueue");
+    dictionaryArrayQueue = JSON.parse(dictionaryArrayQueue);
+    return dictionaryArrayQueue;
+}
+
 function checkSettings() {
     return JSON.parse(localStorage.getItem("settingsArray"));
 }
@@ -190,6 +200,10 @@ function checkStorage() {
 
     if (!(settingsArray.hasOwnProperty("showTimeline"))) {
         settingsArray.showTimeline = true;
+    }
+
+    if (!(settingsArray.hasOwnProperty("searchFromBegin"))) {
+        settingsArray.searchFromBegin = false;
     }
 
     localStorage.setItem("settingsArray", JSON.stringify(settingsArray));
@@ -283,6 +297,17 @@ function checkStorage() {
         localStorage.setItem("currentThemeNumber", JSON.stringify(currentThemeNumber));
     }
 }
+
+/**
+ * Listener will be activated when user adds or deletes words from the Dictionary.
+ */
+chrome.runtime.onMessage.addListener(
+    function (request, sender, sendResponse) {
+        if (request.type === "changeDictionary") {
+            dictionaryArrayQueue = checkDictionary();
+        }
+    }
+);
 
 /**
  * Listener will be activated when user stops showing word cards.

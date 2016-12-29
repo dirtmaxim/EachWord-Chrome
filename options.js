@@ -1,3 +1,4 @@
+let settingsArray;
 let saveButton;
 let showTestCard;
 let showTestNotification;
@@ -9,7 +10,9 @@ let showNativeCards;
 let showNotificationCards;
 let showTimeline;
 let searchFromBegin;
-let settingsArray;
+let enableNewTab;
+let translateFrom;
+let translateInto;
 let settingsSaved;
 let exportDictionary;
 let inputImport;
@@ -239,6 +242,8 @@ function save() {
     selectDelay = document.getElementById("selectDelay");
     showClose = document.getElementById("showClose");
     showBlur = document.getElementById("showBlur");
+    translateFrom = document.getElementById("translateFrom");
+    translateInto = document.getElementById("translateInto");
     settingsArray = JSON.parse(localStorage.getItem("settingsArray"));
     currentThemeNumber = JSON.parse(localStorage.getItem("currentThemeNumber"));
     settingsArray.selectInterval = selectInterval.selectedIndex + 1;
@@ -251,7 +256,9 @@ function save() {
     settingsArray.showNotificationCardsDisabled = showNotificationCards.disabled;
     settingsArray.showTimeline = showTimeline.checked;
     settingsArray.searchFromBegin = searchFromBegin.checked;
-
+    settingsArray.enableNewTab = enableNewTab.checked;
+    settingsArray.translateFrom = translateFrom.options[translateFrom.selectedIndex].value;
+    settingsArray.translateInto = translateInto.options[translateInto.selectedIndex].value;
     selectedThemes = [];
 
     for (let i = 0; i < checkBoxTheme.length; i++) {
@@ -275,6 +282,11 @@ function save() {
 }
 
 window.onload = function () {
+    let $translateFrom = $("#translateFrom");
+    let $translateInto = $("#translateInto");
+    let lastFromDisabled;
+    let lastIntoDisabled;
+
     saveButton = document.getElementById("saveButton");
     showTestCard = document.getElementById("showTestCard");
     showTestNotification = document.getElementById("showTestNotification");
@@ -286,12 +298,15 @@ window.onload = function () {
     showNotificationCards = document.getElementById("showNotificationCards");
     showTimeline = document.getElementById("showTimeline");
     searchFromBegin = document.getElementById("searchFromBegin");
+    enableNewTab = document.getElementById("enableNewTab");
     exportDictionary = document.getElementById("exportDictionary");
     inputImport = document.getElementById("inputImport");
     importType = document.getElementsByName("importType");
     checkBoxTheme = document.getElementsByClassName("checkBoxTheme");
     confirmClear = document.getElementById("confirmClear");
     clearDictionary = document.getElementById("clearDictionary");
+    translateFrom = document.getElementById("translateFrom");
+    translateInto = document.getElementById("translateInto");
     settingsArray = JSON.parse(localStorage.getItem("settingsArray"));
     themes = JSON.parse(localStorage.getItem("themes"));
     selectedThemes = JSON.parse(localStorage.getItem("selectedThemes"));
@@ -314,6 +329,7 @@ window.onload = function () {
     showNotificationCards.disabled = settingsArray.showNotificationCardsDisabled;
     showTimeline.checked = settingsArray.showTimeline;
     searchFromBegin.checked = settingsArray.searchFromBegin;
+    enableNewTab.checked = settingsArray.enableNewTab;
     confirmClear.onchange = enableDisableClearButton;
     clearDictionary.onclick = clearEntireDictionary;
 
@@ -340,6 +356,23 @@ window.onload = function () {
             p.appendChild(label);
         }
     }
+
+    $translateFrom.find("option[value='" + settingsArray.translateFrom + "']").attr("selected", "selected");
+    $translateInto.find("option[value='" + settingsArray.translateInto + "']").attr("selected", "selected");
+    lastFromDisabled = $translateFrom.find("option[value='" + $translateInto.val() + "']");
+    lastIntoDisabled = $translateInto.find("option[value='" + $translateFrom.val() + "']");
+    lastFromDisabled.prop("disabled", true);
+    lastIntoDisabled.prop("disabled", true);
+    $translateFrom.on("change", function () {
+        lastIntoDisabled.prop("disabled", false);
+        lastIntoDisabled = $translateInto.find("option[value='" + $translateFrom.val() + "']");
+        lastIntoDisabled.prop("disabled", true);
+    });
+    $translateInto.on("change", function () {
+        lastFromDisabled.prop("disabled", false);
+        lastFromDisabled = $translateFrom.find("option[value='" + $translateInto.val() + "']");
+        lastFromDisabled.prop("disabled", true);
+    });
 
     for (let i = 0; i < selectedThemes.length; i++) {
         checkBoxTheme[selectedThemes[i]].checked = true;

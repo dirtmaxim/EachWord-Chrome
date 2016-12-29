@@ -1,0 +1,91 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    visibility: hidden;
+    height: 100%;
+}
+
+body {
+    display: table;
+    font-family: Arial, sans-serif;
+    width: 100%;
+    height: 100%;
+}
+
+#main {
+    display: table-row;
+    height: 100%;
+}
+
+#main .cell {
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+    padding: 30px;
+}
+
+#words {
+    display: inline-block;
+    font-size: 24pt;
+    color: #424242;
+}
+
+#preFooter {
+    display: table-row;
+}
+
+#preFooter .cell {
+    display: table-cell;
+    text-align: center;
+    color: #636363;
+    padding-bottom: 25px;
+}
+
+#shareMain {
+    height: 54px;
+}
+
+#shareButtons {
+    position: absolute;
+    text-align: center;
+    left: 50%;
+    transform: translate(-50%, 0);
+    padding: 15px;
+    background-color: #e0e0e0;
+    outline: none;
+}
+
+footer {
+    display: table-row;
+}
+
+footer .cell {
+    display: table-cell;
+    text-align: center;
+    color: #636363;
+    background-color: #cfcfcf;
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    font-size: 12pt;
+}
+
+#playWordButton {
+    background: url(images/icons/playWord27x24.png);
+    display: inline-block;
+    margin-left: 3px;
+    width: 27px;
+    height: 24px;
+    outline: none;
+    transition: 0.3s;
+}
+
+#playWordButton:hover {
+    background: url(images/icons/playWord27x24_hover.png);
+}
+
+#playWordButton:active {
+    background: url(images/icons/playWord27x24_active.png);
+}

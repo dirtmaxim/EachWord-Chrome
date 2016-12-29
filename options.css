@@ -193,3 +193,7 @@ body {
 #clearDictionary {
     margin-top: 5px;
 }
+
+#translateFrom, #translateInto {
+    width: 95px;
+}

@@ -14,10 +14,43 @@ isCrucialUpdate = true;
 notFoundMessage = "We haven't found such words <img src=\"images/smiles/confused.svg\" width=\"18\"><br>Have you added them?<br>";
 nothingToShowMessage = "We have nothing to show you <img src=\"images/smiles/confused.svg\" width=\"18\"><br>First of all, add some words.";
 welcomeMessage = "Welcome to the EachWord <img src=\"images/smiles/sunglasses.svg\" width=\"18\"><br><br>For a start, add couple words that you want to learn and go on surfing the internet.<br><br>These words will be periodically shown to you. So you will learn them.<br><br>Check out options page.";
-updateMessage = "Really? I can't believe <img src=\"images/smiles/neutral_face.svg\" width=\"18\"><br>It's a new version of EachWord!<br>New features:<br>- Import and Export<br>- Design improved<br>- New card colors<br>If you like EachWord, please, share it on social networks using buttons above. It would really help us since we have no money for promotion.";
+updateMessage = "Really? I can't believe <img src=\"images/smiles/neutral_face.svg\" width=\"18\"><br>It's a new version of EachWord!<br>New features:<br>- Words search<br>- Suggested translation<br>- EachWord new tab page<br>- Words addition from context menu<br>If you like EachWord, please, share it on social networks using buttons above. It would really help us.";
 
-function fromLanguageSave() {
+/**
+ * To save entered letters in "Word" field when user closes extension window and translate with delay.
+ */
+function fromLanguageSaveAndTranslate() {
     localStorage.setItem("fromLanguage", JSON.stringify(document.getElementById("fromLanguage").value));
+    clearTimeout(fromLanguageSaveAndTranslate.timeoutId);
+
+    fromLanguageSaveAndTranslate.timeoutId = setTimeout(function () {
+        fromLanguageTranslate();
+    }, 300);
+}
+
+/**
+ * Translate "Word" and put translation into "Translation" field.
+ */
+function fromLanguageTranslate() {
+    let textValue = document.getElementById("fromLanguage").value;
+    let settingArray = JSON.parse(localStorage.getItem("settingsArray"));
+    let $intoLanguage = $("#intoLanguage");
+
+    if (textValue !== "") {
+        translate(settingArray.translateFrom, settingArray.translateInto, textValue, function (translation) {
+            fromLanguageSaveAndTranslate.isTranslated = translation.isTranslated;
+
+            if (!translation.isTranslated) {
+                $intoLanguage.val("");
+                intoLanguageSave();
+            } else {
+                $intoLanguage.val(translation.translation);
+                intoLanguageSave();
+            }
+        });
+    } else {
+        $intoLanguage.val("");
+    }
 }
 
 /**
@@ -112,26 +145,6 @@ function checkCasesToShowMessage() {
 }
 
 /**
- * Function to play word when user clicks to speaker.
- *
- * @returns {boolean}
- */
-function playWord() {
-    let settingsArray = JSON.parse(localStorage.getItem("settingsArray"));
-    let tr = this.parentNode.parentNode;
-    let trNodesArray = tr.parentNode.children;
-
-    for (let i = 1; i < trNodesArray.length; i++) {
-        if (this === trNodesArray[i].children[1].children[0]) {
-            chrome.tts.speak($(trNodesArray[i].children[0]).text(), {"voiceName": "Google UK English Male"});
-            break;
-        }
-    }
-
-    return false;
-}
-
-/**
  * Add word to the table.
  *
  * @param {string} word
@@ -155,7 +168,12 @@ function addWordToList(word, translation, index) {
     a.title = "Listen";
     a.className = "playWordButton";
     a.tabIndex = "-1";
-    a.onclick = playWord;
+    a.onclick = function () {
+        let tr = this.parentNode.parentNode;
+        let trNodesArray = tr.parentNode.children;
+        playWord($(trNodesArray[$(this.parentNode.parentNode).index()].children[0]).text());
+        return false;
+    };
     td.appendChild(a);
     tr.appendChild(td);
     td = document.createElement("td");
@@ -362,7 +380,7 @@ function showHideSearch() {
             showHideSearch.timeoutId = setTimeout(function () {
                 findWords();
             }, 400);
-        })
+        });
     }
 
     if (!showHideSearch.toggleFlag) {
@@ -491,7 +509,7 @@ window.onload = function () {
     switchButton.onclick = switchButtonChangeState;
 
     // Save entered letters in fields when extension closes.
-    fromLanguage.oninput = fromLanguageSave;
+    fromLanguage.oninput = fromLanguageSaveAndTranslate;
     intoLanguage.oninput = intoLanguageSave;
     searchInput.oninput = searchInputSave;
 

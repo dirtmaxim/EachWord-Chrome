@@ -46,6 +46,9 @@
     ],
     "persistent": true
   },
+  "chrome_url_overrides": {
+    "newtab": "newtab.html"
+  },
   "web_accessible_resources": [
     "images/icons/closeButton32_active.png",
     "images/icons/closeButton32_hover.png",

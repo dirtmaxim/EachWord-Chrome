@@ -2,7 +2,7 @@ let disappearingStarted;
 let drawingStarted;
 let timeoutIdTimer;
 let dictionaryArrayQueue;
-let lastWord;
+let dictionaryArrayTab;
 
 // Works as semaphore for "disappearing()".
 disappearingStarted = false;
@@ -11,47 +11,56 @@ disappearingStarted = false;
 drawingStarted = false;
 
 /**
- * Special algorithm which shows word cards without reps alike cards and does it with equal probability.
+ *  Special algorithm which shows word cards without reps alike cards and does it with equal probability.
  *
- * @returns {string} Last word
+ * @param {Object[]} auxiliaryDictionary
+ * @param {string} localStorageKey
+ * @param {string} localStorageLastWord
+ * @returns {Object} Last word
  */
-function chooseWord() {
+function chooseWord(auxiliaryDictionary, localStorageKey, localStorageLastWord) {
     let flag = false;
+    let lastWord = JSON.parse(localStorage.getItem(localStorageLastWord));
     let dictionaryArray;
     let randomNumber;
 
-    if (dictionaryArrayQueue.length === 0) {
+    if (auxiliaryDictionary.length === 0) {
         dictionaryArray = JSON.parse(localStorage.getItem("dictionaryArray"));
-        dictionaryArrayQueue = dictionaryArray;
-        localStorage.setItem("dictionaryArrayQueue", JSON.stringify(dictionaryArrayQueue));
+        auxiliaryDictionary = dictionaryArray;
+        localStorage.setItem(localStorageKey, JSON.stringify(auxiliaryDictionary));
         flag = true;
     }
 
-    if (dictionaryArrayQueue.length === 1) {
-        lastWord = dictionaryArrayQueue.splice(0, 1)[0];
-        localStorage.setItem("dictionaryArrayQueue", JSON.stringify(dictionaryArrayQueue));
+    if (auxiliaryDictionary.length === 1) {
+        // Save last word into the last position of auxiliary array.
+        lastWord = auxiliaryDictionary.splice(0, 1)[0];
+        localStorage.setItem(localStorageLastWord, JSON.stringify(lastWord));
+        localStorage.setItem(localStorageKey, JSON.stringify(auxiliaryDictionary));
         return lastWord;
     }
 
-    randomNumber = Math.floor(Math.random() * dictionaryArrayQueue.length);
+    randomNumber = Math.floor(Math.random() * auxiliaryDictionary.length);
 
-    if (flag) {
-        if (dictionaryArrayQueue[randomNumber].word === lastWord.word &&
-            dictionaryArrayQueue[randomNumber].translation === lastWord.translation) {
+    if (flag && lastWord) {
+        if (auxiliaryDictionary[randomNumber].word === lastWord.word &&
+            auxiliaryDictionary[randomNumber].translation === lastWord.translation) {
             if (randomNumber === 0) {
-                lastWord = dictionaryArrayQueue.splice(randomNumber + 1, 1)[0];
-                localStorage.setItem("dictionaryArrayQueue", JSON.stringify(dictionaryArrayQueue));
+                lastWord = auxiliaryDictionary.splice(randomNumber + 1, 1)[0];
+                localStorage.setItem(localStorageLastWord, JSON.stringify(lastWord));
+                localStorage.setItem(localStorageKey, JSON.stringify(auxiliaryDictionary));
                 return lastWord;
             }
 
-            lastWord = dictionaryArrayQueue.splice(randomNumber - 1, 1)[0];
-            localStorage.setItem("dictionaryArrayQueue", JSON.stringify(dictionaryArrayQueue));
+            lastWord = auxiliaryDictionary.splice(randomNumber - 1, 1)[0];
+            localStorage.setItem(localStorageLastWord, JSON.stringify(lastWord));
+            localStorage.setItem(localStorageKey, JSON.stringify(auxiliaryDictionary));
             return lastWord;
         }
     }
 
-    lastWord = dictionaryArrayQueue.splice(randomNumber, 1)[0];
-    localStorage.setItem("dictionaryArrayQueue", JSON.stringify(dictionaryArrayQueue));
+    lastWord = auxiliaryDictionary.splice(randomNumber, 1)[0];
+    localStorage.setItem(localStorageLastWord, JSON.stringify(lastWord));
+    localStorage.setItem(localStorageKey, JSON.stringify(auxiliaryDictionary));
     return lastWord;
 }
 
@@ -295,6 +304,51 @@ function drawCard(word, translation, theme, settingsArray) {
     if (!drawingStarted) {
         appearing(word, translation, theme, settingsArray);
     }
+}
+
+/**
+ * Function that transfer text to speech.
+ *
+ * @param {string} word Word to transfer
+ */
+function playWord(word) {
+    chrome.tts.speak(word, {"voiceName": "Google UK English Male"});
+}
+
+/**
+ * Translate word from one language to another.
+ *
+ * @param {string} from
+ * @param {string} into
+ * @param {string} text Word to translate
+ * @param {function} after Function that will be executed after translation is fetched
+ */
+function translate(from, into, text, after) {
+    let translationLink = "http://www.transltr.org/api/translate?text=" + encodeURI(text) + "&to="
+        + into +"&from=" + from;
+    let xhr = new XMLHttpRequest();
+
+    xhr.open("GET", translationLink, true);
+    xhr.onload = function () {
+        let translation;
+
+        text = text.trim();
+
+        if (text !== "") {
+            translation = JSON.parse(xhr.responseText);
+            after({
+                translation: translation.translationText,
+                isTranslated: translation.translationText.toLowerCase() !== text.toLowerCase()
+            });
+        } else {
+            after({
+                translation: "",
+                isTranslated: true
+            });
+        }
+
+    };
+    xhr.send();
 }
 
 /**

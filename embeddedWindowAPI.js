@@ -23,7 +23,7 @@ function showSimpleWindow(text, textAlign, width, height, priority) {
         }
     }
 
-    if (textAlign !== "left" || textAlign !== "center" || textAlign !== "right") {
+    if (textAlign !== "left" && textAlign !== "center" && textAlign !== "right") {
         textAlign = "center";
     }
 
@@ -88,7 +88,7 @@ function showButtonWindow(text, buttonText, textAlign, width, height, priority, 
         }
     }
 
-    if (textAlign !== "left" || textAlign !== "center" || textAlign !== "right") {
+    if (textAlign !== "left" && textAlign !== "center" && textAlign !== "right") {
         textAlign = "left";
     }
 
@@ -113,7 +113,6 @@ function showButtonWindow(text, buttonText, textAlign, width, height, priority, 
     messageWindow.id = "messageWindow";
     messageWindow.setAttribute("priority", priority);
     messageWindow.appendChild(buttonWindow);
-    frameDocument = document.getElementsByTagName("iframe")[0].contentWindow.document;
     frameDocument.getElementsByTagName("body")[0].appendChild(messageWindow);
     buttonWindowButton = frameDocument.getElementById("buttonWindowButton");
     buttonWindowButton.onclick = function () {

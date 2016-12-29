@@ -81,7 +81,7 @@ function showNotification(word, translation, settingsArray) {
  * This function will be executed when the time to show comes.
  */
 function showWord() {
-    let chosenWord = chooseWord();
+    let chosenWord = chooseWord(dictionaryArrayQueue, "dictionaryArrayQueue", "lastWordQueue");
     let chosenTheme = chooseTheme();
 
     if (settingsArray.showNotificationCardsChecked) {
@@ -149,6 +149,9 @@ function checkStorage() {
     let settingsArray = localStorage.getItem("settingsArray");
     let dictionaryArray = localStorage.getItem("dictionaryArray");
     let dictionaryArrayQueue = localStorage.getItem("dictionaryArrayQueue");
+    let dictionaryArrayTab = localStorage.getItem("dictionaryArrayTab");
+    let lastWordQueue = localStorage.getItem("lastWordQueue");
+    let lastWordTab = localStorage.getItem("lastWordTab");
     let switchState = localStorage.getItem("switchState");
     let fromLanguage = localStorage.getItem("fromLanguage");
     let intoLanguage = localStorage.getItem("intoLanguage");
@@ -206,6 +209,18 @@ function checkStorage() {
         settingsArray.searchFromBegin = false;
     }
 
+    if (!(settingsArray.hasOwnProperty("enableNewTab"))) {
+        settingsArray.enableNewTab = true;
+    }
+
+    if (!(settingsArray.hasOwnProperty("translateFrom"))) {
+        settingsArray.translateFrom = "en";
+    }
+
+    if (!(settingsArray.hasOwnProperty("translateInto"))) {
+        settingsArray.translateInto = "ru";
+    }
+
     localStorage.setItem("settingsArray", JSON.stringify(settingsArray));
 
     if (!dictionaryArray) {
@@ -216,6 +231,21 @@ function checkStorage() {
     if (!dictionaryArrayQueue) {
         dictionaryArrayQueue = [];
         localStorage.setItem("dictionaryArrayQueue", JSON.stringify(dictionaryArrayQueue));
+    }
+
+    if (!dictionaryArrayTab) {
+        dictionaryArrayTab = [];
+        localStorage.setItem("dictionaryArrayTab", JSON.stringify(dictionaryArrayTab));
+    }
+
+    if (!lastWordQueue) {
+        lastWordQueue = null;
+        localStorage.setItem("lastWordQueue", JSON.stringify(lastWordQueue));
+    }
+
+    if (!lastWordTab) {
+        lastWordTab = null;
+        localStorage.setItem("lastWordTab", JSON.stringify(lastWordTab));
     }
 
     if (!switchState) {

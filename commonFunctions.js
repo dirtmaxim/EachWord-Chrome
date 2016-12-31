@@ -325,7 +325,7 @@ function playWord(word) {
  */
 function translate(from, into, text, after) {
     let translationLink = "http://www.transltr.org/api/translate?text=" + encodeURI(text) + "&to="
-        + into +"&from=" + from;
+        + into + "&from=" + from;
     let xhr = new XMLHttpRequest();
 
     xhr.open("GET", translationLink, true);

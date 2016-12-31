@@ -50,6 +50,7 @@ function fromLanguageTranslate() {
         });
     } else {
         $intoLanguage.val("");
+        intoLanguageSave();
     }
 }
 

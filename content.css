@@ -1,0 +1,117 @@
+#wordCard8730011 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 30%;
+    z-index: 2147483647;
+}
+
+#wordCard8730011 span {
+    font-size: inherit !important;
+    display: initial !important;
+}
+
+#wordCard8730011 div {
+    display: initial !important;
+}
+
+#header8730011 {
+    position: absolute;
+    top: 5%;
+    text-align: center;
+    width: 100%;
+    font-family: Arial, sans-serif;
+    font-size: 15pt !important;
+}
+
+#words8730011 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+    font-family: Arial, sans-serif;
+}
+
+#timer8730011 {
+    position: absolute;
+    bottom: 5%;
+    text-align: center;
+    width: 100%;
+    font-family: Arial, sans-serif;
+    font-size: 15pt !important;
+}
+
+#window8730011 {
+    position: fixed !important;
+    font-family: Arial, sans-serif !important;
+    font-size: 14px !important;
+    line-height: initial !important;
+    width: 322px !important;
+    height: 60px !important;
+    background-color: #a9a9a9 !important;
+    border: 1px solid black !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    outline: none !important;
+    z-index: 2147483647 !important;
+}
+
+#window8730011 input {
+    margin: 0 !important;
+    padding: 5px !important;
+    width: 101px !important;
+    color: black !important;
+    -webkit-appearance: textfield !important;
+    box-sizing: content-box !important;
+}
+
+#window8730011 input::-webkit-input-placeholder {
+    color: #a9a9ac !important;
+}
+
+#window8730011 input:focus {
+    outline: auto 5px -webkit-focus-ring-color !important;
+}
+
+#window8730011 input::selection {
+    background: #c6cfda !important;
+}
+
+#from8730011 {
+    position: absolute !important;
+    top: 50% !important;
+    left: 15px !important;
+    transform: translate(0%, -50%) !important;
+}
+
+#into8730011 {
+    position: absolute !important;
+    top: 50% !important;
+    left: 144px !important;
+    transform: translate(0%, -50%) !important;
+
+}
+
+#addButton8730011 {
+    position: absolute !important;
+    top: 50% !important;
+    left: 273px !important;
+    transform: translate(0%, -50%) !important;
+    padding: 7px 13px !important;
+    background: #2782ff !important;
+    color: white !important;
+    text-decoration: none !important;
+    outline: none !important;
+    transition: 0.3s !important;
+}
+
+#addButton8730011:hover {
+    background: #216dd9 !important;
+}
+
+#addButton8730011:active {
+    background: #1955a8 !important;
+}

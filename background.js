@@ -407,3 +407,75 @@ chrome.runtime.onMessage.addListener(
         }
     }
 );
+
+/**
+ * Listener will be activated when "content.js" sends message to request translation.
+ */
+chrome.runtime.onMessage.addListener(
+    function (request, sender, sendResponse) {
+        if (request.type === "giveTranslation") {
+            translate(settingsArray.translateFrom, settingsArray.translateInto, request.text, function (translation) {
+                chrome.tabs.query({"active": true, "currentWindow": true},
+                    function (tabs) {
+                        chrome.tabs.sendMessage(tabs[0].id, {
+                            type: "translationCompleted",
+                            result: translation
+                        });
+                    });
+            });
+        }
+    }
+);
+
+/**
+ * Listener will be activated when "content.js" sends message to add word.
+ */
+chrome.runtime.onMessage.addListener(
+    function (request, sender, sendResponse) {
+        if (request.type === "addWordFromContextMenu") {
+            let dictionaryArray = JSON.parse(localStorage.getItem("dictionaryArray"));
+            let word;
+            let translation;
+
+            word = request.word;
+            translation = request.translation;
+
+            word = word[0].toUpperCase() + word.slice(1);
+            translation = translation[0].toUpperCase() + translation.slice(1);
+            dictionaryArray.push({word: word, translation: translation});
+            dictionaryArrayQueue.push({word: word, translation: translation});
+
+            if (dictionaryArray.length === 1) {
+                chrome.runtime.sendMessage({type: "startInterval"});
+            }
+
+            localStorage.setItem("dictionaryArray", JSON.stringify(dictionaryArray));
+            localStorage.setItem("dictionaryArrayQueue", JSON.stringify(dictionaryArrayQueue));
+            return false;
+        }
+    }
+);
+
+/**
+ * Add entry to the context menu.
+ */
+chrome.contextMenus.create({
+    title: function () {
+        if (navigator.userAgent.indexOf("Mac") >= 0) {
+            return "EachWord (Shift + Cmd + E)";
+        } else {
+            return "EachWord (Shift + Ctrl + E)";
+        }
+    }(),
+    contexts: ["selection"],
+    documentUrlPatterns: ["https://*/*", "http://*/*"],
+    onclick: function (event) {
+        chrome.tabs.query({"active": true, "currentWindow": true},
+            function (tabs) {
+                chrome.tabs.sendMessage(tabs[0].id, {
+                    type: "showWindow",
+                    text: event.selectionText
+                });
+            });
+    }
+});

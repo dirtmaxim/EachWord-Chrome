@@ -67,7 +67,7 @@ function clearEntireDictionary() {
         localStorage.setItem("dictionaryArrayQueue", JSON.stringify([]));
         chrome.runtime.sendMessage({type: "stopInterval"});
         chrome.runtime.sendMessage({type: "changeDictionary"});
-        showSettingsStateDelayed("Dictionary have been cleared!", 500);
+        showSettingsStateDelayed("Dictionary has been cleared!", 500);
     } else {
         showSettingsStateDelayed("Dictionary is empty!", 500);
     }
@@ -163,7 +163,7 @@ function exportDictionaryFile() {
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
-        showSettingsStateDelayed("Dictionary have been exported!", 1000);
+        showSettingsStateDelayed("Dictionary has been exported!", 1000);
     } else {
         showSettingsStateDelayed("Your dictionary is empty!", 1000);
     }

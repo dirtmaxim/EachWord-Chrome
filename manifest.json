@@ -25,14 +25,9 @@
         "*://*/*"
       ],
       "css": [
-        "libraries/jquery-ui.min.css",
-        "libraries/jquery-ui.structure.min.css",
-        "libraries/jquery-ui.theme.min.css",
-        "wordCard.css"
+        "content.css"
       ],
       "js": [
-        "libraries/jquery.min.js",
-        "libraries/jquery-ui.min.js",
         "commonFunctions.js",
         "content.js"
       ]
@@ -63,6 +58,7 @@
     "notifications",
     "unlimitedStorage",
     "tts",
+    "contextMenus",
     "*://*/*"
   ]
 }

@@ -75,7 +75,7 @@ footer .cell {
 #playWordButton {
     background: url(images/icons/playWord27x24.png);
     display: inline-block;
-    margin-left: 3px;
+    margin-left: 4px;
     width: 27px;
     height: 24px;
     outline: none;

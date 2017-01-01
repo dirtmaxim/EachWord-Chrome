@@ -3,20 +3,22 @@ let fromFocused;
 let intoFocused;
 let addFocused;
 
-/**
- * All functions are defined in "commonFunction.js".
- * This listener gets messages from "background.js" when it is time to showing word card.
- */
-chrome.runtime.onMessage.addListener(
-    function (request, sender, sendResponse) {
-        if (request.type === "showWord") {
-            if (!document.webkitHidden) {
-                chrome.runtime.sendMessage({type: "wordCardShown"});
-                drawCard(request.wordArray.word, request.wordArray.translation, request.theme, request.settingsArray);
-            }
+window.onkeydown = function (event) {
+    let platformFlag = navigator.userAgent.indexOf("Mac") >= 0;
+    let selectedText = window.getSelection().toString();
+    let window8730011 = document.getElementById("window8730011");
+
+    if (event.shiftKey && ((!platformFlag && event.ctrlKey) ||
+        (platformFlag && event.metaKey)) &&
+        String.fromCharCode(event.which).toLowerCase() === "e" && selectedText !== "") {
+        showWindow(selectedText);
+    } else if (event.which === 27) {
+        if (window8730011) {
+            window8730011.remove();
+            window.removeEventListener("click", checkFocus);
         }
     }
-);
+};
 
 /**
  * Check focus to delete panel if it is not in focus.
@@ -41,7 +43,7 @@ function checkFocus() {
  * @param {Object} event
  * @returns {boolean} false
  */
-function addHandler(event) {
+function addButtonHandler(event) {
     let from8730011 = document.getElementById("from8730011");
     let into8730011 = document.getElementById("into8730011");
     let word = from8730011.value.trim();
@@ -99,18 +101,18 @@ function showWindow(text) {
     from8730011 = document.getElementById("from8730011");
     into8730011 = document.getElementById("into8730011");
     addButton8730011 = document.getElementById("addButton8730011");
-    addButton8730011.onclick = addHandler;
+    addButton8730011.onclick = addButtonHandler;
     from8730011.value = text;
 
     from8730011.onkeypress = function (event) {
         if (event.keyCode === 13) {
-            addHandler(event);
+            addButtonHandler(event);
         }
     };
 
     into8730011.onkeypress = function (event) {
         if (event.keyCode === 13) {
-            addHandler(event);
+            addButtonHandler(event);
         }
     };
 
@@ -167,6 +169,21 @@ function showWindow(text) {
 }
 
 /**
+ * All functions are defined in "commonFunction.js".
+ * This listener gets messages from "background.js" when it is time to showing word card.
+ */
+chrome.runtime.onMessage.addListener(
+    function (request, sender, sendResponse) {
+        if (request.type === "showWord") {
+            if (!document.webkitHidden) {
+                chrome.runtime.sendMessage({type: "wordCardShown"});
+                drawCard(request.wordArray.word, request.wordArray.translation, request.theme, request.settingsArray);
+            }
+        }
+    }
+);
+
+/**
  * This listener shows the window to add word from context menu.
  */
 chrome.runtime.onMessage.addListener(
@@ -191,14 +208,3 @@ chrome.runtime.onMessage.addListener(
         }
     }
 );
-
-window.onkeydown = function (event) {
-    let platformFlag = navigator.userAgent.indexOf("Mac") >= 0;
-    let selectedText = window.getSelection().toString();
-
-    if (event.shiftKey && ((!platformFlag && event.ctrlKey) ||
-        (platformFlag && event.metaKey)) &&
-        String.fromCharCode(event.which).toLowerCase() === "e" && selectedText !== "") {
-        showWindow(selectedText);
-    }
-};

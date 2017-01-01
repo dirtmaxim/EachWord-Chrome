@@ -71,6 +71,7 @@ input::selection {
     color: white;
     text-decoration: none;
     outline: none;
+    -webkit-user-select: none;
     transition: 0.3s;
 }
 
@@ -90,6 +91,7 @@ input::selection {
     color: white;
     text-decoration: none;
     outline: none;
+    -webkit-user-select: none;
     transition: 0.3s;
 }
 

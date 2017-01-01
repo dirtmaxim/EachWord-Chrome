@@ -59,6 +59,7 @@ body {
     color: white;
     text-decoration: none;
     outline: none;
+    -webkit-user-select: none;
     background: #479ffc;
     padding: 6px 32px;
     transition: 0.3s;
@@ -105,6 +106,7 @@ body {
     color: white;
     text-decoration: none;
     outline: none;
+    -webkit-user-select: none;
     background: #479ffc;
     padding-top: 6px;
     padding-bottom: 6px;

@@ -105,6 +105,7 @@
     color: white !important;
     text-decoration: none !important;
     outline: none !important;
+    -webkit-user-select: none !important;
     transition: 0.3s !important;
 }
 

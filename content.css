@@ -55,6 +55,7 @@
     top: 50% !important;
     left: 50% !important;
     transform: translate(-50%, -50%) !important;
+	cursor: default !important;
     outline: none !important;
     z-index: 2147483647 !important;
 }
@@ -104,8 +105,8 @@
     background: #2782ff !important;
     color: white !important;
     text-decoration: none !important;
+	cursor: pointer !important;
     outline: none !important;
-    -webkit-user-select: none !important;
     transition: 0.3s !important;
 }
 
@@ -115,4 +116,8 @@
 
 #addButton8730011:active {
     background: #1955a8 !important;
+}
+
+#addButton8730011::selection {
+    background: transparent;
 }

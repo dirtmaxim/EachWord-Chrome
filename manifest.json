@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "EachWord - expand your vocabulary",
   "short_name": "EachWord",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "__MSG_description__",
   "default_locale": "en",
   "icons": {
@@ -40,9 +40,6 @@
       "background.js"
     ],
     "persistent": true
-  },
-  "chrome_url_overrides": {
-    "newtab": "newtab.html"
   },
   "web_accessible_resources": [
     "images/icons/closeButton32_active.png",

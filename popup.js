@@ -14,7 +14,7 @@ isCrucialUpdate = true;
 notFoundMessage = "We haven't found such words <img src=\"images/smiles/confused.svg\" width=\"18\"><br>Have you added them?<br>";
 nothingToShowMessage = "We have nothing to show you <img src=\"images/smiles/confused.svg\" width=\"18\"><br>First of all, add some words.";
 welcomeMessage = "Welcome to the EachWord <img src=\"images/smiles/sunglasses.svg\" width=\"18\"><br><br>For a start, add couple words that you want to learn and go on surfing the internet.<br><br>These words will be periodically shown to you. So you will learn them.<br><br>Check out options page.";
-updateMessage = "Really? I can't believe <img src=\"images/smiles/neutral_face.svg\" width=\"18\"><br>It's a new version of EachWord!<br>New features:<br>- Words search<br>- Suggested translation<br>- EachWord new tab page<br>- Words addition from context menu<br>If you like EachWord, please, share it on social networks using buttons above. It would really help us.";
+updateMessage = "Really? I can't believe <img src=\"images/smiles/neutral_face.svg\" width=\"18\"><br>It's a new version of EachWord!<br>New features:<br>- Words search<br>- Suggested translation<br>- Words addition from context menu or using keyboard shortcut<br>If you like EachWord, please, share it on social networks using buttons above. It would really help us.";
 
 /**
  * To save entered letters in "Word" field when user closes extension window and translate with delay.

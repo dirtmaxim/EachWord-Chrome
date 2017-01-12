@@ -209,10 +209,6 @@ function checkStorage() {
         settingsArray.searchFromBegin = false;
     }
 
-    if (!(settingsArray.hasOwnProperty("enableNewTab"))) {
-        settingsArray.enableNewTab = true;
-    }
-
     if (!(settingsArray.hasOwnProperty("translateFrom"))) {
         settingsArray.translateFrom = "en";
     }
@@ -462,9 +458,9 @@ chrome.runtime.onMessage.addListener(
 chrome.contextMenus.create({
     title: function () {
         if (navigator.userAgent.indexOf("Mac") >= 0) {
-            return "EachWord (Shift + Cmd + E)";
+            return "EachWord (Cmd + Shift + E)";
         } else {
-            return "EachWord (Shift + Ctrl + E)";
+            return "EachWord (Ctrl + Shift + E)";
         }
     }(),
     contexts: ["selection"],
@@ -476,6 +472,7 @@ chrome.contextMenus.create({
                     type: "showWindow",
                     text: event.selectionText
                 });
-            });
+            }
+		);
     }
 });

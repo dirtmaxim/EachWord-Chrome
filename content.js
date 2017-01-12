@@ -3,6 +3,11 @@ let fromFocused;
 let intoFocused;
 let addFocused;
 
+/**
+ * Handler for shortcut for trigger EachWord on the web pages.
+ *
+ * @param {Object} event
+ */
 window.onkeydown = function (event) {
     let platformFlag = navigator.userAgent.indexOf("Mac") >= 0;
     let selectedText = window.getSelection().toString();

@@ -120,7 +120,7 @@ function disappearing() {
 /**
  * Action that executes when close button on the word card is pressed.
  *
- * @param event
+ * @param {Object} event
  */
 function closeButtonAction(event) {
     event.preventDefault();
@@ -135,7 +135,7 @@ function closeButtonAction(event) {
 /**
  * It makes remain time in clock format from "selectDelay" that is just simple number.
  *
- * @param selectDelay {number}
+ * @param {number} selectDelay
  * @returns {string}
  */
 function formatDelay(selectDelay) {
@@ -189,7 +189,7 @@ function increaseCurrentThemeNumber() {
  * @param {string} word
  * @param {string} translation
  * @param {string} theme Based on html theme
- * @param {object} settingsArray array of the settings fetched from the "background.js"
+ * @param {Object} settingsArray array of the settings fetched from the "background.js"
  */
 function appearing(word, translation, theme, settingsArray) {
     let selectDelay = settingsArray.selectDelay;
@@ -298,7 +298,7 @@ function appearing(word, translation, theme, settingsArray) {
  * @param {string} word
  * @param {string} translation
  * @param {string} theme Based on html theme
- * @param {object} settingsArray array of the settings fetched from the "background.js"
+ * @param {Object} settingsArray array of the settings fetched from the "background.js"
  */
 function drawCard(word, translation, theme, settingsArray) {
     if (!drawingStarted) {
@@ -354,7 +354,7 @@ function translate(from, into, text, after) {
 /**
  * End functions from "content.js".
  *
- * @param {object} object
+ * @param {Object} object
  * @returns {number}
  */
 Array.prototype.indexOfObject = function (object) {

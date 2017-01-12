@@ -10,7 +10,6 @@ let showNativeCards;
 let showNotificationCards;
 let showTimeline;
 let searchFromBegin;
-let enableNewTab;
 let translateFrom;
 let translateInto;
 let settingsSaved;
@@ -256,7 +255,6 @@ function save() {
     settingsArray.showNotificationCardsDisabled = showNotificationCards.disabled;
     settingsArray.showTimeline = showTimeline.checked;
     settingsArray.searchFromBegin = searchFromBegin.checked;
-    settingsArray.enableNewTab = enableNewTab.checked;
     settingsArray.translateFrom = translateFrom.options[translateFrom.selectedIndex].value;
     settingsArray.translateInto = translateInto.options[translateInto.selectedIndex].value;
     selectedThemes = [];
@@ -298,7 +296,6 @@ window.onload = function () {
     showNotificationCards = document.getElementById("showNotificationCards");
     showTimeline = document.getElementById("showTimeline");
     searchFromBegin = document.getElementById("searchFromBegin");
-    enableNewTab = document.getElementById("enableNewTab");
     exportDictionary = document.getElementById("exportDictionary");
     inputImport = document.getElementById("inputImport");
     importType = document.getElementsByName("importType");
@@ -329,7 +326,6 @@ window.onload = function () {
     showNotificationCards.disabled = settingsArray.showNotificationCardsDisabled;
     showTimeline.checked = settingsArray.showTimeline;
     searchFromBegin.checked = settingsArray.searchFromBegin;
-    enableNewTab.checked = settingsArray.enableNewTab;
     confirmClear.onchange = enableDisableClearButton;
     clearDictionary.onclick = clearEntireDictionary;
 

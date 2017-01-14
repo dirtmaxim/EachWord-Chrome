@@ -8,7 +8,7 @@ let isCrucialUpdate;
 let dictionaryArray;
 
 // It affects either updateMessage will be shown or not.
-isCrucialUpdate = true;
+isCrucialUpdate = false;
 
 // Text message initialisation.
 notFoundMessage = "We haven't found such words <img src=\"images/smiles/confused.svg\" width=\"18\"><br>Have you added them?<br>";

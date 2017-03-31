@@ -126,7 +126,7 @@ function showSettingsStateDelayed(state, delay) {
 }
 
 /**
- * It shows warning massege when user switch "Append" to "Replace".
+ * It shows warning message when user switch "Append" to "Replace".
  */
 function showReplaceWarning() {
     let span = document.createElement("span");
@@ -139,7 +139,7 @@ function showReplaceWarning() {
 }
 
 /**
- * It hides warning massege when user switch "Replace" to "Append".
+ * It hides warning message when user switch "Replace" to "Append".
  */
 function hideReplaceWarning() {
     let span = document.getElementById("warningMessage");

@@ -134,10 +134,9 @@ function updateTheme() {
     let themes;
 
     themes = [];
-    themes[0] = "#wordCard8730011{background-color:#3cb371;}#timer8730011{color:#9d0019;}#headerOne8730011,#headerThree8730011{color:#006363;}#headerTwo8730011{color:#9d0019;}#word8730011{color:#006363;}#translation8730011{color:#006363;}#dash8730011{color:#9d0019;}";
-    themes[1] = "#wordCard8730011{background-color:#8b8b7a;}#headerOne8730011,#headerThree8730011{color:#494915;}#headerTwo8730011{color:#005b8c;}#word8730011{color:#494915;}#translation8730011{color:#494915;}#dash8730011{color:#005b8c;}#timer8730011{color:#005b8c;}";
-    themes[2] = "#wordCard8730011{background-color:#5e9dd2;}#headerOne8730011,#headerThree8730011{color:#065ba1;}#headerTwo8730011{color:#d9bd32;}#word8730011{color:#065ba1;}#translation8730011{color:#065ba1;}#dash8730011{color:#d9bd32;}#timer8730011{color:#d9bd32;}";
-    themes[3] = "#wordCard8730011{background-color:#e9d387;}#headerOne8730011,#headerThree8730011{color:#806f39;}#headerTwo8730011{color:#005b8c;}#word8730011{color:#806f39}#translation8730011{color:#806f39;}#dash8730011{color:#005b8c;}#timer8730011{color:#005b8c;}";
+    themes[0] = {name: "white.css", color: "#fff"};
+    themes[1] = {name: "blue.css", color: "#00bef3"};
+    themes[2] = {name: "dark.css", color: "#043d52"};
     localStorage.setItem("themes", JSON.stringify(themes));
     return themes.length;
 }

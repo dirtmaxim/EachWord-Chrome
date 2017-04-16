@@ -1,0 +1,33 @@
+#wordCard8730011 {
+    background-color: #043d52;
+    color: #fff;
+}
+
+#wordsWrapper8730011 {
+    background-image: url("../../images/wordCard/dark_face.png");
+}
+
+#words8730011 {
+    background-image: url("../../images/wordCard/dark_verbal_bubble.png");
+}
+
+.backgroundCircle8730011 {
+    border-color: #cfdee6;
+    background: #043d52;
+}
+
+.circle8730011 {
+    border-color: #00bef3;
+}
+
+#closeButton8730011:after {
+    color: #f8fafe;
+}
+
+#playButton8730011 {
+    background-image: url("../../images/wordCard/voice_dark.png");
+}
+
+#playButton8730011:hover {
+    background-image: url("../../images/wordCard/voice_dark_hover.png");
+}

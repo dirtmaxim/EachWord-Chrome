@@ -86,7 +86,8 @@ function chooseTheme() {
  */
 function disappearing() {
     let wordCard = document.getElementById("wordCard8730011");
-    let themeStyle = document.getElementById("themeStyle8730011");
+    let themeLink = document.getElementById("themeLink8730011");
+    let timerStyle = document.getElementById("timerStyle8730011");
     let blurStyle = document.getElementById("blurStyle8730011");
     let closeStyle = document.getElementById("closeStyle8730011");
     let intervalIdDisappearing;
@@ -104,7 +105,8 @@ function disappearing() {
             wordCard.style.top = checkToTopOverflow + "%";
         } else {
             wordCard.remove();
-            themeStyle.remove();
+            themeLink.remove();
+            timerStyle.remove();
 
             if (closeStyle) {
                 closeStyle.remove();
@@ -133,41 +135,6 @@ function closeButtonAction(event) {
 }
 
 /**
- * It makes remain time in clock format from "selectDelay" that is just simple number.
- *
- * @param {number} selectDelay
- * @returns {string}
- */
-function formatDelay(selectDelay) {
-    let formattedDelay;
-    let minutesDelay;
-    let modulo;
-
-    if (selectDelay < 10) {
-        formattedDelay = "00:0" + selectDelay;
-    } else if (selectDelay < 60) {
-        formattedDelay = "00:" + selectDelay;
-    } else {
-        minutesDelay = Math.floor(selectDelay / 60);
-        modulo = selectDelay % 60;
-
-        if (minutesDelay < 10) {
-            formattedDelay = "0" + minutesDelay + ":";
-        } else {
-            formattedDelay = minutesDelay + ":";
-        }
-
-        if (modulo < 10) {
-            formattedDelay += "0" + modulo;
-        } else {
-            formattedDelay += modulo;
-        }
-    }
-
-    return formattedDelay;
-}
-
-/**
  * Increment "currentThemeNumber" after word card is showed.
  */
 function increaseCurrentThemeNumber() {
@@ -188,20 +155,19 @@ function increaseCurrentThemeNumber() {
  *
  * @param {string} word
  * @param {string} translation
- * @param {string} theme Based on html theme
+ * @param {Object} theme name and color of theme
  * @param {Object} settingsArray array of the settings fetched from the "background.js"
  */
 function appearing(word, translation, theme, settingsArray) {
     let selectDelay = settingsArray.selectDelay;
     let showClose = settingsArray.showClose;
     let wordCard;
-    let themeStyle;
+    let themeLink;
+    let timerStyle;
     let blurStyle;
-    let closeStyle;
     let closeButton;
     let commonLength;
     let words;
-    let timer;
     let intervalIdAppearing;
 
     drawingStarted = true;
@@ -210,11 +176,31 @@ function appearing(word, translation, theme, settingsArray) {
     wordCard.style.top = "-30%";
 
     // Primary html-code of creating card.
-    wordCard.innerHTML = "<div id=\"header8730011\"><span id=\"headerOne8730011\">Each</span><span id=\"headerTwo8730011\">Word</span><span id=\"headerThree8730011\"> &mdash; expand your vocabulary easily</span></div><a href=\"\" id=\"closeButton8730011\" title=\"Close this card\" tabindex=\"-1\"></a><div id=\"words8730011\"><span id=\"word8730011\">" + word + "</span><span id=\"dash8730011\"> &mdash; </span><span id=\"translation8730011\">" + translation + "</span></div><div id=\"timer8730011\">" + formatDelay(selectDelay) + "</div>";
-    themeStyle = document.createElement("style");
-    themeStyle.id = "themeStyle8730011";
-    themeStyle.innerHTML = theme;
-    document.head.appendChild(themeStyle);
+    wordCard.innerHTML =
+        "<div id=\"wordsWrapper8730011\">" +
+            "<div id=\"words8730011\">" +
+                "<div id=\"timer8730011\">" +
+                    "<div class=\"backgroundCircle8730011\"></div>" +
+                    "<div class=\"circlesWrapper8730011\" data-anim8730011=\"base wrapper\">" +
+                        "<div class=\"circle8730011\" data-anim8730011=\"base left\"></div> " +
+                        "<div class=\"circle8730011\" data-anim8730011=\"base right\"></div>" +
+                    "</div>" +
+                    "<a href=\"\" id=\"closeButton8730011\" title=\"Close this card\" tabindex=\"-1\"></a>" +
+                "</div>" +
+                "<div id=\"wordsContainer8730011\">" +
+                    "<a href=\"\" title=\"Listen\" id=\"playButton8730011\" tabindex=\"-1\"></a>" +
+                    "<span id=\"word8730011\">" + word + "</span>" +
+                    "<span id=\"dash8730011\"> &mdash; </span>" +
+                    "<span id=\"translation8730011\">" + translation + "</span>" +
+                "</div>"
+            "</div>" +
+        "</div>";
+
+    themeLink = document.createElement("link");
+    themeLink.id = "themeLink8730011";
+    themeLink.setAttribute("rel", "stylesheet");
+    themeLink .setAttribute("href", "css/themes/" + theme.name);
+    document.head.appendChild(themeLink);
 
     if (settingsArray.showBlur) {
         blurStyle = document.createElement("style");
@@ -228,10 +214,6 @@ function appearing(word, translation, theme, settingsArray) {
 
     // If user enabled "Show close button" in options.
     if (showClose) {
-        closeStyle = document.createElement("style");
-        closeStyle.id = "closeStyle8730011";
-        closeStyle.innerHTML = "#closeButton8730011{background:url(" + chrome.extension.getURL("images/icons/closeButton32.png") + ");position:absolute;top:5%;right:5%;display:block;width:32px;height:32px;outline:none;transition:0.2s;}#closeButton8730011:hover{background:url(" + chrome.extension.getURL("images/icons/closeButton32_hover.png") + ");-webkit-transform:rotate(180deg);}#closeButton8730011:active{background:url(" + chrome.extension.getURL("images/icons/closeButton32_active.png") + ");-webkit-transform:rotate(180deg);}";
-        document.head.appendChild(closeStyle);
         closeButton.onclick = closeButtonAction;
     } else {
         closeButton.remove();
@@ -241,29 +223,38 @@ function appearing(word, translation, theme, settingsArray) {
     words = document.getElementById("words8730011");
 
     // Pick up font size depending word and translation size.
-    if (commonLength < 21) {
-        words.style.fontSize = "40pt";
-    } else if (commonLength < 26) {
-        words.style.fontSize = "37pt";
-    } else if (commonLength < 31) {
-        words.style.fontSize = "34pt";
-    } else if (commonLength < 36) {
-        words.style.fontSize = "31pt";
-    } else if (commonLength < 41) {
-        words.style.fontSize = "28pt";
-    } else if (commonLength < 46) {
-        words.style.fontSize = "25pt";
-    } else if (commonLength < 51) {
-        words.style.fontSize = "22pt";
-    } else if (commonLength < 56) {
-        words.style.fontSize = "18pt";
-    } else if (commonLength < 61) {
-        words.style.fontSize = "15pt";
+    if (commonLength < 25) {
+        words.style.fontSize = "100%";
+    } else if (commonLength < 30) {
+        words.style.fontSize = "90%";
+    } else if (commonLength < 35) {
+        words.style.fontSize = "80%";
+    } else if (commonLength < 40) {
+        words.style.fontSize = "70%";
+    } else if (commonLength < 45) {
+        words.style.fontSize = "60%";
+    } else if (commonLength < 55) {
+        words.style.fontSize = "50%";
+    } else if (commonLength < 65) {
+        words.style.fontSize = "40%";
     } else {
-        words.style.fontSize = "12pt";
+        words.style.fontSize = "30%";
     }
 
-    timer = document.getElementById("timer8730011");
+    // Set delay for timer
+    timerStyle = document.createElement("style");
+    timerStyle.id = "timerStyle8730011";
+    timerStyle.innerHTML =
+        ".circlesWrapper8730011[data-anim8730011~=wrapper] { animation-delay: " + selectDelay/2 + "s; }" +
+        ".circle8730011[data-anim8730011~=left] { animation-duration: " + selectDelay + "s; }" +
+        ".circle8730011[data-anim8730011~=right] { animation-duration: " + selectDelay/2 + "s; }";
+    document.head.appendChild(timerStyle);
+
+    document.getElementById("playButton8730011").onclick = function() {
+        playWord(word);
+        return false;
+    }
+
     intervalIdAppearing = setInterval(function () {
         let checkToTopOverflow;
         let tempDelay;
@@ -275,7 +266,6 @@ function appearing(word, translation, theme, settingsArray) {
             clearInterval(intervalIdAppearing);
             tempDelay = selectDelay - 1;
             timeoutIdTimer = setTimeout(function timerUpdate() {
-                timer.innerHTML = formatDelay(tempDelay);
                 tempDelay--;
 
                 if (tempDelay >= 0) {
@@ -297,7 +287,7 @@ function appearing(word, translation, theme, settingsArray) {
  *
  * @param {string} word
  * @param {string} translation
- * @param {string} theme Based on html theme
+ * @param {Object} theme name and color of theme
  * @param {Object} settingsArray array of the settings fetched from the "background.js"
  */
 function drawCard(word, translation, theme, settingsArray) {

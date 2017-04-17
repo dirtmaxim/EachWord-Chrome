@@ -341,7 +341,7 @@ window.onload = function () {
             span.id = "color" + i;
 
             // RegExp to set up "background-color" of themes rounds in "options.js".
-            span.style.backgroundColor = themes[i].color;//themes[i].match(/#wordCard8730011\s?\{\s?background-color\s?:\s?(#\w{3,6})\s?;/)[1];
+            span.style.backgroundColor = themes[i].match(/#wordCard8730011\s?\{\s?background-color\s?:\s?(#\w{3,6})\s?;/)[1];
             input = document.createElement("input");
             input.type = "checkbox";
             input.className = "checkBoxTheme";

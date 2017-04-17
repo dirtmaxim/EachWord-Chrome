@@ -86,7 +86,7 @@ function chooseTheme() {
  */
 function disappearing() {
     let wordCard = document.getElementById("wordCard8730011");
-    let themeLink = document.getElementById("themeLink8730011");
+    let themeStyle = document.getElementById("themeStyle8730011");
     let timerStyle = document.getElementById("timerStyle8730011");
     let blurStyle = document.getElementById("blurStyle8730011");
     let closeStyle = document.getElementById("closeStyle8730011");
@@ -105,7 +105,7 @@ function disappearing() {
             wordCard.style.top = checkToTopOverflow + "%";
         } else {
             wordCard.remove();
-            themeLink.remove();
+            themeStyle.remove();
             timerStyle.remove();
 
             if (closeStyle) {
@@ -155,14 +155,14 @@ function increaseCurrentThemeNumber() {
  *
  * @param {string} word
  * @param {string} translation
- * @param {Object} theme name and color of theme
+ * @param {string} theme Based on html theme
  * @param {Object} settingsArray array of the settings fetched from the "background.js"
  */
 function appearing(word, translation, theme, settingsArray) {
     let selectDelay = settingsArray.selectDelay;
     let showClose = settingsArray.showClose;
     let wordCard;
-    let themeLink;
+    let themeStyle;
     let timerStyle;
     let blurStyle;
     let closeButton;
@@ -176,6 +176,11 @@ function appearing(word, translation, theme, settingsArray) {
     wordCard.style.top = "-30%";
 
     // Primary html-code of creating card.
+    themeStyle = document.createElement("style");
+    themeStyle.id = "themeStyle8730011";
+    themeStyle.innerHTML = theme;
+    document.head.appendChild(themeStyle);
+
     wordCard.innerHTML =
         "<div id=\"wordsWrapper8730011\">" +
             "<div id=\"words8730011\">" +
@@ -192,15 +197,9 @@ function appearing(word, translation, theme, settingsArray) {
                     "<span id=\"word8730011\">" + word + "</span>" +
                     "<span id=\"dash8730011\"> &mdash; </span>" +
                     "<span id=\"translation8730011\">" + translation + "</span>" +
-                "</div>"
+                "</div>" +
             "</div>" +
         "</div>";
-
-    themeLink = document.createElement("link");
-    themeLink.id = "themeLink8730011";
-    themeLink.setAttribute("rel", "stylesheet");
-    themeLink .setAttribute("href", "css/themes/" + theme.name);
-    document.head.appendChild(themeLink);
 
     if (settingsArray.showBlur) {
         blurStyle = document.createElement("style");
@@ -287,7 +286,7 @@ function appearing(word, translation, theme, settingsArray) {
  *
  * @param {string} word
  * @param {string} translation
- * @param {Object} theme name and color of theme
+ * @param {string} theme Based on html theme
  * @param {Object} settingsArray array of the settings fetched from the "background.js"
  */
 function drawCard(word, translation, theme, settingsArray) {

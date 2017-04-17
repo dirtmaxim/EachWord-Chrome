@@ -1,46 +1,198 @@
+/* font-family: "RobotoRegular"; */
+@font-face {
+    font-family: "RobotoRegular";
+    src: url("fonts/RobotoRegular/RobotoRegular.eot");
+    src: url("fonts/RobotoRegular/RobotoRegular.eot?#iefix")format("embedded-opentype"),
+    url("fonts/RobotoRegular/RobotoRegular.woff") format("woff"),
+    url("fonts/RobotoRegular/RobotoRegular.ttf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}
+/* font-family: "RobotoLight"; */
+@font-face {
+    font-family: "RobotoRegular";
+    src: url("fonts/RobotoLight/RobotoLight.eot");
+    src: url("fonts/RobotoLight/RobotoLight.eot?#iefix")format("embedded-opentype"),
+    url("fonts/RobotoLight/RobotoLight.woff") format("woff"),
+    url("fonts/RobotoLight/RobotoLight.ttf") format("truetype");
+    font-style: normal;
+    font-weight: 200;
+}
+
 #wordCard8730011 {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    height: 30%;
+    height: 270px;
     z-index: 2147483647;
+    font-size: 40px;
+    font-family: "RobotoRegular", sans-serif;
+    font-weight: 200;
+    line-height: 1px;
 }
 
 #wordCard8730011 span {
-    font-size: inherit !important;
     display: initial !important;
 }
 
-#wordCard8730011 div {
-    display: initial !important;
-}
-
-#header8730011 {
+#wordsWrapper8730011{
     position: absolute;
-    top: 5%;
-    text-align: center;
-    width: 100%;
-    font-family: Arial, sans-serif;
-    font-size: 15pt !important;
+    width: 898px;
+    height: 100%;
+    left: 50%;
+    top: 0;
+    transform: translateX(-502px);
+    background-repeat: no-repeat;
+    background-position: left bottom;
+    background-size: 9%;
+    text-align: right;
 }
 
 #words8730011 {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    right: 6px;
+    top: 80px;
+    width: 795px;
+    min-height: 135px;
+    padding-top: 38px;
+    box-sizing: border-box;
+    background-size: 100% 100%;
+    text-align: center;
     white-space: nowrap;
-    font-family: Arial, sans-serif;
 }
 
 #timer8730011 {
     position: absolute;
-    bottom: 5%;
-    text-align: center;
-    width: 100%;
-    font-family: Arial, sans-serif;
-    font-size: 15pt !important;
+    top: -20px;
+    right: -6px;
+    display: block;
+    width: 60px;
+    height: 60px;
+}
+
+.backgroundCircle8730011 {
+    width: 56px;
+    height: 56px;
+    border: 2px solid;
+    border-radius: 30px;
+    position: absolute;
+}
+
+.circlesWrapper8730011 {
+    width: 60px;
+    height: 60px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    clip: rect(0px, 60px, 60px, 30px); /* Hide half of the progress bar */
+}
+
+.circle8730011 {
+    width: 56px;
+    height: 56px;
+    border: 2px solid;
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    clip: rect(0px, 30px, 60px, 0px);
+}
+
+div[data-anim8730011~=base] {
+    animation-iteration-count: 1;  /* Only run once */
+    animation-fill-mode: forwards; /* Hold the last keyframe */
+    animation-timing-function:linear; /* Linear animation */
+}
+
+.circlesWrapper8730011[data-anim8730011~=wrapper] {
+    animation-delay: 2.5s; /* Wait half of the animation */
+    animation-name: close-wrapper8730011; /* Keyframes name */
+}
+
+.circle8730011[data-anim8730011~=left] {
+    animation-duration: 5s; /* Full animation time */
+    animation-name: left-spin8730011;
+}
+
+.circle8730011[data-anim8730011~=right] {
+    animation-duration: 2.5s; /* Half animation time */
+    animation-name: right-spin8730011;
+}
+
+@-webkit-keyframes right-spin8730011 {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(180deg);
+    }
+}
+/* Rotate the left side of the progress bar from 0 to 360 degrees */
+@-webkit-keyframes left-spin8730011 {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+/* Set the wrapper clip to auto, effectively removing the clip */
+@-webkit-keyframes close-wrapper8730011 {
+    to {
+        clip: rect(auto, auto, auto, auto);
+    }
+}
+
+#closeButton8730011 {
+    position: absolute;
+    display: block;
+    width: 20px;
+    height: 20px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 20px;
+    outline: 0;
+}
+
+#closeButton8730011:after {
+    content: '\d7';
+    position: absolute;
+    top: 0;
+    left: -3px;
+    font-size: 49px;
+    line-height: 20px;
+    font-family: "Times New Roman", serif;
+    opacity: 0.6;
+}
+
+#wordsContainer8730011 {
+    min-height: 30px;
+}
+
+#playButton8730011 {
+    vertical-align: middle;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    background-size: 100% 100%;
+    margin: 0 24px 0 0;
+    outline: 0;
+}
+
+#word8730011 {
+    font-weight: normal;
+    vertical-align: middle;
+}
+
+#dash8730011 {
+    font-weight: normal;
+    vertical-align: middle;
+}
+
+#translation8730011 {
+    vertical-align: middle;
 }
 
 #window8730011 {
@@ -55,7 +207,7 @@
     top: 50% !important;
     left: 50% !important;
     transform: translate(-50%, -50%) !important;
-	cursor: default !important;
+    cursor: default !important;
     outline: none !important;
     z-index: 2147483647 !important;
 }
@@ -105,7 +257,7 @@
     background: #2782ff !important;
     color: white !important;
     text-decoration: none !important;
-	cursor: pointer !important;
+    cursor: pointer !important;
     outline: none !important;
     transition: 0.3s !important;
 }

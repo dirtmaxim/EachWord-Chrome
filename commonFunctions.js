@@ -87,6 +87,7 @@ function chooseTheme() {
 function disappearing() {
     let wordCard = document.getElementById("wordCard8730011");
     let themeStyle = document.getElementById("themeStyle8730011");
+    let fontStyle = document.getElementById("fontStyle8730011");
     let timerStyle = document.getElementById("timerStyle8730011");
     let blurStyle = document.getElementById("blurStyle8730011");
     let closeStyle = document.getElementById("closeStyle8730011");
@@ -106,6 +107,7 @@ function disappearing() {
         } else {
             wordCard.remove();
             themeStyle.remove();
+            fontStyle.remove();
             timerStyle.remove();
 
             if (closeStyle) {
@@ -163,6 +165,7 @@ function appearing(word, translation, theme, settingsArray) {
     let showClose = settingsArray.showClose;
     let wordCard;
     let themeStyle;
+    let fontStyle;
     let timerStyle;
     let blurStyle;
     let closeButton;
@@ -176,6 +179,26 @@ function appearing(word, translation, theme, settingsArray) {
     wordCard.style.top = "-30%";
 
     // Primary html-code of creating card.
+    fontStyle = document.createElement("style");
+    fontStyle.id = "fontStyle8730011";
+    fontStyle.innerHTML =
+        "@font-face{font-family:\"RobotoRegular\";" +
+            "src:url(" + chrome.runtime.getURL("fonts/RobotoRegular/RobotoRegular.eot") + ");" +
+            "src:url(" + chrome.runtime.getURL("fonts/RobotoRegular/RobotoRegular.eot?#iefix") + ")format(\"embedded-opentype\")," +
+            "url(" + chrome.runtime.getURL("fonts/RobotoRegular/RobotoRegular.woff") + ")format(\"woff\")," +
+            "url(" + chrome.runtime.getURL("fonts/RobotoRegular/RobotoRegular.ttf") + ")format(\"truetype\");" +
+            "font-style:normal;" +
+            "font-weight:normal;}" +
+        "@font-face{font-family:\"RobotoRegular\";" +
+            "src:url(" + chrome.runtime.getURL("fonts/RobotoLight/RobotoLight.eot") + ");" +
+            "src:url(" + chrome.runtime.getURL("fonts/RobotoLight/RobotoLight.eot?#iefix") + ")format(\"embedded-opentype\")," +
+            "url(" + chrome.runtime.getURL("fonts/RobotoLight/RobotoLight.woff") + ")format(\"woff\")," +
+            "url(" + chrome.runtime.getURL("fonts/RobotoLight/RobotoLight.ttf") + ")format(\"truetype\");" +
+            "font-style:normal;" +
+            "font-weight:200;}" +
+            "}";
+    document.head.appendChild(fontStyle);
+
     themeStyle = document.createElement("style");
     themeStyle.id = "themeStyle8730011";
     themeStyle.innerHTML = theme;
@@ -250,7 +273,7 @@ function appearing(word, translation, theme, settingsArray) {
     document.head.appendChild(timerStyle);
 
     document.getElementById("playButton8730011").onclick = function() {
-        playWord(word);
+        chrome.runtime.sendMessage({type: "playWord", word: word});
         return false;
     }
 

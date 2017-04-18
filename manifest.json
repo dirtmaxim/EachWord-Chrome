@@ -45,7 +45,9 @@
     "images/icons/closeButton32_active.png",
     "images/icons/closeButton32_hover.png",
     "images/icons/closeButton32.png",
-    "images/wordCard/*.png"
+    "images/wordCard/*.png",
+    "fonts/RobotoLight/*",
+    "fonts/RobotoRegular/*"
   ],
   "content_security_policy": "script-src 'self' https://yastatic.net https://mc.yandex.ru; object-src 'self'",
   "options_page": "options.html",

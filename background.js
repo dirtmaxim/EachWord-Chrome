@@ -479,6 +479,17 @@ chrome.runtime.onMessage.addListener(
 );
 
 /**
+ * Listener will be activated when user presses "Play word".
+ */
+chrome.runtime.onMessage.addListener(
+    function (request, sender, sendResponse) {
+        if (request.type === "playWord") {
+            playWord(request.word);
+        }
+    }
+);
+
+/**
  * Add entry to the context menu.
  */
 chrome.contextMenus.create({

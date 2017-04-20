@@ -135,9 +135,9 @@ function updateTheme() {
 
     themes = [];
     themes[0] =
-        "#wordCard8730011{background-color:#fff;color:#000;}" +
+        "#wordCard8730011{background-color:#fff;color:#334d5e;}" +
         "#wordsWrapper8730011{background-image:url(" + chrome.runtime.getURL("images/wordCard/white_face.png") + ");}" +
-        "#words8730011{background-image:url(" + chrome.runtime.getURL("images/wordCard/white_verbal_bubble.png") + ");}" +
+        "#words8730011{background-image:url(" + chrome.runtime.getURL("images/wordCard/white_verbal_bubble.png") + ");border-color:rgba(161,173,179,0.2);}" +
         ".backgroundCircle8730011{border-color:#cfdee6;background:#fff;}" +
         ".circle8730011{border-color:#00bef3;}" +
         "#closeButton8730011:after{color:#334d5e;}" +
@@ -147,7 +147,7 @@ function updateTheme() {
     themes[1] =
         "#wordCard8730011{background-color:#00bef3;color:#fff;}" +
         "#wordsWrapper8730011{background-image:url(" + chrome.runtime.getURL("images/wordCard/white_face.png") + ");}" +
-        "#words8730011{background-image:url(" + chrome.runtime.getURL("images/wordCard/blue_verbal_bubble.png") + ");}" +
+        "#words8730011{background-image:url(" + chrome.runtime.getURL("images/wordCard/blue_verbal_bubble.png") + ");border-color:rgba(248,250,254,0.4);}" +
         ".backgroundCircle8730011{border-color:#fff;background:#00bef3;}" +
         ".circle8730011{border-color:#0677a0;}" +
         "#closeButton8730011:after{color:#fff;}" +
@@ -157,7 +157,7 @@ function updateTheme() {
     themes[2] =
         "#wordCard8730011{background-color:#043d52;color:#fff;}" +
         "#wordsWrapper8730011{background-image:url(" + chrome.runtime.getURL("images/wordCard/dark_face.png") + ");}" +
-        "#words8730011{background-image:url(" + chrome.runtime.getURL("images/wordCard/dark_verbal_bubble.png") + ");}" +
+        "#words8730011{background-image:url(" + chrome.runtime.getURL("images/wordCard/dark_verbal_bubble.png") + ");border-color:rgba(0,190,243,0.2);}" +
         ".backgroundCircle8730011{border-color:#cfdee6;background:#043d52;}" +
         ".circle8730011{border-color:#00bef3;}" +
         "#closeButton8730011:after{color:#f8fafe;}" +

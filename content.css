@@ -16,7 +16,7 @@
     display: initial !important;
 }
 
-#wordsWrapper8730011{
+#wordsWrapper8730011 {
     position: absolute;
     width: 898px;
     height: 100%;
@@ -81,9 +81,9 @@
 }
 
 div[data-anim8730011~=base] {
-    animation-iteration-count: 1;  /* Only run once */
+    animation-iteration-count: 1; /* Only run once */
     animation-fill-mode: forwards; /* Hold the last keyframe */
-    animation-timing-function:linear; /* Linear animation */
+    animation-timing-function: linear; /* Linear animation */
 }
 
 .circlesWrapper8730011[data-anim8730011~=wrapper] {
@@ -109,6 +109,7 @@ div[data-anim8730011~=base] {
         transform: rotate(180deg);
     }
 }
+
 /* Rotate the left side of the progress bar from 0 to 360 degrees */
 @-webkit-keyframes left-spin8730011 {
     from {
@@ -118,6 +119,7 @@ div[data-anim8730011~=base] {
         transform: rotate(360deg);
     }
 }
+
 /* Set the wrapper clip to auto, effectively removing the clip */
 @-webkit-keyframes close-wrapper8730011 {
     to {
@@ -255,14 +257,14 @@ div[data-anim8730011~=base] {
     background: transparent;
 }
 
-@media only screen and (min-height : 580px) {
+@media only screen and (min-height: 580px) {
     #wordCard8730011 {
         height: 30%;
     }
 }
 
-@media only screen and (max-width : 1020px) {
-    #wordsWrapper8730011{
+@media only screen and (max-width: 1020px) {
+    #wordsWrapper8730011 {
         width: 600px;
         transform: translateX(-329px);
         font-size: 30px;
@@ -304,8 +306,8 @@ div[data-anim8730011~=base] {
     }
 }
 
-@media only screen and (max-width : 680px) {
-    #wordsWrapper8730011{
+@media only screen and (max-width: 680px) {
+    #wordsWrapper8730011 {
         width: 90%;
         transform: translateX(-50%);
         font-size: 26px;
@@ -322,8 +324,8 @@ div[data-anim8730011~=base] {
     }
 }
 
-@media only screen and (max-width : 480px) {
-    #wordsWrapper8730011{
+@media only screen and (max-width: 480px) {
+    #wordsWrapper8730011 {
         font-size: 20px;
     }
 

@@ -31,10 +31,15 @@
 body {
     background-color: #0db8f5;
     margin: 0;
-    padding: 0;
+    padding: 0 0 10px 0;
     font-family: "Roboto", sans-serif;
     font-size: 14px;
     color: #043d52;
+}
+
+a {
+    text-decoration: none;
+    outline: none;
 }
 
 .wrapper {
@@ -249,13 +254,13 @@ h2 {
     background-color: #a1adb3;
     box-shadow: 0px 1px 2px 0 rgba(0, 0, 0, 0.19);
     opacity: 1;
-    transition: right 1s ease;
+    transition: right 0.7s ease;
 }
 
 .toggle input[type = checkbox]:checked + label:after {
     right: -3px;
     background-color: #00bef3;
-    transition: right 1s ease;
+    transition: right 0.7s ease;
 }
 
 .toggle input[type = checkbox]:checked + label:before {
@@ -420,33 +425,27 @@ input[type=range]::-webkit-slider-runnable-track {
     position: absolute;
     bottom: -2px;
     left: 28px;
-    transition: all 0.2s ease;
     background: #fff center no-repeat;
 }
 
 .roundCheckbox label:hover:after {
     background-image: url("images/icons/checkmark_hover.png");
-    transition: all 0.2s ease;
 }
 
 .roundCheckbox input[type = checkbox]:checked + label:hover:after {
     background-image: url("images/icons/checkmark_hover.png");
-    transition: all 0.2s ease;
 }
 
 .roundCheckbox input[type = checkbox][disabled] + label:hover:after {
     background-image: none;
-    transition: all 0.2s ease;
 }
 
 .roundCheckbox input[type = checkbox]:checked + label:after {
     background-image: url("images/icons/mark_choosed.png");
-    transition: all 0.2s ease;
 }
 
 .roundCheckbox input[type = checkbox]:checked[disabled] + label:after {
     background-image: url("images/icons/checkmark_hover.png");
-    transition: all 0.2s ease;
 }
 
 .button {
@@ -505,6 +504,83 @@ input[type=range]::-webkit-slider-runnable-track {
 
 .clearWrapper .button[disabled]:hover {
     background-color: #fff;
+}
+
+footer {
+    margin: 107px 0 0 0;
+    padding: 0 40px;
+    font-size: 16px;
+}
+
+.siteLink {
+    margin: 0 0 0 56px;
+    color: #00bef3;
+    font-weight: 500;
+}
+
+.siteLink:hover {
+    border-bottom: 1px solid #00bef3;
+}
+
+.share {
+    float: right;
+    display: inline-block;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    vertical-align: middle;
+}
+
+.share li {
+    display: inline-block;
+    margin: 0 0 0 34px;
+}
+
+.share li span {
+    display: inline-block;
+    background-size: 100% 100%;
+    background-position: center;
+    cursor: pointer;
+}
+
+.vk {
+    width: 21px;
+    height: 13px;
+    background: url("images/icons/vk.png");
+}
+
+.vk:hover {
+    background: url("images/icons/vk_h.png");
+}
+
+.fb {
+    width: 8px;
+    height: 18px;
+    background: url("images/icons/fb.png");
+}
+
+.fb:hover {
+    background: url("images/icons/fb_h.png");
+}
+
+.ok {
+    width: 11px;
+    height: 20px;
+    background: url("images/icons/ok.png");
+}
+
+.ok:hover {
+    background: url("images/icons/ok_h.png");
+}
+
+.tw {
+    width: 17px;
+    height: 15px;
+    background: url("images/icons/tw.png");
+}
+
+.tw:hover {
+    background: url("images/icons/tw_h.png");
 }
 
 .hidden {

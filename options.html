@@ -79,7 +79,7 @@
                     </div>
                 </div>
                 <button id="changeLanguages"></button>
-                <div class="select" id="translateTo" data-value="ru">
+                <div class="select" id="translateInto" data-value="ru">
                     <div class="selected">
                         <span></span>
                     </div>
@@ -148,24 +148,16 @@
                 <input type="checkbox" id="showBlur">
                 <label for="showBlur">Blur page when a card is displayed</label>
             </div>
-            <div id="cardsInterval" class="rangeWrapper">
+            <div id="selectInterval" class="rangeWrapper">
                 <span class="caption">Interval between cards</span><span class="timeWrapper"><span class="time"></span> min</span>
                 <input type="range" min="1" max="60" step="1">
             </div>
-            <div id="cardDuration" class="rangeWrapper">
+            <div id="selectDuration" class="rangeWrapper">
                 <span class="caption">Card duration</span><span class="timeWrapper"><span class="time"></span> sec</span>
                 <input type="range" min="1" max="20" step="1">
             </div>
             <div id="cardThemes">
                 <span class="caption">Card themes</span>
-                <div class="roundCheckbox">
-                    <input type="checkbox" id="theme1">
-                    <label for="theme1"></label>
-                </div>
-                <div class="roundCheckbox">
-                    <input type="checkbox" id="theme2">
-                    <label for="theme2"></label>
-                </div>
             </div>
             <a href="" id="showTestCard" class="button">show test card</a>
         </section>
@@ -175,10 +167,7 @@
                 <input type="checkbox" id="showNotificationCards">
                 <label for="showNotificationCards"></label>
             </div>
-            <div class="checkbox">
-                <input type="checkbox" id="showTimeline" checked disabled>
-                <label for="showTimeline">Show timeline on Notifications</label>
-            </div>
+            <br>
             <a href="" id="showTestNotification" class="button">show test notification</a>
         </section>
         <section class="dictionary">
@@ -188,9 +177,9 @@
             <div class="clearWrapper">
                 <div class="checkbox">
                     <input type="checkbox" id="confirmClear">
-                    <label for="confirmClear">I want</label>
+                    <label for="confirmClear">I want to</label>
                 </div>
-                <button id="clearDictionary" class="button">clear the dictionary</button>
+                <button id="clearDictionary" class="button" disabled>clear the dictionary</button>
             </div>
         </section>
         <footer>

@@ -275,7 +275,7 @@ function appearing(word, translation, theme, settingsArray) {
     document.getElementById("playButton8730011").onclick = function() {
         chrome.runtime.sendMessage({type: "playWord", word: word});
         return false;
-    }
+    };
 
     intervalIdAppearing = setInterval(function () {
         let checkToTopOverflow;

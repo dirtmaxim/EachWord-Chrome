@@ -29,12 +29,13 @@
 }
 
 body {
-    background-color: #0db8f5;
+    background-color: rgba(161, 173, 179, 0.4);
     margin: 0;
     padding: 0 0 10px 0;
     font-family: "Roboto", sans-serif;
     font-size: 14px;
     color: #043d52;
+    -webkit-user-select: none;
 }
 
 a {
@@ -374,11 +375,11 @@ input[type=range]::-webkit-slider-runnable-track {
     background: #00bef3;
 }
 
-#cardsInterval {
+#selectInterval {
     margin-top: 39px;
 }
 
-#cardDuration {
+#selectDuration {
     margin-top: 32px;
 }
 
@@ -463,6 +464,10 @@ input[type=range]::-webkit-slider-runnable-track {
     background-color: rgba(118, 220, 248, 0.1);
 }
 
+.notifications h2 {
+    margin-bottom: 0;
+}
+
 .dictionary {
     border: none;
 }
@@ -477,7 +482,7 @@ input[type=range]::-webkit-slider-runnable-track {
 
 .clearWrapper .checkbox {
     display: inline-block;
-    width: 89px;
+    width: 105px;
 }
 
 .clearWrapper .checkbox label {

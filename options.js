@@ -92,9 +92,11 @@ function clearEntireDictionary() {
         localStorage.setItem("dictionaryArrayQueue", JSON.stringify([]));
         chrome.runtime.sendMessage({type: "stopInterval"});
         chrome.runtime.sendMessage({type: "changeDictionary"});
-        alert("Dictionary has been cleared!");
+        $('.statusWrapper').addClass("open");
+        $('#status').html("Dictionary has been cleared!");
     } else {
-        alert("Dictionary is empty!");
+        $('.statusWrapper').addClass("open");
+        $('#status').html("Dictionary is empty!");
     }
 }
 
@@ -112,7 +114,8 @@ function exportDictionaryFile() {
         a.click();
         document.body.removeChild(a);
     } else {
-        alert("Your dictionary is empty!");
+        $('.statusWrapper').addClass("open");
+        $('#status').html("Your dictionary is empty!");
     }
     return false;
 }

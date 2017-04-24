@@ -150,11 +150,11 @@
             </div>
             <div id="selectInterval" class="rangeWrapper">
                 <span class="caption">Interval between cards</span><span class="timeWrapper"><span class="time"></span> min</span>
-                <input type="range" min="1" max="60" step="1">
+                <input type="range" min="1" max="60" step="1" value="1">
             </div>
             <div id="selectDuration" class="rangeWrapper">
                 <span class="caption">Card duration</span><span class="timeWrapper"><span class="time"></span> sec</span>
-                <input type="range" min="1" max="20" step="1">
+                <input type="range" min="1" max="20" step="1" value="1">
             </div>
             <div id="cardThemes">
                 <span class="caption">Card themes</span>
@@ -192,6 +192,9 @@
             <span class="copyright">&copy 2017 Eachword</span>
             <a href="https://eachword.ru/" title="our site" class="siteLink">Our site</a>
         </footer>
+        <div class="statusWrapper">
+            <span id="status"></span>
+        </div>
     </div>
 </body>
 </html>

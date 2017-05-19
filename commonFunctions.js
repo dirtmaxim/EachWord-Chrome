@@ -4,6 +4,8 @@ let timeoutIdTimer;
 let dictionaryArrayQueue;
 let dictionaryArrayTab;
 
+let wordCardDelay = 1000;
+
 // Works as semaphore for "disappearing()".
 disappearingStarted = false;
 
@@ -86,12 +88,7 @@ function chooseTheme() {
  */
 function disappearing() {
     let wordCard = document.getElementById("wordCard8730011");
-    let themeStyle = document.getElementById("themeStyle8730011");
-    let fontStyle = document.getElementById("fontStyle8730011");
-    let timerStyle = document.getElementById("timerStyle8730011");
     let blurStyle = document.getElementById("blurStyle8730011");
-    let closeStyle = document.getElementById("closeStyle8730011");
-    let intervalIdDisappearing;
 
     disappearingStarted = true;
 
@@ -99,26 +96,24 @@ function disappearing() {
         blurStyle.remove();
     }
 
-    intervalIdDisappearing = setInterval(function () {
-        const checkToTopOverflow = parseFloat(wordCard.style.top) - 1.5;
+    wordCard.style.transform = null;
+    setTimeout(function () {
+        let themeStyle = document.getElementById("themeStyle8730011");
+        let fontStyle = document.getElementById("fontStyle8730011");
+        let timerStyle = document.getElementById("timerStyle8730011");
+        let closeStyle = document.getElementById("closeStyle8730011");
+        wordCard.remove();
+        themeStyle.remove();
+        fontStyle.remove();
+        timerStyle.remove();
 
-        if (checkToTopOverflow > -30) {
-            wordCard.style.top = checkToTopOverflow + "%";
-        } else {
-            wordCard.remove();
-            themeStyle.remove();
-            fontStyle.remove();
-            timerStyle.remove();
-
-            if (closeStyle) {
-                closeStyle.remove();
-            }
-
-            clearInterval(intervalIdDisappearing);
-            disappearingStarted = false;
-            drawingStarted = false;
+        if (closeStyle) {
+            closeStyle.remove();
         }
-    }, 10);
+
+        disappearingStarted = false;
+        drawingStarted = false;
+    }, wordCardDelay);
 }
 
 /**
@@ -171,12 +166,10 @@ function appearing(word, translation, theme, settingsArray) {
     let closeButton;
     let commonLength;
     let words;
-    let intervalIdAppearing;
 
     drawingStarted = true;
     wordCard = document.createElement("div");
     wordCard.id = "wordCard8730011";
-    wordCard.style.top = "-30%";
 
     // Primary html-code of creating card.
     fontStyle = document.createElement("style");
@@ -277,31 +270,15 @@ function appearing(word, translation, theme, settingsArray) {
         return false;
     };
 
-    intervalIdAppearing = setInterval(function () {
-        let checkToTopOverflow;
-        let tempDelay;
-
-        checkToTopOverflow = parseFloat(wordCard.style.top) + 1.5;
-
-        if (checkToTopOverflow >= 0) {
-            wordCard.style.top = "0%";
-            clearInterval(intervalIdAppearing);
-            tempDelay = selectDelay - 1;
-            timeoutIdTimer = setTimeout(function timerUpdate() {
-                tempDelay--;
-
-                if (tempDelay >= 0) {
-                    timeoutIdTimer = setTimeout(timerUpdate, 1000);
-                } else {
-                    if (!disappearingStarted) {
-                        disappearing();
-                    }
-                }
-            }, 1000);
-        } else {
-            wordCard.style.top = checkToTopOverflow + "%";
-        }
+    setTimeout(function () {
+        wordCard.style.transform = "translateY(0%)";
     }, 10);
+
+    timeoutIdTimer = setTimeout(function () {
+        if (!disappearingStarted) {
+            disappearing();
+        }
+    }, selectDelay * 1000);
 }
 
 /**

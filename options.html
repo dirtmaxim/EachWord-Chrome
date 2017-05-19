@@ -172,29 +172,35 @@
         </section>
         <section class="dictionary">
             <h2>Dictionary</h2>
-            <a href="" id="exportDictionary" class="button">export</a>
-            <a href="" id="importDictionary" class="button">import</a>
+            <button id="exportDictionary" class="button">export</button>
+            <button id="importDictionary" class="button">
+                <input type="file" id="inputImport" accept=".json" tabindex="-1"/>
+                import
+            </button>
+            <div class="statusWrapper">
+                <span id="status"></span>
+                <a href="" class="closeButton">&times</a>
+            </div>
+            <button id="prepareClearDictionary" class="button">clear the dictionary</button>
             <div class="clearWrapper">
                 <div class="checkbox">
                     <input type="checkbox" id="confirmClear">
                     <label for="confirmClear">I want to</label>
                 </div>
-                <button id="clearDictionary" class="button" disabled>clear the dictionary</button>
+                <button id="clearDictionary" class="button" disabled>delete all my words</button>
             </div>
         </section>
         <footer>
-            <ul class="share">
-                <li><span class="vk"></span></li>
-                <li><span class="fb"></span></li>
-                <li><span class="ok"></span></li>
-                <li><span class="tw"></span></li>
-            </ul>
+            <div id="shareButtons" class="ya-share2" data-lang="en" data-services="vkontakte,facebook,odnoklassniki,twitter"
+                 data-url="https://chrome.google.com/webstore/detail/eachword-expand-your-voca/ndbpgappknhobbikhmjenceoklpaalam"
+                 data-title="I have learned many words using this extension. It is free. Try it."
+                 data-description="EachWord - expand your vocabulary"
+                 data-image="https://lh3.googleusercontent.com/qf93IXiTI85yvACJ8lX-sIHwXm4LV8hTe67TzPkYGdTMe0yvrWyK7nZgZt5w2XNRfZBbCsrt0A"
+                 tabindex="-1">
+            </div>
             <span class="copyright">&copy 2017 Eachword</span>
             <a href="https://eachword.ru/" title="our site" class="siteLink">Our site</a>
         </footer>
-        <div class="statusWrapper">
-            <span id="status"></span>
-        </div>
     </div>
 </body>
 </html>

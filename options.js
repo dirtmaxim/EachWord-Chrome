@@ -12,12 +12,18 @@ let showTestCard;
 let showNotificationCards;
 let showTestNotification;
 let exportDictionary;
-let importDictionary;
+let inputImport;
 let confirmClear;
+let prepareClearDictionary;
+let clearWrapper;
 let clearDictionary;
 let currentThemeNumber;
 let intervalValue;
 let durationValue;
+let statusWrapper;
+
+let statusTimeoutId;
+let statusTime = 4000;
 
 function controlCheckedTypesOfNative() {
     showNotificationCards.disabled = showNativeCards.checked === false;
@@ -84,6 +90,32 @@ function enableDisableClearButton() {
 }
 
 /**
+ * Show status.
+ */
+function showStatus(text, success) {
+    if (success) {
+        $(statusWrapper).addClass("open");
+    } else {
+        $(statusWrapper).addClass("open wrong");
+    }
+    $('#status').html(text);
+}
+
+/**
+ * Close status.
+ */
+function closeStatus() {
+    if (statusTimeoutId) {
+        clearTimeout(statusTimeoutId);
+    }
+    if ($(statusWrapper).hasClass("wrong")) {
+        $(statusWrapper).removeClass("open wrong");
+    } else {
+        $(statusWrapper).removeClass("open");
+    }
+}
+
+/**
  * Clear all Dictionary.
  */
 function clearEntireDictionary() {
@@ -92,11 +124,22 @@ function clearEntireDictionary() {
         localStorage.setItem("dictionaryArrayQueue", JSON.stringify([]));
         chrome.runtime.sendMessage({type: "stopInterval"});
         chrome.runtime.sendMessage({type: "changeDictionary"});
-        $('.statusWrapper').addClass("open");
-        $('#status').html("Dictionary has been cleared!");
+        showStatus("Dictionary has been cleared!", true);
+        if (statusTimeoutId) {
+            clearTimeout(statusTimeoutId);
+        }
+        statusTimeoutId = setTimeout(closeStatus, statusTime);
+        exportDictionary.setAttribute("disabled", "true");
+        prepareClearDictionary.style["display"] = null;
+        prepareClearDictionary.setAttribute("disabled", "true");
+        clearWrapper.style["display"] = null;
+        confirmClear.checked = false;
     } else {
-        $('.statusWrapper').addClass("open");
-        $('#status').html("Dictionary is empty!");
+        showStatus("Dictionary is empty!", false);
+        if (statusTimeoutId) {
+            clearTimeout(statusTimeoutId);
+        }
+        statusTimeoutId = setTimeout(closeStatus, statusTime);
     }
 }
 
@@ -109,13 +152,21 @@ function exportDictionaryFile() {
 
     if (JSON.parse(dictionaryArray).length !== 0) {
         a.href = URL.createObjectURL(new Blob([localStorage.getItem("dictionaryArray")]));
-        a.download = "yourDictionary.json";
+        a.download = "eachword.json";
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
+        showStatus("Excellent! The dictionary was successfully exported.", true);
+        if (statusTimeoutId) {
+            clearTimeout(statusTimeoutId);
+        }
+        statusTimeoutId = setTimeout(closeStatus, statusTime);
     } else {
-        $('.statusWrapper').addClass("open");
-        $('#status').html("Your dictionary is empty!");
+        if (statusTimeoutId) {
+            clearTimeout(statusTimeoutId);
+        }
+        statusTimeoutId = setTimeout(closeStatus, statusTime);
+        showStatus("Your dictionary is empty!", false);
     }
     return false;
 }
@@ -161,14 +212,30 @@ function importDictionaryFile(event) {
                 localStorage.setItem("dictionaryArray", JSON.stringify(dictionaryArray));
                 localStorage.setItem("dictionaryArrayQueue", JSON.stringify([]));
 
+                showStatus("Excellent! The dictionary was successfully imported.", true);
+                if (statusTimeoutId) {
+                    clearTimeout(statusTimeoutId);
+                }
+                statusTimeoutId = setTimeout(closeStatus, statusTime);
+                exportDictionary.removeAttribute("disabled");
+                prepareClearDictionary.removeAttribute("disabled");
+
             } catch (error) {
-                alert("It is not a Dictionary format file!");
+                showStatus("Oops. A transfer error occurred. Try again.", false);
+                if (statusTimeoutId) {
+                    clearTimeout(statusTimeoutId);
+                }
+                statusTimeoutId = setTimeout(closeStatus, statusTime);
             }
         };
 
         fileReader.readAsText(file);
     } else {
-        alert("It is not a Dictionary format file!");
+        showStatus("Oops. A transfer error occurred. Try again.", false);
+        if (statusTimeoutId) {
+            clearTimeout(statusTimeoutId);
+        }
+        statusTimeoutId = setTimeout(closeStatus, statusTime);
     }
     return false;
 }
@@ -180,12 +247,14 @@ function saveTranslateFrom() {
     settingsArray.translateFrom = translateFrom.getAttribute("data-value");
     localStorage.setItem("settingsArray", JSON.stringify(settingsArray));
     chrome.runtime.sendMessage({type: "changeSettings"});
+    disableOptions();
 }
 
 function saveTranslateInto() {
     settingsArray.translateInto = translateInto.getAttribute("data-value");
     localStorage.setItem("settingsArray", JSON.stringify(settingsArray));
     chrome.runtime.sendMessage({type: "changeSettings"});
+    disableOptions();
 }
 
 function saveShowNativeCards() {
@@ -254,9 +323,12 @@ window.onload = function () {
     showNotificationCards = document.getElementById("showNotificationCards");
     showTestNotification = document.getElementById("showTestNotification");
     exportDictionary = document.getElementById("exportDictionary");
-    importDictionary = document.getElementById("inputImport");
+    inputImport = document.getElementById("inputImport");
     confirmClear = document.getElementById("confirmClear");
+    prepareClearDictionary = document.getElementById("prepareClearDictionary");
+    clearWrapper = document.getElementsByClassName("clearWrapper")[0];
     clearDictionary = document.getElementById("clearDictionary");
+    statusWrapper = $('.statusWrapper');
 
     translateFrom.setAttribute("data-value", settingsArray.translateFrom);
     translateInto.setAttribute("data-value", settingsArray.translateInto);
@@ -358,13 +430,27 @@ window.onload = function () {
     showTestNotification.onclick = testNotification;
 
     exportDictionary.onclick = exportDictionaryFile;
-   // importDictionary.onclick = importDictionaryFile;
+    inputImport.onchange = importDictionaryFile;
     confirmClear.onchange = enableDisableClearButton;
+    prepareClearDictionary.onclick = function() {
+        this.style["display"] = "none";
+        clearWrapper.style["display"] = "block";
+    };
     clearDictionary.onclick = clearEntireDictionary;
+    if (JSON.parse(localStorage.getItem("dictionaryArray")).length === 0) {
+        exportDictionary.setAttribute("disabled", "true");
+        prepareClearDictionary.setAttribute("disabled", "true");
+    }
+
+    $('.closeButton').click(function () {
+        closeStatus();
+        return false;
+    });
 
     $('.select').each(function() {
         initializeCustomSelect($(this));
     });
+    disableOptions();
 
     // Set range style
     let thumbStyle = 'input[type="range"]::-webkit-slider-thumb{box-shadow:';
@@ -379,6 +465,7 @@ window.onload = function () {
     }
     thumbStyle += ';}';
     $('head').append('<style>' + thumbStyle + '</style>');
+
 };
 
 /**
@@ -404,10 +491,32 @@ function initializeCustomSelect(select) {
 
     options.children('.option').each(function () {
         $(this).click(function () {
-            $(select).attr('data-value', $(this).attr('data-value'));
-            $(selected).children('span').html($(this).html());
-            selected.click();
-            select.change();
+            if (!$(this).hasClass("disabled")) {
+                $(select).attr('data-value', $(this).attr('data-value'));
+                $(selected).children('span').html($(this).html());
+                selected.click();
+                select.change();
+            } else {
+                return false;
+            }
         })
     });
+}
+
+/**
+ * Set disable options in translate selects
+ */
+function disableOptions() {
+    let select1 = $("#translateFrom");
+    let select2 = $("#translateInto");
+    let value1 = select1.attr("data-value");
+    let value2 = select2.attr("data-value");
+    if (select1.find(".option.disabled")) {
+        select1.find(".option.disabled").removeClass("disabled");
+    }
+    if (select2.find(".option.disabled")) {
+        select2.find(".option.disabled").removeClass("disabled");
+    }
+    select1.find(".option[data-value = " + value2 + "]").addClass("disabled");
+    select2.find(".option[data-value = " + value1 + "]").addClass("disabled");
 }

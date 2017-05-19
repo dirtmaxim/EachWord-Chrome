@@ -46,8 +46,8 @@ a {
 .wrapper {
     position: relative;
     width: 700px;
-    margin: 0 auto;
-    padding: 40px 0 50px;
+    margin: 0 auto 10px;
+    padding: 40px 0 40px;
     background-color: #fff;
 }
 
@@ -167,6 +167,15 @@ h2 {
     background-color: #e4f8fe;
 }
 
+.option.disabled {
+    color: #a1adb3;
+    cursor: default;
+}
+
+.option.disabled:hover {
+    background-color: #fff;
+}
+
 .options::-webkit-scrollbar {
     width: 9px;
 }
@@ -254,7 +263,7 @@ h2 {
     top: -3px;
     right: 26px;
     background-color: #a1adb3;
-    box-shadow: 0px 1px 2px 0 rgba(0, 0, 0, 0.19);
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.19);
     opacity: 1;
     transition: right 0.7s ease;
 }
@@ -267,6 +276,10 @@ h2 {
 
 .toggle input[type = checkbox]:checked + label:before {
     background-color: #00bef3;
+}
+
+.toggle input[type = checkbox]:checked[disabled] + label:before, .toggle input[type = checkbox]:checked[disabled] + label:after {
+    background-color: #a1adb3;
 }
 
 .checkbox {
@@ -479,6 +492,35 @@ input[type=range]::-webkit-slider-runnable-track {
 
 .dictionary .button {
     margin: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    outline: none;
+}
+
+.dictionary .button:hover {
+    background-color: rgba(118, 220, 248, 0.1);
+}
+
+#importDictionary {
+    position: relative;
+}
+
+#inputImport {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+}
+
+#inputImport::-webkit-file-upload-button {
+    cursor: pointer;
+}
+
+.clearWrapper {
+    display: none;
 }
 
 .clearWrapper .checkbox {
@@ -490,7 +532,7 @@ input[type=range]::-webkit-slider-runnable-track {
     margin-top: -2px;
 }
 
-.clearWrapper .button {
+.clearWrapper .button, #prepareClearDictionary {
     font-family: "Roboto", sans-serif;
     background-color: #fff;
     outline: none;
@@ -499,16 +541,20 @@ input[type=range]::-webkit-slider-runnable-track {
     cursor: pointer;
 }
 
-.clearWrapper .button:hover {
+#prepareClearDictionary {
+    margin-left: -12px;
+}
+
+.clearWrapper .button:hover, #prepareClearDictionary:hover {
     background-color: rgba(218, 105, 93, 0.1);
 }
 
-.clearWrapper .button[disabled] {
+.clearWrapper .button[disabled], #prepareClearDictionary[disabled], #exportDictionary[disabled] {
     color: rgba(4, 61, 82, 0.2);
     cursor: auto;
 }
 
-.clearWrapper .button[disabled]:hover {
+.clearWrapper .button[disabled]:hover, #prepareClearDictionary[disabled]:hover, #exportDictionary[disabled]:hover {
     background-color: #fff;
 }
 
@@ -528,88 +574,115 @@ footer {
     border-bottom: 1px solid #00bef3;
 }
 
-.share {
+#shareButtons {
     float: right;
     display: inline-block;
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    vertical-align: middle;
+    margin-top: -3px;
 }
 
-.share li {
-    display: inline-block;
-    margin: 0 0 0 34px;
+#shareButtons li {
+    margin: 0 0 0 34px !important;
 }
 
-.share li span {
-    display: inline-block;
-    background-size: 100% 100%;
-    background-position: center;
-    cursor: pointer;
+#shareButtons .ya-share2__list {
+    vertical-align: top;
 }
 
-.vk {
-    width: 21px;
-    height: 13px;
-    background: url("images/icons/vk.png");
-}
-
-.vk:hover {
-    background: url("images/icons/vk_h.png");
-}
-
-.fb {
-    width: 8px;
-    height: 18px;
-    background: url("images/icons/fb.png");
-}
-
-.fb:hover {
-    background: url("images/icons/fb_h.png");
-}
-
-.ok {
-    width: 11px;
+#shareButtons .ya-share2__badge {
+    background-color: #fff;
     height: 20px;
-    background: url("images/icons/ok.png");
+    width: 21px;
 }
 
-.ok:hover {
-    background: url("images/icons/ok_h.png");
+#shareButtons .ya-share2__icon {
+    height: 20px;
+    width: 21px;
 }
 
-.tw {
-    width: 17px;
-    height: 15px;
-    background: url("images/icons/tw.png");
+#shareButtons .ya-share2__icon:active {
+    box-shadow: none;
 }
 
-.tw:hover {
-    background: url("images/icons/tw_h.png");
+#shareButtons .ya-share2__item_service_vkontakte .ya-share2__icon {
+    background: url("images/icons/vk.png") no-repeat center bottom;
+}
+
+#shareButtons .ya-share2__item_service_facebook .ya-share2__icon {
+    background: url("images/icons/fb.png") no-repeat center bottom;
+}
+
+#shareButtons .ya-share2__item_service_odnoklassniki .ya-share2__icon {
+    background: url("images/icons/ok.png") no-repeat center bottom;
+}
+
+#shareButtons .ya-share2__item_service_twitter .ya-share2__icon {
+    background: url("images/icons/tw.png") no-repeat center bottom;
+}
+
+#shareButtons .ya-share2__item_service_vkontakte .ya-share2__icon:hover {
+    background: url("images/icons/vk_h.png") no-repeat center bottom;
+}
+
+#shareButtons .ya-share2__item_service_facebook .ya-share2__icon:hover {
+    background: url("images/icons/fb_h.png") no-repeat center bottom;
+}
+
+#shareButtons .ya-share2__item_service_odnoklassniki .ya-share2__icon:hover {
+    background: url("images/icons/ok_h.png") no-repeat center bottom;
+}
+
+#shareButtons .ya-share2__item_service_twitter .ya-share2__icon:hover {
+    background: url("images/icons/tw_h.png") no-repeat center bottom;
 }
 
 .statusWrapper {
+    position: relative;
+    height: 0;
+    background-color: #e7f6e2;
+    color: #6dbf5f;
+    padding: 0 15px;
+    transition: height 0.5s;
+}
+
+.closeButton {
     position: absolute;
-    width: 100%;
-    height: 10px;
-    padding: 0;
-    left: 0;
-    bottom: 0;
-    background-color: #00bef3;
-    color: #fff;
-    transition: all 0.5s;
+    display: block;
+    top: 16px;
+    right: 15px;
+    font-family: "Times New Roman", serif;
+    font-size: 34px;
+    color: #6dbf5f;
+    line-height: 0.5em;
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
+.wrong {
+    background-color: #f7dbd9;
+    color: #e46761;
+}
+
+.wrong .closeButton {
+    color: #e46761;
 }
 
 .open {
-    height: 30px;
+    height: 50px;
+    margin-bottom: 25px;
+}
+
+.open .closeButton {
+    opacity: 1;
 }
 
 #status {
-    position: absolute;
-    top: 0;
-    left: 40px;
-    line-height: 30px;
+    line-height: 50px;
+    opacity: 0;
+    transition: all 0.5s;
+}
+
+.open #status {
+    opacity: 1;
 }
 
 .hidden {

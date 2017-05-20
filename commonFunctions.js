@@ -201,10 +201,17 @@ function appearing(word, translation, theme, settingsArray) {
         "<div id=\"wordsWrapper8730011\">" +
             "<div id=\"words8730011\">" +
                 "<div id=\"timer8730011\">" +
-                    "<div class=\"backgroundCircle8730011\"></div>" +
-                    "<div class=\"circlesWrapper8730011\" data-anim8730011=\"base wrapper\">" +
-                        "<div class=\"circle8730011\" data-anim8730011=\"base left\"></div> " +
-                        "<div class=\"circle8730011\" data-anim8730011=\"base right\"></div>" +
+                    "<div class=\"radial-progress8730011\">" +
+                        "<div class=\"circle8730011\">" +
+                            "<div class=\"mask8730011 full8730011\" style=\"transition:transform " + selectDelay + "s linear\">" +
+                                "<div class=\"fill8730011\" style=\"transition:transform " + selectDelay + "s linear\"></div>" +
+                            "</div>" +
+                            "<div class=\"mask8730011 half8730011\" style=\"transition:transform " + selectDelay + "s linear\">" +
+                                "<div class=\"fill8730011\" style=\"transition:transform " + selectDelay + "s linear\"></div>" +
+                                "<div class=\"fill8730011 fix8730011\" style=\"transition:transform " + selectDelay + "s linear\"></div>" +
+                            "</div>" +
+                        "</div>" +
+                        "<div class=\"inset8730011\"></div>" +
                     "</div>" +
                     "<a href=\"\" id=\"closeButton8730011\" title=\"Close this card\" tabindex=\"-1\"></a>" +
                 "</div>" +
@@ -270,15 +277,25 @@ function appearing(word, translation, theme, settingsArray) {
         return false;
     };
 
+
     setTimeout(function () {
         wordCard.style.transform = "translateY(0%)";
     }, 10);
+
+    setTimeout(function () {
+        let fillElements = document.querySelectorAll("#timer8730011 .fill8730011");
+        for (let i = 0; i < fillElements.length; i++) {
+            fillElements[i].style.transform = 'rotate(180deg)';
+        }
+        document.querySelector("#timer8730011 .mask8730011.full8730011").style.transform = 'rotate(180deg)';
+        document.querySelector("#timer8730011 .fill8730011.fix8730011").style.transform = 'rotate(360deg)';
+    }, wordCardDelay + 10);
 
     timeoutIdTimer = setTimeout(function () {
         if (!disappearingStarted) {
             disappearing();
         }
-    }, selectDelay * 1000);
+    }, wordCardDelay + 10 + selectDelay * 1000);
 }
 
 /**

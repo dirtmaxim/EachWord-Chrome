@@ -45,6 +45,7 @@
     white-space: nowrap;
 }
 
+/* Timer */
 #timer8730011 {
     position: absolute;
     top: -20px;
@@ -54,80 +55,40 @@
     height: 60px;
 }
 
-.backgroundCircle8730011 {
-    width: 56px;
-    height: 56px;
-    border: 2px solid;
-    border-radius: 30px;
-    position: absolute;
-}
-
-.circlesWrapper8730011 {
+#timer8730011 .radial-progress8730011 {
     width: 60px;
     height: 60px;
-    position: absolute;
-    top: 0;
-    left: 0;
-    clip: rect(0px, 60px, 60px, 30px); /* Hide half of the progress bar */
+    background-color: #d6dadc;
+    border-radius: 50%;
 }
 
-.circle8730011 {
+#timer8730011 .radial-progress8730011 .circle8730011 .mask8730011, #timer8730011 .radial-progress8730011 .circle8730011 .fill8730011 {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    -webkit-backface-visibility: hidden;
+}
+
+#timer8730011 .radial-progress8730011 .circle8730011 .mask8730011 {
+    clip: rect(0px, 60px, 60px, 30px);
+}
+
+#timer8730011 .radial-progress8730011 .circle8730011 .mask8730011 .fill8730011 {
+    clip: rect(0px, 30px, 60px, 0px);
+    background-color: #97a71d;
+}
+
+#timer8730011 .radial-progress8730011 .inset8730011 {
     width: 56px;
     height: 56px;
-    border: 2px solid;
-    border-radius: 50%;
     position: absolute;
-    top: 0;
-    left: 0;
-    clip: rect(0px, 30px, 60px, 0px);
+    margin-left: 2px;
+    margin-top: 2px;
+    background-color: #fff;
+    border-radius: 50%;
 }
-
-div[data-anim8730011~=base] {
-    animation-iteration-count: 1; /* Only run once */
-    animation-fill-mode: forwards; /* Hold the last keyframe */
-    animation-timing-function: linear; /* Linear animation */
-}
-
-.circlesWrapper8730011[data-anim8730011~=wrapper] {
-    animation-delay: 2.5s; /* Wait half of the animation */
-    animation-name: close-wrapper8730011; /* Keyframes name */
-}
-
-.circle8730011[data-anim8730011~=left] {
-    animation-duration: 5s; /* Full animation time */
-    animation-name: left-spin8730011;
-}
-
-.circle8730011[data-anim8730011~=right] {
-    animation-duration: 2.5s; /* Half animation time */
-    animation-name: right-spin8730011;
-}
-
-@-webkit-keyframes right-spin8730011 {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(180deg);
-    }
-}
-
-/* Rotate the left side of the progress bar from 0 to 360 degrees */
-@-webkit-keyframes left-spin8730011 {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-/* Set the wrapper clip to auto, effectively removing the clip */
-@-webkit-keyframes close-wrapper8730011 {
-    to {
-        clip: rect(auto, auto, auto, auto);
-    }
-}
+/* -- Timer -- */
 
 #closeButton8730011 {
     position: absolute;
@@ -284,22 +245,27 @@ div[data-anim8730011~=base] {
         height: 40px;
     }
 
-    .backgroundCircle8730011 {
-        width: 36px;
-        height: 36px;
-        border-radius: 20px;
-    }
-
-    .circlesWrapper8730011 {
+    #timer8730011 .radial-progress8730011 {
         width: 40px;
         height: 40px;
+    }
+
+    #timer8730011 .radial-progress8730011 .circle8730011 .mask8730011, #timer8730011 .radial-progress8730011 .circle8730011 .fill8730011 {
+        width: 40px;
+        height: 40px;
+    }
+
+    #timer8730011 .radial-progress8730011 .circle8730011 .mask8730011 {
         clip: rect(0px, 40px, 40px, 20px);
     }
 
-    .circle8730011 {
+    #timer8730011 .radial-progress8730011 .circle8730011 .mask8730011 .fill8730011 {
+        clip: rect(0px, 20px, 40px, 0px);
+    }
+
+    #timer8730011 .radial-progress8730011 .inset8730011 {
         width: 36px;
         height: 36px;
-        clip: rect(0px, 20px, 40px, 0px);
     }
 
     #closeButton8730011:after {

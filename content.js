@@ -168,9 +168,10 @@ function showWindow(text) {
     into8730011 = document.getElementById("into8730011");
     addButton8730011 = document.getElementById("addButton8730011");
     playButton8730011 = document.getElementById("playButton8730011");
-    playButton8730011.onclick = function() {
+    playButton8730011.onclick = function(event) {
+        event.preventDefault();
+        event.stopPropagation();
         chrome.runtime.sendMessage({type: "playWord", word: from8730011.value});
-        return false;
     };
     addButton8730011.onclick = addButtonHandler;
     from8730011.value = text.charAt(0).toUpperCase() + text.slice(1);

@@ -45,6 +45,8 @@
     "images/icons/closeButton32_active.png",
     "images/icons/closeButton32_hover.png",
     "images/icons/closeButton32.png",
+    "images/icons/voice_default.png",
+    "images/icons/voice_hover.png",
     "images/wordCard/*.png",
     "fonts/RobotoLight/*",
     "fonts/RobotoRegular/*"

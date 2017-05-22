@@ -2,6 +2,7 @@ let windowFocused;
 let fromFocused;
 let intoFocused;
 let addFocused;
+let playFocused;
 
 /**
  * Handler for shortcut for trigger EachWord on the web pages.
@@ -33,9 +34,10 @@ window.onkeydown = function (event) {
 function checkFocus() {
     let window8730011 = document.getElementById("window8730011");
 
-    if (!windowFocused && !fromFocused && !intoFocused && !addFocused) {
+    if (!windowFocused && !fromFocused && !intoFocused && !addFocused && !playFocused) {
         if (window8730011) {
             window8730011.remove();
+            document.getElementById("fontStyle8730011").remove();
         }
 
         window.removeEventListener("click", checkFocus);
@@ -74,6 +76,7 @@ function addButtonHandler(event) {
     });
 
     window8730011.remove();
+    document.getElementById("fontStyle8730011").remove();
     window.removeEventListener("click", checkFocus);
     return false;
 }
@@ -89,25 +92,88 @@ function showWindow(text) {
     let from8730011;
     let into8730011;
     let addButton8730011;
+    let playButton8730011;
+    let window8730011;
+    let windowWidth;
+    let windowHeight;
+    let fontStyle;
+    let selectionCoords;
 
     windowFocused = false;
-    fromFocused = true;
-    intoFocused = false;
+    fromFocused = false;
+    intoFocused = true;
     addFocused = false;
-    div.id = "window8730011";
+    playFocused = false;
 
-    // To get focus.
-    div.setAttribute("contenteditable", "true");
-    div.innerHTML = "<input id='from8730011' type='text' value='" + text +
-        "' placeholder='Word' maxlength='50' tabindex='1'><input id='into8730011' type='text'" +
-        "placeholder='Translation' maxlength='50' tabindex='2'><a href='' id='addButton8730011'" +
-        "title='Add word card' tabindex='-1'>+</a>";
+    fontStyle = document.createElement("style");
+    fontStyle.id = "fontStyle8730011";
+    fontStyle.innerHTML =
+        "@font-face{font-family:\"RobotoRegular\";" +
+        "src:url(" + chrome.runtime.getURL("fonts/RobotoRegular/RobotoRegular.eot") + ");" +
+        "src:url(" + chrome.runtime.getURL("fonts/RobotoRegular/RobotoRegular.eot?#iefix") + ")format(\"embedded-opentype\")," +
+        "url(" + chrome.runtime.getURL("fonts/RobotoRegular/RobotoRegular.woff") + ")format(\"woff\")," +
+        "url(" + chrome.runtime.getURL("fonts/RobotoRegular/RobotoRegular.ttf") + ")format(\"truetype\");" +
+        "font-style:normal;" +
+        "font-weight:normal;}" +
+        "@font-face{font-family:\"RobotoRegular\";" +
+        "src:url(" + chrome.runtime.getURL("fonts/RobotoLight/RobotoLight.eot") + ");" +
+        "src:url(" + chrome.runtime.getURL("fonts/RobotoLight/RobotoLight.eot?#iefix") + ")format(\"embedded-opentype\")," +
+        "url(" + chrome.runtime.getURL("fonts/RobotoLight/RobotoLight.woff") + ")format(\"woff\")," +
+        "url(" + chrome.runtime.getURL("fonts/RobotoLight/RobotoLight.ttf") + ")format(\"truetype\");" +
+        "font-style:normal;" +
+        "font-weight:200;}" +
+        "}";
+    document.head.appendChild(fontStyle);
+
+    div.id = "window8730011";
+    div.innerHTML = "<div class='playWrap8730011'>" +
+                        "<a href='' title='Listen' id='playButton8730011' tabindex='-1'></a>" +
+                    "</div>" +
+                    "<div class='wordsWrap8730011'>" +
+                        "<input id='from8730011' type='text' value='" + text + "' placeholder='Word' maxlength='50' tabindex='1'>" +
+                        "<input id='into8730011' type='text' placeholder='Translation' maxlength='50' tabindex='2'>" +
+                    "</div>" +
+                    "<a href='' id='addButton8730011' title='Add word card' tabindex='-1'>+</a>";
     body.appendChild(div);
+
+    //Find position of window
+    window8730011 = document.getElementById("window8730011");
+    selectionCoords = window.getSelection().getRangeAt(0).getBoundingClientRect();
+    windowWidth = window8730011.clientWidth;
+    windowHeight = window8730011.clientHeight;
+    let left = selectionCoords.left - windowWidth / 2 + selectionCoords.width / 2;
+    let top = selectionCoords.bottom + 10;
+    if (left < 0) {
+        window8730011.style.left = 0;
+    } else {
+        if (left + windowWidth > window.innerWidth ) {
+            window8730011.style.left = "auto";
+            window8730011.style.right = 0;
+        } else {
+            window8730011.style.left = left + "px";
+        }
+    }
+    if (top < 0) {
+        window8730011.style.top = 0;
+    } else {
+        if (top + windowHeight > window.innerHeight ) {
+            window8730011.style.top = "auto";
+            window8730011.style.bottom = 0;
+        } else {
+            window8730011.style.top = top + "px";
+        }
+    }
+
     from8730011 = document.getElementById("from8730011");
     into8730011 = document.getElementById("into8730011");
     addButton8730011 = document.getElementById("addButton8730011");
+    playButton8730011 = document.getElementById("playButton8730011");
+    playButton8730011.onclick = function() {
+        chrome.runtime.sendMessage({type: "playWord", word: from8730011.value});
+        return false;
+    };
     addButton8730011.onclick = addButtonHandler;
-    from8730011.value = text;
+    from8730011.value = text.charAt(0).toUpperCase() + text.slice(1);
 
     from8730011.onkeypress = function (event) {
         if (event.keyCode === 13) {
@@ -137,6 +203,10 @@ function showWindow(text) {
         addFocused = true;
     };
 
+    playButton8730011.onfocus = function () {
+        playFocused = true;
+    };
+
     div.onblur = function () {
         windowFocused = false;
     };
@@ -153,6 +223,10 @@ function showWindow(text) {
         addFocused = false;
     };
 
+    playButton8730011.onblur = function () {
+        playFocused = false;
+    };
+
     window.addEventListener("click", checkFocus);
 
     from8730011.oninput = function requestTranslation() {
@@ -167,7 +241,7 @@ function showWindow(text) {
         }, 300);
     };
 
-    document.getElementById("from8730011").focus();
+    document.getElementById("into8730011").focus();
 
     // Force first translation.
     from8730011.oninput();

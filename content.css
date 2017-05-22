@@ -143,65 +143,131 @@
 
 #window8730011 {
     position: fixed !important;
-    font-family: Arial, sans-serif !important;
-    font-size: 14px !important;
+    top: 0;
+    left: 0;
+    font-size: 20px !important;
     line-height: initial !important;
-    width: 322px !important;
-    height: 60px !important;
-    background-color: #a9a9a9 !important;
-    border: 1px solid black !important;
-    top: 50% !important;
-    left: 50% !important;
-    transform: translate(-50%, -50%) !important;
+    width: auto !important;
+    height: 100px !important;
+    margin: 0 !important;
+    padding: 0 70px 0 57px !important;
+    background-color: #fff !important;
+    box-shadow: 0 0 9px 0 rgba(67, 74, 86, 0.34) !important;
     cursor: default !important;
     outline: none !important;
     z-index: 2147483647 !important;
 }
 
-#window8730011 input {
+#window8730011:before {
+    content: '' !important;
+    position: absolute !important;
+    width: 10px !important;
+    height: 10px !important;
+    top: -5px !important;
+    left: 50% !important;
+    transform: translateX(-50%) rotate(45deg) !important;
+    background-color: #fff !important;
+    box-shadow: 0 0 9px 0 rgba(67, 74, 86, 0.34) !important;
+}
+
+#window8730011:after {
+    content: '' !important;
+    position: absolute !important;
+    width: 20px !important;
+    height: 10px !important;
+    top: 0 !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    background-color: #fff !important;
+}
+
+#window8730011 .playWrap8730011, #window8730011 .wordsWrap8730011 {
+    height: 100% !important;
+    display: inline-block;
+}
+
+#window8730011 .playWrap8730011 {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 57px !important;
+    text-align: right !important;
+    padding: 25px 12px 0 0 !important;
+    box-sizing: border-box !important;
+}
+
+#window8730011 .wordsWrap8730011 {
+    padding: 19px 10px 0 0 !important;
+}
+
+#window8730011 #playButton8730011 {
+    vertical-align: top !important;
+    display: inline-block !important;
+    width: 15px !important;
+    height: 15px !important;
+    background: url("chrome-extension://__MSG_@@extension_id__/images/icons/voice_default.png") !important;
+    background-size: 100% 100% !important;
     margin: 0 !important;
-    padding: 5px !important;
-    width: 101px !important;
-    color: black !important;
-    -webkit-appearance: textfield !important;
-    box-sizing: content-box !important;
+    outline: 0 !important;
+    transition: 0.2s !important;
+}
+
+#window8730011 #playButton8730011:hover {
+    background: url("chrome-extension://__MSG_@@extension_id__/images/icons/voice_hover.png") !important;
+}
+
+#window8730011 input {
+    display: block !important;
+    padding: 0 !important;
+    width: 200px !important;
+    height: auto !important;
+    color: #043d52 !important;
+    box-sizing: border-box !important;
+    border: none !important;
+    font-family: "RobotoRegular", sans-serif !important;
+    -webkit-appearance: none !important;
 }
 
 #window8730011 input::-webkit-input-placeholder {
     color: #a9a9ac !important;
 }
 
-#window8730011 input:focus {
-    outline: auto 5px -webkit-focus-ring-color !important;
+#window8730011 input, #window8730011 input:focus, #window8730011 input:visited {
+    outline: none !important;
+    border: none !important;
+    box-shadow: none !important;
 }
 
 #window8730011 input::selection {
-    background: #c6cfda !important;
+    background: none !important;
 }
 
 #from8730011 {
-    position: absolute !important;
-    top: 50% !important;
-    left: 15px !important;
-    transform: translate(0%, -50%) !important;
+    margin: 0 !important;
+    font-size: 20px !important;
+    font-weight: normal !important;
 }
 
 #into8730011 {
-    position: absolute !important;
-    top: 50% !important;
-    left: 144px !important;
-    transform: translate(0%, -50%) !important;
-
+    margin: 9px 0 0 !important;
+    font-weight: 200 !important;
+    font-size: 18px !important;
 }
 
 #addButton8730011 {
     position: absolute !important;
-    top: 50% !important;
-    left: 273px !important;
-    transform: translate(0%, -50%) !important;
-    padding: 7px 13px !important;
-    background: #2782ff !important;
-    color: white !important;
+    top: 0 !important;
+    right: 0 !important;
+    display: inline-block !important;
+    width: 70px !important;
+    height: 100px !important;
+    text-align: center !important;
+    background: #00bef3 !important;
+    color: rgba(255, 255, 255, 0.6) !important;
+    font-family: "RobotoRegular", sans-serif !important;
+    font-size: 42px !important;
+    font-weight: normal !important;
+    line-height: 100px !important;
     text-decoration: none !important;
     cursor: pointer !important;
     outline: none !important;
@@ -209,11 +275,7 @@
 }
 
 #addButton8730011:hover {
-    background: #216dd9 !important;
-}
-
-#addButton8730011:active {
-    background: #1955a8 !important;
+    color: #fff !important;
 }
 
 #addButton8730011::selection {

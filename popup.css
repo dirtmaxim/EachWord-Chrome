@@ -1,162 +1,611 @@
+@font-face {
+    font-family: "Roboto";
+    src: url("fonts/RobotoRegular/RobotoRegular.eot");
+    src: url("fonts/RobotoRegular/RobotoRegular.eot?#iefix")format("embedded-opentype"),
+    url("fonts/RobotoRegular/RobotoRegular.woff")format("woff"),
+    url("fonts/RobotoRegular/RobotoRegular.ttf")format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: "Roboto";
+    src: url("fonts/RobotoLight/RobotoLight.eot");
+    src: url("fonts/RobotoLight/RobotoLight.eot?#iefix")format("embedded-opentype"),
+    url("fonts/RobotoLight/RobotoLight.woff")format("woff"),
+    url("fonts/RobotoLight/RobotoLight.ttf")format("truetype");
+    font-style: normal;
+    font-weight: 200;
+}
+
+@font-face {
+    font-family: "Roboto";
+    src: url("fonts/RobotoMedium/RobotoMedium.eot");
+    src: url("fonts/RobotoMedium/RobotoMedium.eot?#iefix")format("embedded-opentype"),
+    url("fonts/RobotoMedium/RobotoMedium.woff")format("woff"),
+    url("fonts/RobotoMedium/RobotoMedium.ttf")format("truetype");
+    font-style: normal;
+    font-weight: 500;
+}
+
+html, body {
+    width: 376px;
+    padding: 0;
+}
+
 body {
-    background-color: #6c8cd5;
+    background-color: #fff;
     margin: 0;
-    font-family: Arial, sans-serif;
-    font-size: 9pt;
+    padding: 0;
+    font-family: "Roboto", sans-serif;
+    font-size: 18px;
+    color: #043d52;
 }
 
-#mainBlock {
-    margin: 15px;
-}
-
-#infoBlock, #copyright {
-    color: white;
-    padding-top: 2px;
-    padding-bottom: 2px;
-    font-weight: bold;
-}
-
-#copyright {
-    height: 38px;
-    text-align: center;
-    background-color: #06266f;
-}
-
-#infoBlock {
-    height: 38px;
-    background-color: #4671d5;
-}
-
-#infoBlock > a {
+a {
+    text-decoration: none;
     outline: none;
 }
 
-#shareButtons {
-    position: absolute;
-    top: 6px;
-    left: 112px;
-    padding: 3px 15px;
-    border-radius: 20px;
-    background-color: #e8e8e8;
-    outline: none;
+#headBlock {
+    padding: 34px 35px 24px;
 }
 
-#searchInput {
-    position: absolute;
-    -webkit-appearance: textfield;
-    display: none;
-    top: 8px;
-    left: 112px;
-    padding: 3.5pt;
-    width: 138px;
+.logo {
+    display: inline-block;
+    width: 154px;
+    height: 34px;
+    background: url("images/icons/logo.png");
+    background-size: 100% 100%;
+    vertical-align: middle;
 }
 
-#wordsList {
-    margin-bottom: 14px;
+#settingsButton {
+    display: inline-block;
+    width: 22px;
+    height: 23px;
+    margin-left: 57px;
+    vertical-align: middle;
+    background: url("images/icons/settings.png");
+    transition: 0.2s;
+}
+
+#settingsButton:hover {
+    background: url("images/icons/settings_hover.png");
+}
+
+.toggle {
+    position: absolute;
+    top: 40px;
+    right: 35px;
+    display: inline-block;
+    width: 47px;
+    height: 20px;
+}
+
+.toggle input[type = checkbox] {
+    visibility: hidden;
+}
+
+.toggle label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.toggle label:before {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #cdd8dc;
+    opacity: 0.4;
+    box-shadow: inset 0 0 4px 0 rgba(0, 0, 0, 0.16);
+}
+
+.toggle label:after {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    position: absolute;
+    top: -2px;
+    right: 27px;
+    background: url("images/icons/on_icon.png") #cdd8dc center top 5px no-repeat;
+    background-size: 12px 13px;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.19);
+    opacity: 1;
+    transition: right 0.7s ease;
+}
+
+.toggle input[type = checkbox]:checked + label:after {
+    right: -4px;
+    background-color: #a9de7e;
+    transition: right 0.7s ease;
+}
+
+.toggle input[type = checkbox]:checked + label:before {
+    background-color: #a9de7e;
+}
+
+.toggle input[type = checkbox]:checked[disabled] + label:before, .toggle input[type = checkbox]:checked[disabled] + label:after {
+    background-color: #cdd8dc;
+}
+
+#wordBlock {
+    position: relative;
+    padding-top: 20px;
+}
+
+.menuWrapper {
+    float: left;
+    padding-left: 35px;
+    padding-top: 8px;
+}
+
+.wordWrapper {
+    position: relative;
+    margin-left: 81px;
+    padding-right: 35px;
+}
+
+#menuButton {
+    display: block;
+    transition: all 0.2s;
+}
+
+.openMenu {
+    position: relative;
+    width: 15px;
+    height: 12px;
+    border-top: 2px solid #00bef3;
+    opacity: 0.4;
+}
+
+.openMenu:before, .openMenu:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    display: block;
+    width: 15px;
+    height: 2px;
+    background-color: #00bef3;
+}
+
+.openMenu:before {
+    bottom: 6px;
+}
+
+.openMenu:after {
+    bottom: 0;
+}
+
+.openMenu:hover {
+    opacity: 1;
+}
+
+.closeMenu {
+    width: 14px;
+    height: 14px;
+    margin-right: 1px;
+    background: url("images/icons/closemenu_defaul.png");
+}
+
+.closeMenu:hover {
+    background: url("images/icons/closemenu_hover.png");
 }
 
 input {
-    padding: 5px;
-    width: 101px;
+    display: block;
+    padding: 0 20px 0 0;
+    width: 240px;
+    color: #043d52;
+    border: none;
+    font-family: "Roboto", sans-serif;
+    font-weight: 300;
+    -webkit-appearance: none;
+}
+
+input::-webkit-input-placeholder {
+    color: #b3c4cb;
+}
+
+input:focus, input:visited {
+    outline: none;
 }
 
 input::selection {
-    background: #c6cfda;
+    background: #8CD7F3;
+}
+
+#fromLanguage {
+    font-size: 18px;
+    padding-bottom: 4px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid rgba(4, 61, 82, 0.1);
+    color: #043d52;
+}
+
+#fromLanguage:not([value=""]) {
+    border-bottom-color: rgba(4, 61, 82, 0.4);
+}
+
+#fromLanguage:focus {
+    border-bottom-color: rgba(4, 61, 82, 0.4);
+}
+
+#intoLanguage {
+    font-size: 16px;
+    color: #b3c4cb;
+}
+
+.playButton {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    background: url("images/icons/voice_default.png");
+    transition: background 0.2s;
+}
+
+.playButton:hover {
+    background: url("images/icons/voice_hover.png");
+}
+
+.deleteButton {
+    display: inline-block;
+    width: 12px;
+    height: 14px;
+    opacity: 0.6;
+    background-image: url("images/icons/basket_icon.png");
+    background-size: 100% 100%;
+    transition: all 0.2s;
+}
+
+.deleteButton:hover {
+    opacity: 1;
+}
+
+#playButton {
+    position: absolute;
+    top: 5px;
+    right: 35px;
+}
+
+.addWrapper {
+    position: relative;
+    width: 100%;
+    height: 40px;
+    margin-top: 14px;
+    font-size: 16px;
+    line-height: 40px;
+    text-align: right;
+    box-sizing: border-box;
+    overflow: hidden;
+    transition: all 0.2s;
+}
+
+.addWrapper span, .addWrapper #deleteButton {
+    display: none;
+}
+
+.addWrapper.success {
+    padding: 0 35px 0 80px;
+    background-color: #98de5f;
+    color: #6bb231;
+}
+
+.addWrapper.success.delete {
+    background-color: #da695d;
+    color: #ad4d42;
 }
 
 #addButton {
-    float: right;
-    padding: 6px 32px;
-    background: #40c781;
-    color: white;
-    text-decoration: none;
-    outline: none;
-    -webkit-user-select: none;
-    transition: 0.3s;
+    display: block;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    background-color: #00bef3;
+    text-transform: uppercase;
+    color: #76dcf8;
+    font-size: 14px;
+    line-height: 40px;
+    transition: all 0.2s;
+}
+
+#addButton:before {
+    content: '';
+    display: inline-block;
+    width: 11px;
+    height: 11px;
+    margin-right: 6px;
+    margin-bottom: 3px;
+    background-image: url("images/icons/add_icon_default.png");
+    background-size: 100% 100%;
+    vertical-align: middle;
+    transition: all 0.2s;
 }
 
 #addButton:hover {
-    background: #35a76e;
+    color: #fff;
 }
 
-#addButton:active {
-    background: #21935a;
+#addButton:hover:before {
+    background-image: url("images/icons/add_icon_hover.png");
 }
 
-#switchButton {
+.addWrapper.success #addButton {
+    display: none;
+}
+
+.addWrapper.success #deleteButton {
+    display: block;
     position: absolute;
-    top: 8px;
-    right: 14px;
-    padding: 6px 10px;
-    color: white;
-    text-decoration: none;
-    outline: none;
-    -webkit-user-select: none;
-    transition: 0.3s;
+    top: 14px;
+    left: 35px;
 }
 
-.colorFirst {
-    background: #f62c4c;
+.addWrapper.success .word {
+    position: relative;
+    display: inline;
+    max-width: 260px;
+    padding-left: 24px;
+    box-sizing: border-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-.colorFirst:hover {
-    background: #d00b2a;
+.addWrapper.success .word:before {
+    content: '';
+    position: absolute;
+    top: 6px;
+    left: 0;
+    display: inline-block;
+    width: 13px;
+    height: 10px;
+    background-image: url("images/icons/ok_word.png");
+    background-size: 100% 100%;
 }
 
-.colorFirst:active {
-    background: #a60820;
+.addWrapper.success.delete .word {
+    display: none;
 }
 
-.colorSecond {
-    background: #32CD32;
+.addWrapper.success.delete .deleteWarning {
+    display: inline;
 }
 
-.colorSecond:hover {
-    background: #2bb32b;
+#searchBlock {
+    position: relative;
+    padding: 31px 35px 30px;
 }
 
-.colorSecond:active {
-    background: #1f801f;
-}
-
-#settingsIcon {
-    float: left;
-    padding-top: 7px;
-    padding-left: 13px;
-    transition: 0.3s;
-}
-
-#settingsIcon:hover {
-    opacity: 0.8;
-}
-
-#settingsIcon:active {
-    opacity: 0.6;
-}
-
-#searchIcon {
-    float: left;
-    padding-top: 7px;
-    padding-left: 7px;
-    transition: 0.3s;
-}
-
-#searchIcon:hover {
-    opacity: 0.8;
-}
-
-#searchIcon:active {
-    opacity: 0.6;
-}
-
-::selection {
-    background: transparent;
+#searchInput {
+    width: 100%;
+    font-size: 18px;
+    padding: 0 0 4px 23px;
+    border-bottom: 1px solid rgba(4, 61, 82, 0.1);
+    box-sizing: border-box;
 }
 
 input[type="search"] {
     -webkit-appearance: searchfield;
 }
 
-input[type="search"]::-webkit-search-cancel-button {
+#searchInput::-webkit-search-cancel-button {
+    cursor: pointer;
     -webkit-appearance: searchfield-cancel-button;
+}
+
+#searchInput:not([value=""]) {
+    border-bottom-color: rgba(4, 61, 82, 0.4);
+}
+
+#searchInput:focus {
+    border-bottom-color: rgba(4, 61, 82, 0.4);
+}
+
+#searchButton {
+    position: absolute;
+    top: 37px;
+    left: 35px;
+    display: inline-block;
+    width: 13px;
+    height: 13px;
+    background-image: url("images/icons/search_icon_default.png");
+    background-size: 100% 100%;
+    transition: background 0.2s;
+}
+
+#searchInput:not([value=""]) + #searchButton {
+    background-image: url("images/icons/search_icon_active.png");    
+}
+
+#wordsBlock {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+#wordsBlock::-webkit-scrollbar {
+    width: 9px;
+}
+
+#wordsBlock::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.11);
+}
+
+#wordsBlock::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(0, 0, 0, 0.15);
+}
+
+#wordsBlock::-webkit-scrollbar-button {
+    width: 0;
+    height: 0;
+}
+
+#wordsBlock::-webkit-scrollbar-corner {
+    background-color: transparent;
+}
+
+#wordsBlock>div {
+    position: relative;
+    min-height: 100px;
+    padding: 21px 60px 22px;
+    transition: 0.2s;
+    box-sizing: border-box;
+}
+
+#wordsBlock>div:hover {
+    background-color: #e5f8fe;
+}
+
+#wordsBlock>div.deleteStyle {
+    background-color: #f8e1df;
+}
+
+#wordsBlock .playButton {
+    position: absolute;
+    top: 26px;
+    left: 35px;
+}
+
+#wordsBlock .deleteButton {
+    position: absolute;
+    top: 26px;
+    right: 35px;
+    opacity: 1;
+    background-image: url("images/icons/remove_icon_default.png");
+}
+
+#wordsBlock .deleteButton:hover {
+    background-image: url("images/icons/remove_icon_hover.png");
+}
+
+#wordsBlock span {
+    display: inline-block;
+    width: 100%;
+    font-weight: 300;
+}
+
+#wordsBlock>div span:nth-child(3) {
+    font-size: 16px;
+    color: #5e8897;
+    margin-top: 6px;
+}
+
+.toTop {
+    text-align: center;
+}
+
+#backToTop {
+    position: relative;
+    display: inline-block;
+    margin: 35px 0 33px;
+    padding-left: 22px;
+    color: #00bef3;
+    text-transform: uppercase;
+    font-size: 14px;
+}
+
+#backToTop:before {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 0;
+    width: 13px;
+    height: 13px;
+    background-image: url("images/icons/gototop_button.png");
+    background-size: 100% 100%;
+    transition: transform 0.3s;
+}
+
+#backToTop:hover:before {
+    transform: translateY(-4px);
+}
+
+
+#socialBlock {
+    position: relative;
+    height: 42px;
+}
+
+#shareButtons {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}
+
+#shareButtons li {
+    margin: 0 !important;
+    width: 25%;
+    vertical-align: bottom;
+}
+
+#shareButtons li:hover {
+    opacity: 1;
+}
+
+#shareButtons .ya-share2__list {
+    width: 100%;
+}
+
+#shareButtons .ya-share2__link {
+    width: 100%;
+}
+
+#shareButtons .ya-share2__badge {
+    height: 40px;
+    width: 100%;
+    padding-top: 10px;
+    border-radius: 0;
+    text-align: center;
+    box-sizing: border-box;
+    transition: height 0.2s;
+}
+
+#shareButtons .ya-share2__badge:hover {
+    height: 42px;
+}
+
+#shareButtons .ya-share2__icon {
+    width: 20px;
+    height: 20px;
+}
+
+#shareButtons .ya-share2__icon:active {
+    box-shadow: none;
+}
+
+#shareButtons .ya-share2__item_service_vkontakte .ya-share2__icon {
+    background: url("images/icons/vk_white.png") no-repeat center;
+    background-size: 20px 12px;
+}
+
+#shareButtons .ya-share2__item_service_facebook .ya-share2__icon {
+    background: url("images/icons/fb_white.png") no-repeat center;
+    background-size: 8px 18px;
+}
+
+#shareButtons .ya-share2__item_service_odnoklassniki .ya-share2__icon {
+    background: url("images/icons/ok_white.png") no-repeat center;
+    background-size: 11px 20px;
+}
+
+#shareButtons .ya-share2__item_service_twitter .ya-share2__icon {
+    background: url("images/icons/tw_white.png") no-repeat center;
+    background-size: 16px 14px;
+}
+
+.hidden {
+    display: none;
 }

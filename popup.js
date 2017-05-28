@@ -1,21 +1,12 @@
 // Warning: some variables defined in "commonFunction.js".
-let isSearchActivated = false;
-let notFoundMessage;
 let nothingToShowMessage;
-let welcomeMessage;
 let updateMessage;
 let isCrucialUpdate;
 let dictionaryArray;
-let messageTimoutId;
+let messageTimeoutId;
 
 // It affects either updateMessage will be shown or not.
 isCrucialUpdate = false;
-
-// Text message initialisation.
-notFoundMessage = "We haven't found such words <img src=\"images/smiles/confused.svg\" width=\"18\"><br>Have you added them?<br>";
-nothingToShowMessage = "We have nothing to show you <img src=\"images/smiles/confused.svg\" width=\"18\"><br>First of all, add some words.";
-welcomeMessage = "Welcome to the EachWord <img src=\"images/smiles/sunglasses.svg\" width=\"18\"><br><br>For a start, add couple words that you want to learn and go on surfing the internet.<br><br>These words will be periodically shown to you. So you will learn them.<br><br>Check out options page.";
-updateMessage = "Really? I can't believe <img src=\"images/smiles/neutral_face.svg\" width=\"18\"><br>It's a new version of EachWord!<br>New features:<br>- Words search<br>- Suggested translation<br>- Words addition from context menu or using keyboard shortcut<br>If you like EachWord, please, share it on social networks using buttons above. It would really help us.";
 
 /**
  * To save entered letters in "Word" field when user closes extension window and translate with delay.
@@ -78,10 +69,6 @@ function switchButtonChangeState() {
     if (switchState) {
         switchState = false;
         localStorage.setItem("switchState", JSON.stringify(switchState));
-        switchButton.innerHTML = "Turn on";
-        switchButton.title = "Turn on push cards";
-        switchButton.classList.remove("colorFirst");
-        switchButton.classList.add("colorSecond");
 
         // Change color icon to icon without color to indicate state of extension.
         chrome.browserAction.setIcon({path: "images/default_icons/icon38_(without_color).png"});
@@ -92,10 +79,7 @@ function switchButtonChangeState() {
     } else {
         switchState = true;
         localStorage.setItem("switchState", JSON.stringify(switchState));
-        switchButton.innerHTML = "Turn off";
-        switchButton.title = "Turn off push cards";
-        switchButton.classList.remove("colorSecond");
-        switchButton.classList.add("colorFirst");
+
         chrome.browserAction.setIcon({path: "images/default_icons/icon38.png"});
 
         if (JSON.parse(localStorage.getItem("dictionaryArray")).length !== 0) {
@@ -117,7 +101,6 @@ function isExtensionUpdated() {
     let versionArray = JSON.parse(localStorage.getItem("versionArray"));
 
     if (versionArray.length === 0) {
-        localStorage.setItem("welcomeIsShown", JSON.stringify(true));
         versionArray.push(chrome.app.getDetails().version);
         localStorage.setItem("versionArray", JSON.stringify(versionArray));
     } else if (versionArray[versionArray.length - 1] !== chrome.app.getDetails().version) {
@@ -128,40 +111,52 @@ function isExtensionUpdated() {
 }
 
 /**
- * It checks cases to show different type of messages.
- */
-function checkCasesToShowMessage() {
-    if (JSON.parse(localStorage.getItem("welcomeIsShown"))) {
-        showButtonWindow(welcomeMessage, "Got it", "left", "80%", "80%", "10", function () {
-            localStorage.setItem("welcomeIsShown", JSON.stringify(false));
-
-            if (isSearchActivated && showHideSearch.toggleFlag) {
-                findWords();
-            } else if (dictionaryArray.length === 0) {
-                showSimpleWindow(nothingToShowMessage, "center", "80%", "25%", "1");
-            }
-        });
-    } else if (dictionaryArray.length === 0) {
-        showSimpleWindow(nothingToShowMessage, "center", "80%", "25%", "1");
-    }
-}
-
-/**
- * Add word to the table.
+ * Add word to the words list.
  *
  * @param {string} word
  * @param {string} translation
- * @param {string} index
  */
-function addWordToList(word, translation, index) {
-    let div;
+function addWordToList(word, translation) {
+    let li;
+    let wordsBlock = document.getElementById("wordsBlock");
 
-    div = document.createElement("div");
-    div.innerHTML = "<a href='' class='playButton' title='play word' tabindex='-1'></a>" +
-                   "<span>" + word + "</span>" +
-                   "<span>" + translation + "</span>" +
+    li = document.createElement("li");
+    li.innerHTML = "<a href='' class='playButton' title='play word' tabindex='-1'></a>" +
+                   "<input type='text' value='" + word + "'></input>" +
+                   "<input type='text' value='" + translation + "'></input>" +
                    "<a href='' class='deleteButton' title='delete word' tabindex='-1'></a>";
-    document.getElementById("wordsBlock").appendChild(div);
+    wordsBlock.insertBefore(li, wordsBlock.firstChild);
+}
+
+/**
+ * Delete edded word from the dictionary.
+ *
+ * @returns {boolean}
+ */
+function deleteAddedWord() {
+    let $li = $("#wordsBlock").children("li")[0];
+    let index = dictionaryArray.length - 1;
+    let indexInQueue;
+
+    $li.remove();
+
+    dictionaryArrayQueue = JSON.parse(localStorage.getItem("dictionaryArrayQueue"));
+    indexInQueue = dictionaryArrayQueue.indexOfObject(dictionaryArray.splice(index, 1)[0]);
+
+    if (indexInQueue !== -1) {
+        dictionaryArrayQueue.splice(indexInQueue, 1);
+    }
+
+    if (dictionaryArray.length === 0) {
+        chrome.runtime.sendMessage({type: "stopInterval"});
+    }
+
+    localStorage.setItem("dictionaryArray", JSON.stringify(dictionaryArray));
+    localStorage.setItem("dictionaryArrayQueue", JSON.stringify(dictionaryArrayQueue));
+
+    document.getElementById("fromLanguage").focus();
+    chrome.runtime.sendMessage({type: "changeDictionary"});
+    return false;
 }
 
 /**
@@ -170,33 +165,26 @@ function addWordToList(word, translation, index) {
  * @returns {boolean}
  */
 function deleteWord() {
-    let tr = this.parentNode.parentNode;
-    let trNodesArray = tr.parentNode.children;
-    let index;
-    let deleteIndex;
+    let $li = $(this).parent();
+    let index = $li.parent().children().length - $li.index() - 1;
+    let indexInQueue;
 
-    index = parseInt(this.parentNode.parentNode.getAttribute("index"));
+    $li.remove();
+
     dictionaryArrayQueue = JSON.parse(localStorage.getItem("dictionaryArrayQueue"));
-    deleteIndex = dictionaryArrayQueue.indexOfObject(dictionaryArray.splice(index, 1)[0]);
+    indexInQueue = dictionaryArrayQueue.indexOfObject(dictionaryArray.splice(index, 1)[0]);
 
-    if (deleteIndex !== -1) {
-        dictionaryArrayQueue.splice(deleteIndex, 1);
+    if (indexInQueue !== -1) {
+        dictionaryArrayQueue.splice(indexInQueue, 1);
     }
 
     if (dictionaryArray.length === 0) {
         chrome.runtime.sendMessage({type: "stopInterval"});
-        showSimpleWindow(nothingToShowMessage, "center", "80%", "25%", "1");
     }
 
     localStorage.setItem("dictionaryArray", JSON.stringify(dictionaryArray));
     localStorage.setItem("dictionaryArrayQueue", JSON.stringify(dictionaryArrayQueue));
 
-    // Shift all indices after deleted element.
-    for (let i = $(this.parentNode.parentNode).index() + 1; i < trNodesArray.length; i++) {
-        trNodesArray[i].setAttribute("index", (parseInt(trNodesArray[i].getAttribute("index")) - 1).toString());
-    }
-
-    tr.remove();
     document.getElementById("fromLanguage").focus();
     chrome.runtime.sendMessage({type: "changeDictionary"});
     return false;
@@ -243,17 +231,16 @@ function addWord() {
     localStorage.setItem("dictionaryArrayQueue", JSON.stringify(dictionaryArrayQueue));
 
     addWordToList(word, translation, (dictionaryArray.length - 1).toString());
-    $("#wordsBlock").animate({ scrollTop: $('#wordsBlock').prop("scrollHeight")}, 1000);
     localStorage.setItem("fromLanguage", JSON.stringify(""));
     localStorage.setItem("intoLanguage", JSON.stringify(""));
     document.getElementById("fromLanguage").focus();
     chrome.runtime.sendMessage({type: "changeDictionary"});
 
     showSuccess(word);
-    if (messageTimoutId) {
-        clearTimeout(messageTimoutId);
+    if (messageTimeoutId) {
+        clearTimeout(messageTimeoutId);
     }
-    messageTimoutId = setTimeout(closeSuccess, 3000);
+    messageTimeoutId = setTimeout(closeSuccess, 4000);
 
     return false;
 }
@@ -274,6 +261,44 @@ function closeSuccess() {
 }
 
 /**
+ * Hide words before performing actions.
+ */
+function hideWords() {
+    /**
+     * @type {JQuery}
+     */
+    $("#wordsBlock").find("li").each(function () {
+        if (!$(this).hasClass("hidden")) {
+            $(this).addClass("hidden");
+        }
+    });
+}
+
+/**
+ * Show all words.
+ */
+function showAllWords() {
+    /**
+     * @type {JQuery}
+     */
+    $("#wordsBlock").find("li").each(function () {
+        if ($(this).hasClass("hidden")) {
+            $(this).removeClass("hidden");
+        }
+    });
+}
+
+/**
+ * Show word by index in words list.
+ */
+function showWord(index) {
+    /**
+     * @type {JQuery}
+     */
+    $("#wordsBlock").find("li").eq(index).removeClass("hidden");
+}
+
+/**
  * Complete character from regular expression with double slash.
  */
 function escapeRegularExpression(text) {
@@ -281,32 +306,16 @@ function escapeRegularExpression(text) {
 }
 
 /**
- * Clear table from content before performing actions.
- */
-function clearTable() {
-    /**
-     * @type {JQuery}
-     */
-    let $table = $("#wordsList").contents().find("table");
-
-    // Delete all rows in the table except the first.
-    $table[0].innerHTML = $table[0].rows[0].innerHTML;
-}
-
-/**
  * Filter words in dictionary and display them.
  */
 function findWords() {
     let searchValue = $("#searchInput").val().toString().trim();
-    let searchFromBegin = JSON.parse(localStorage.getItem("settingsArray")).searchFromBegin;
-    let regExp = new RegExp((searchFromBegin ? "^" : "") + escapeRegularExpression(searchValue), "ig");
-    let flag = false;
+    let regExp = new RegExp(escapeRegularExpression(searchValue), "ig");
     let word;
     let translation;
     let result;
 
-    isSearchActivated = true;
-    clearTable();
+    hideWords();
 
     // Display found words.
     if (searchValue.length !== 0) {
@@ -315,101 +324,60 @@ function findWords() {
             word = dictionaryArray[i].word;
             translation = dictionaryArray[i].translation;
 
-            if ((result = regExp.exec(word)) !== null) {
-                word = word.replace(regExp, "<span class='highlight'>$&</span>");
-                found = true;
-            }
-
-            if ((result = regExp.exec(translation)) !== null) {
-                translation = translation.replace(regExp, "<span class='highlight'>$&</span>");
+            if ((result = regExp.exec(word)) !== null || (result = regExp.exec(translation)) !== null) {
                 found = true;
             }
 
             if (found) {
-                if (!flag) {
-                    hideSimpleWindow();
-                }
-
-                addWordToList(word, translation, i.toString());
-                flag = true;
+                showWord(dictionaryArray.length - i - 1);
             }
         }
-
-        if (!flag) {
-            showSimpleWindow(notFoundMessage, "center", "80%", "25%", "1");
-        }
-        // In case if there is no text in search field.
     } else {
-        isSearchActivated = false;
-
-        if (dictionaryArray.length === 0) {
-            showSimpleWindow(nothingToShowMessage, "center", "80%", "25%", "1");
-        } else {
-            hideSimpleWindow();
-
-            for (let i = 0; i < dictionaryArray.length; i++) {
-                addWordToList(dictionaryArray[i].word, dictionaryArray[i].translation, i.toString());
-            }
-        }
+        showAllWords();
     }
 }
 
 /**
- * Enter pattern to find in your dictionary.
+ * Change word in the dictionary.
+ *
+ * @returns {boolean}
  */
-function showHideSearch() {
-    let $shareButtons = $("#shareButtons");
-    let $searchInput = $("#searchInput");
-    let $fromLanguage = $("#fromLanguage");
+function changeWord() {
+    let value = $(this).val().toString().trim();
+    let index = dictionaryArray.length - $(this).parent().index() - 1;
+    let indexInQueue;
 
-    if (showHideSearch.toggleFlag === undefined) {
-        showHideSearch.toggleFlag = false;
-        $searchInput.on("input", function () {
-            clearTimeout(showHideSearch.timeoutId);
-            showHideSearch.timeoutId = setTimeout(function () {
-                findWords();
-            }, 400);
-        });
-    }
+    dictionaryArrayQueue = JSON.parse(localStorage.getItem("dictionaryArrayQueue"));
+    indexInQueue = dictionaryArrayQueue.indexOfObject(dictionaryArray[index]);
+    dictionaryArray[index].word = value;
+    dictionaryArrayQueue[indexInQueue].word = value;
 
-    if (!showHideSearch.toggleFlag) {
-        $shareButtons.hide("slide", 300, function () {
-            $searchInput.show("slide", 300, function () {
-                showHideSearch.toggleFlag = true;
-                $searchInput.focus();
+    localStorage.setItem("dictionaryArray", JSON.stringify(dictionaryArray));
+    localStorage.setItem("dictionaryArrayQueue", JSON.stringify(dictionaryArrayQueue));
 
-                if ($searchInput.val().toString().trim().length !== 0) {
-                    findWords();
-                }
-            });
-        });
-    } else {
-        $searchInput.hide("slide", 500, function () {
-            $shareButtons.show("slide", 500, function () {
-                showHideSearch.toggleFlag = false;
+    chrome.runtime.sendMessage({type: "changeDictionary"});
+    return false;
+}
 
-                if ($searchInput.val().toString().trim().length !== 0) {
-                    if (dictionaryArray.length === 0) {
-                        showSimpleWindow(nothingToShowMessage, "center", "80%", "25%", "1");
-                    } else {
-                        hideSimpleWindow();
-                        clearTable();
+/**
+ * Change translation in the dictionary.
+ *
+ * @returns {boolean}
+ */
+function changeTranslation() {
+    let value = $(this).val().toString().trim();
+    let index = dictionaryArray.length - $(this).parent().index() - 1;
+    let indexInQueue;
 
-                        for (let i = 0; i < dictionaryArray.length; i++) {
-                            addWordToList(dictionaryArray[i].word, dictionaryArray[i].translation, i.toString());
-                        }
-                    }
-                } else {
-                    if (dictionaryArray.length === 0) {
-                        showSimpleWindow(nothingToShowMessage, "center", "80%", "25%", "1");
-                    }
-                }
+    dictionaryArrayQueue = JSON.parse(localStorage.getItem("dictionaryArrayQueue"));
+    indexInQueue = dictionaryArrayQueue.indexOfObject(dictionaryArray[index]);
+    dictionaryArray[index].translation = value;
+    dictionaryArrayQueue[indexInQueue].translation = value;
 
-                $fromLanguage.focus();
-            });
-        });
-    }
+    localStorage.setItem("dictionaryArray", JSON.stringify(dictionaryArray));
+    localStorage.setItem("dictionaryArrayQueue", JSON.stringify(dictionaryArrayQueue));
 
+    chrome.runtime.sendMessage({type: "changeDictionary"});
     return false;
 }
 
@@ -451,50 +419,57 @@ window.onload = function () {
     let fromLanguage = document.getElementById("fromLanguage");
     let intoLanguage = document.getElementById("intoLanguage");
     let searchInput = document.getElementById("searchInput");
-    let $searchButton = $("#searchButton");
     let versionArray;
 
     $('#menuButton').click(function () {
         if ($(this).hasClass('openMenu')) {
             $(this).removeClass('openMenu');
             $(this).addClass('closeMenu');
-            $('body>div.hidden').removeClass('hidden');
-            $("#wordsBlock").scrollTop($('#wordsBlock').prop("scrollHeight"));
+            $('body>.hidden').removeClass('hidden');
         } else {
             $(this).removeClass('closeMenu');
             $(this).addClass('openMenu');
-            $('body>div:not(#wordBlock)').addClass('hidden');
+            $('body>:not(#wordBlock)').addClass('hidden');
         }
         return false;
     });
     $("#wordBlock .addWrapper").on('mouseover', function(){
-        if (messageTimoutId) {
-            clearTimeout(messageTimoutId);
+        if (messageTimeoutId) {
+            clearTimeout(messageTimeoutId);
         }
-    }).on('mouseout', function(){
-        messageTimoutId = setTimeout(closeSuccess, 2000);
+    }).on('mouseout', function() {
+        if (messageTimeoutId) {
+            clearTimeout(messageTimeoutId);
+        }
+        messageTimeoutId = setTimeout(closeSuccess, 3000);
     });
-    $("#deleteButton").on('mouseover', function(){
+    $("#deleteButton").on('mouseover', function() {
         $(this).parent().addClass('delete');
-    }).on('mouseout', function(){
+    }).on('mouseout', function() {
         $(this).parent().removeClass('delete');
+    }).on('click', function() {
+        deleteAddedWord();
+        if (messageTimeoutId) {
+            clearTimeout(messageTimeoutId);
+        }
+        closeSuccess();
+        return false;
+    });
+    $('#playButton').click(function () {
+        playWord($(this).parent().children('input').eq(0).val());
+        return false;
     });
 
-    $searchButton.on("click", showHideSearch);
     fromLanguage.onkeypress = keyForAddition;
     intoLanguage.onkeypress = keyForAddition;
     fromLanguage.onchange = changeValue;
     intoLanguage.onchange = changeValue;
 
-    // User typed text to find and press "enter" key.
-    searchInput.onkeypress = function (event) {
-        if (event.keyCode === 13) {
-            clearTimeout(showHideSearch.timeoutId);
-            findWords();
-        }
-    };
-    searchInput.onkeyup = changeValue;
-    searchInput.onchange = changeValue;
+    searchInput.addEventListener("search", findWords);
+    searchInput.addEventListener("search", changeValue);
+    searchInput.addEventListener("change", changeValue);
+    searchInput.addEventListener("keyup", changeValue);
+    searchInput.addEventListener("keyup", findWords);
 
     // State of extension: "Turn on" or "Turn off".
     switchButton.onchange = switchButtonChangeState;
@@ -521,19 +496,37 @@ window.onload = function () {
 
         word = dictionaryArray[i].word;
         translation = dictionaryArray[i].translation;
-        addWordToList(word, translation, i.toString());
+        addWordToList(word, translation);
     }
     $('#wordsBlock .playButton').click(function () {
-        playWord($(this).parent().children('span').eq(0).html());
+        playWord($(this).parent().children('input').eq(0).val());
         return false;
     });
-    $('#wordsBlock .deleteButton').click(function () {
-        deleteWord();
-    }).on('mouseover', function(){
+    $('#wordsBlock .deleteButton').click(deleteWord).on('mouseover', function(){
         $(this).parent().addClass('deleteStyle');
     }).on('mouseout', function(){
         $(this).parent().removeClass('deleteStyle');
     });
+
+    $('#wordsBlock input').each(function() {
+        if ($(this).index() % 2 === 1) {
+            $(this).blur(changeWord).keypress(function (e) {
+                if (e.keyCode === 13) {
+                    changeWord();
+                }
+            });
+        } else {
+            $(this).blur(changeTranslation).keypress(function (e) {
+                if (e.keyCode === 13) {
+                    changeTranslation();
+                }
+            });
+        }
+    });
+
+    if (searchInput.value) {
+        findWords();
+    }
 
     $("#backToTop").click(function () {
         $("#wordsBlock").animate({ scrollTop: 0}, 1000);
@@ -547,21 +540,12 @@ window.onload = function () {
                 versionArray.push(chrome.app.getDetails().version);
                 localStorage.setItem("versionArray", JSON.stringify(versionArray));
                 localStorage.setItem("welcomeIsShown", JSON.stringify(false));
-
-                if (isSearchActivated && showHideSearch.toggleFlag) {
-                    findWords();
-                } else if (dictionaryArray.length === 0) {
-                    showSimpleWindow(nothingToShowMessage, "center", "80%", "25%", "1");
-                }
             });
         } else {
             versionArray = JSON.parse(localStorage.getItem("versionArray"));
             versionArray.push(chrome.app.getDetails().version);
             localStorage.setItem("versionArray", JSON.stringify(versionArray));
-            checkCasesToShowMessage();
         }
-    } else {
-        checkCasesToShowMessage();
     }
 
     document.getElementById("fromLanguage").focus();

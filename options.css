@@ -1,9 +1,9 @@
 @font-face {
     font-family: "Roboto";
     src: url("fonts/RobotoRegular/RobotoRegular.eot");
-    src: url("fonts/RobotoRegular/RobotoRegular.eot?#iefix")format("embedded-opentype"),
-    url("fonts/RobotoRegular/RobotoRegular.woff")format("woff"),
-    url("fonts/RobotoRegular/RobotoRegular.ttf")format("truetype");
+    src: url("fonts/RobotoRegular/RobotoRegular.eot?#iefix") format("embedded-opentype"),
+    url("fonts/RobotoRegular/RobotoRegular.woff") format("woff"),
+    url("fonts/RobotoRegular/RobotoRegular.ttf") format("truetype");
     font-style: normal;
     font-weight: normal;
 }
@@ -11,9 +11,9 @@
 @font-face {
     font-family: "Roboto";
     src: url("fonts/RobotoLight/RobotoLight.eot");
-    src: url("fonts/RobotoLight/RobotoLight.eot?#iefix")format("embedded-opentype"),
-    url("fonts/RobotoLight/RobotoLight.woff")format("woff"),
-    url("fonts/RobotoLight/RobotoLight.ttf")format("truetype");
+    src: url("fonts/RobotoLight/RobotoLight.eot?#iefix") format("embedded-opentype"),
+    url("fonts/RobotoLight/RobotoLight.woff") format("woff"),
+    url("fonts/RobotoLight/RobotoLight.ttf") format("truetype");
     font-style: normal;
     font-weight: 200;
 }
@@ -21,9 +21,9 @@
 @font-face {
     font-family: "Roboto";
     src: url("fonts/RobotoMedium/RobotoMedium.eot");
-    src: url("fonts/RobotoMedium/RobotoMedium.eot?#iefix")format("embedded-opentype"),
-    url("fonts/RobotoMedium/RobotoMedium.woff")format("woff"),
-    url("fonts/RobotoMedium/RobotoMedium.ttf")format("truetype");
+    src: url("fonts/RobotoMedium/RobotoMedium.eot?#iefix") format("embedded-opentype"),
+    url("fonts/RobotoMedium/RobotoMedium.woff") format("woff"),
+    url("fonts/RobotoMedium/RobotoMedium.ttf") format("truetype");
     font-style: normal;
     font-weight: 500;
 }
@@ -136,7 +136,7 @@ h2 {
 
 .active .selected:after {
     border-top-width: 0px;
-    border-bottom-width: 5px ;
+    border-bottom-width: 5px;
 }
 
 .options {
@@ -344,7 +344,7 @@ h2 {
     position: relative;
 }
 
-.rangeWrapper>span {
+.rangeWrapper > span {
     display: block;
 }
 

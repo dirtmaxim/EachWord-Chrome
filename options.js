@@ -362,13 +362,13 @@ window.onload = function () {
     selectDuration.value = settingsArray.selectDelay;
     intervalValue = selectInterval.value;
     durationValue = selectDuration.value;
-    $(".rangeWrapper").each(function() {
+    $(".rangeWrapper").each(function () {
         $(this).children("input[type=range]").on("change mousemove", function () {
             $(this).parent().children(".timeWrapper").children(".time").html($(this).val());
         }).mousemove();
     });
     selectInterval.onblur = saveSelectInterval;
-    selectInterval.onmouseout = function() {
+    selectInterval.onmouseout = function () {
         let temp = selectInterval.getAttribute("value");
         if (temp !== intervalValue) {
             saveSelectInterval();
@@ -376,7 +376,7 @@ window.onload = function () {
         }
     };
     selectDuration.onblur = saveSelectDuration;
-    selectDuration.onmouseout = function() {
+    selectDuration.onmouseout = function () {
         let temp = selectDuration.getAttribute("value");
         if (temp !== durationValue) {
             saveSelectDuration();
@@ -432,7 +432,7 @@ window.onload = function () {
     exportDictionary.onclick = exportDictionaryFile;
     inputImport.onchange = importDictionaryFile;
     confirmClear.onchange = enableDisableClearButton;
-    prepareClearDictionary.onclick = function() {
+    prepareClearDictionary.onclick = function () {
         this.style["display"] = "none";
         clearWrapper.style["display"] = "block";
     };
@@ -447,7 +447,7 @@ window.onload = function () {
         return false;
     });
 
-    $('.select').each(function() {
+    $('.select').each(function () {
         initializeCustomSelect($(this));
     });
     disableOptions();

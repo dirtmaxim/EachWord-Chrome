@@ -1,9 +1,9 @@
 @font-face {
     font-family: "Roboto";
     src: url("fonts/RobotoRegular/RobotoRegular.eot");
-    src: url("fonts/RobotoRegular/RobotoRegular.eot?#iefix")format("embedded-opentype"),
-    url("fonts/RobotoRegular/RobotoRegular.woff")format("woff"),
-    url("fonts/RobotoRegular/RobotoRegular.ttf")format("truetype");
+    src: url("fonts/RobotoRegular/RobotoRegular.eot?#iefix") format("embedded-opentype"),
+    url("fonts/RobotoRegular/RobotoRegular.woff") format("woff"),
+    url("fonts/RobotoRegular/RobotoRegular.ttf") format("truetype");
     font-style: normal;
     font-weight: normal;
 }
@@ -11,9 +11,9 @@
 @font-face {
     font-family: "Roboto";
     src: url("fonts/RobotoLight/RobotoLight.eot");
-    src: url("fonts/RobotoLight/RobotoLight.eot?#iefix")format("embedded-opentype"),
-    url("fonts/RobotoLight/RobotoLight.woff")format("woff"),
-    url("fonts/RobotoLight/RobotoLight.ttf")format("truetype");
+    src: url("fonts/RobotoLight/RobotoLight.eot?#iefix") format("embedded-opentype"),
+    url("fonts/RobotoLight/RobotoLight.woff") format("woff"),
+    url("fonts/RobotoLight/RobotoLight.ttf") format("truetype");
     font-style: normal;
     font-weight: 200;
 }
@@ -21,9 +21,9 @@
 @font-face {
     font-family: "Roboto";
     src: url("fonts/RobotoMedium/RobotoMedium.eot");
-    src: url("fonts/RobotoMedium/RobotoMedium.eot?#iefix")format("embedded-opentype"),
-    url("fonts/RobotoMedium/RobotoMedium.woff")format("woff"),
-    url("fonts/RobotoMedium/RobotoMedium.ttf")format("truetype");
+    src: url("fonts/RobotoMedium/RobotoMedium.eot?#iefix") format("embedded-opentype"),
+    url("fonts/RobotoMedium/RobotoMedium.woff") format("woff"),
+    url("fonts/RobotoMedium/RobotoMedium.ttf") format("truetype");
     font-style: normal;
     font-weight: 500;
 }
@@ -441,7 +441,7 @@ input[type="search"] {
 }
 
 #searchInput:not([value=""]) + #searchButton {
-    background-image: url("images/icons/search_icon_active.png");    
+    background-image: url("images/icons/search_icon_active.png");
 }
 
 #wordsBlock {
@@ -503,12 +503,10 @@ input[type="search"] {
     background-image: url("images/icons/remove_icon_default.png");
     background-position: center;
     background-repeat: no-repeat;
-    background-size: 12px 14px;
 }
 
 #wordsBlock .deleteButton:hover {
     background-image: url("images/icons/remove_icon_hover.png");
-    background-size: 100% 100%;
 }
 
 #wordsBlock input {

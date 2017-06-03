@@ -176,20 +176,20 @@ function appearing(word, translation, theme, settingsArray) {
     fontStyle.id = "fontStyle8730011";
     fontStyle.innerHTML =
         "@font-face{font-family:\"RobotoRegular\";" +
-            "src:url(" + chrome.runtime.getURL("fonts/RobotoRegular/RobotoRegular.eot") + ");" +
-            "src:url(" + chrome.runtime.getURL("fonts/RobotoRegular/RobotoRegular.eot?#iefix") + ")format(\"embedded-opentype\")," +
-            "url(" + chrome.runtime.getURL("fonts/RobotoRegular/RobotoRegular.woff") + ")format(\"woff\")," +
-            "url(" + chrome.runtime.getURL("fonts/RobotoRegular/RobotoRegular.ttf") + ")format(\"truetype\");" +
-            "font-style:normal;" +
-            "font-weight:normal;}" +
+        "src:url(" + chrome.runtime.getURL("fonts/RobotoRegular/RobotoRegular.eot") + ");" +
+        "src:url(" + chrome.runtime.getURL("fonts/RobotoRegular/RobotoRegular.eot?#iefix") + ")format(\"embedded-opentype\")," +
+        "url(" + chrome.runtime.getURL("fonts/RobotoRegular/RobotoRegular.woff") + ")format(\"woff\")," +
+        "url(" + chrome.runtime.getURL("fonts/RobotoRegular/RobotoRegular.ttf") + ")format(\"truetype\");" +
+        "font-style:normal;" +
+        "font-weight:normal;}" +
         "@font-face{font-family:\"RobotoRegular\";" +
-            "src:url(" + chrome.runtime.getURL("fonts/RobotoLight/RobotoLight.eot") + ");" +
-            "src:url(" + chrome.runtime.getURL("fonts/RobotoLight/RobotoLight.eot?#iefix") + ")format(\"embedded-opentype\")," +
-            "url(" + chrome.runtime.getURL("fonts/RobotoLight/RobotoLight.woff") + ")format(\"woff\")," +
-            "url(" + chrome.runtime.getURL("fonts/RobotoLight/RobotoLight.ttf") + ")format(\"truetype\");" +
-            "font-style:normal;" +
-            "font-weight:200;}" +
-            "}";
+        "src:url(" + chrome.runtime.getURL("fonts/RobotoLight/RobotoLight.eot") + ");" +
+        "src:url(" + chrome.runtime.getURL("fonts/RobotoLight/RobotoLight.eot?#iefix") + ")format(\"embedded-opentype\")," +
+        "url(" + chrome.runtime.getURL("fonts/RobotoLight/RobotoLight.woff") + ")format(\"woff\")," +
+        "url(" + chrome.runtime.getURL("fonts/RobotoLight/RobotoLight.ttf") + ")format(\"truetype\");" +
+        "font-style:normal;" +
+        "font-weight:200;}" +
+        "}";
     document.head.appendChild(fontStyle);
 
     themeStyle = document.createElement("style");
@@ -199,29 +199,29 @@ function appearing(word, translation, theme, settingsArray) {
 
     wordCard.innerHTML =
         "<div id=\"wordsWrapper8730011\">" +
-            "<div id=\"words8730011\">" +
-                "<div id=\"timer8730011\">" +
-                    "<div class=\"radial-progress8730011\">" +
-                        "<div class=\"circle8730011\">" +
-                            "<div class=\"mask8730011 full8730011\" style=\"transition:transform " + selectDelay + "s linear\">" +
-                                "<div class=\"fill8730011\" style=\"transition:transform " + selectDelay + "s linear\"></div>" +
-                            "</div>" +
-                            "<div class=\"mask8730011 half8730011\" style=\"transition:transform " + selectDelay + "s linear\">" +
-                                "<div class=\"fill8730011\" style=\"transition:transform " + selectDelay + "s linear\"></div>" +
-                                "<div class=\"fill8730011 fix8730011\" style=\"transition:transform " + selectDelay + "s linear\"></div>" +
-                            "</div>" +
-                        "</div>" +
-                        "<div class=\"inset8730011\"></div>" +
-                    "</div>" +
-                    "<a href=\"\" id=\"closeButton8730011\" title=\"Close this card\" tabindex=\"-1\"></a>" +
-                "</div>" +
-                "<div id=\"wordsContainer8730011\">" +
-                    "<a href=\"\" title=\"Listen\" id=\"playButton8730011\" tabindex=\"-1\"></a>" +
-                    "<span id=\"word8730011\">" + word + "</span>" +
-                    "<span id=\"dash8730011\"> &mdash; </span>" +
-                    "<span id=\"translation8730011\">" + translation + "</span>" +
-                "</div>" +
-            "</div>" +
+        "<div id=\"words8730011\">" +
+        "<div id=\"timer8730011\">" +
+        "<div class=\"radial-progress8730011\">" +
+        "<div class=\"circle8730011\">" +
+        "<div class=\"mask8730011 full8730011\" style=\"transition:transform " + selectDelay + "s linear\">" +
+        "<div class=\"fill8730011\" style=\"transition:transform " + selectDelay + "s linear\"></div>" +
+        "</div>" +
+        "<div class=\"mask8730011 half8730011\" style=\"transition:transform " + selectDelay + "s linear\">" +
+        "<div class=\"fill8730011\" style=\"transition:transform " + selectDelay + "s linear\"></div>" +
+        "<div class=\"fill8730011 fix8730011\" style=\"transition:transform " + selectDelay + "s linear\"></div>" +
+        "</div>" +
+        "</div>" +
+        "<div class=\"inset8730011\"></div>" +
+        "</div>" +
+        "<a href=\"\" id=\"closeButton8730011\" title=\"Close this card\" tabindex=\"-1\"></a>" +
+        "</div>" +
+        "<div id=\"wordsContainer8730011\">" +
+        "<a href=\"\" title=\"Listen\" id=\"playButton8730011\" tabindex=\"-1\"></a>" +
+        "<span id=\"word8730011\">" + word + "</span>" +
+        "<span id=\"dash8730011\"> &mdash; </span>" +
+        "<span id=\"translation8730011\">" + translation + "</span>" +
+        "</div>" +
+        "</div>" +
         "</div>";
 
     if (settingsArray.showBlur) {
@@ -267,12 +267,12 @@ function appearing(word, translation, theme, settingsArray) {
     timerStyle = document.createElement("style");
     timerStyle.id = "timerStyle8730011";
     timerStyle.innerHTML =
-        ".circlesWrapper8730011[data-anim8730011~=wrapper] { animation-delay: " + selectDelay/2 + "s; }" +
+        ".circlesWrapper8730011[data-anim8730011~=wrapper] { animation-delay: " + selectDelay / 2 + "s; }" +
         ".circle8730011[data-anim8730011~=left] { animation-duration: " + selectDelay + "s; }" +
-        ".circle8730011[data-anim8730011~=right] { animation-duration: " + selectDelay/2 + "s; }";
+        ".circle8730011[data-anim8730011~=right] { animation-duration: " + selectDelay / 2 + "s; }";
     document.head.appendChild(timerStyle);
 
-    document.getElementById("playButton8730011").onclick = function() {
+    document.getElementById("playButton8730011").onclick = function () {
         chrome.runtime.sendMessage({type: "playWord", word: word});
         return false;
     };

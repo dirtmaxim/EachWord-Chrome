@@ -127,13 +127,13 @@ function showWindow(text) {
 
     div.id = "window8730011";
     div.innerHTML = "<div class='playWrap8730011'>" +
-                        "<a href='' title='Listen' id='playButton8730011' tabindex='-1'></a>" +
-                    "</div>" +
-                    "<div class='wordsWrap8730011'>" +
-                        "<input id='from8730011' type='text' value='" + text + "' placeholder='Word' maxlength='50' tabindex='1'>" +
-                        "<input id='into8730011' type='text' placeholder='Translation' maxlength='50' tabindex='2'>" +
-                    "</div>" +
-                    "<a href='' id='addButton8730011' title='Add word card' tabindex='-1'>+</a>";
+        "<a href='' title='Listen' id='playButton8730011' tabindex='-1'></a>" +
+        "</div>" +
+        "<div class='wordsWrap8730011'>" +
+        "<input id='from8730011' type='text' value='" + text + "' placeholder='Word' maxlength='50' tabindex='1'>" +
+        "<input id='into8730011' type='text' placeholder='Translation' maxlength='50' tabindex='2'>" +
+        "</div>" +
+        "<a href='' id='addButton8730011' title='Add word card' tabindex='-1'>+</a>";
     body.appendChild(div);
 
     //Find position of window
@@ -146,7 +146,7 @@ function showWindow(text) {
     if (left < 0) {
         window8730011.style.left = 0;
     } else {
-        if (left + windowWidth > window.innerWidth ) {
+        if (left + windowWidth > window.innerWidth) {
             window8730011.style.left = "auto";
             window8730011.style.right = 0;
         } else {
@@ -156,7 +156,7 @@ function showWindow(text) {
     if (top < 0) {
         window8730011.style.top = 0;
     } else {
-        if (top + windowHeight > window.innerHeight ) {
+        if (top + windowHeight > window.innerHeight) {
             window8730011.style.top = "auto";
             window8730011.style.bottom = 0;
         } else {
@@ -168,7 +168,7 @@ function showWindow(text) {
     into8730011 = document.getElementById("into8730011");
     addButton8730011 = document.getElementById("addButton8730011");
     playButton8730011 = document.getElementById("playButton8730011");
-    playButton8730011.onclick = function(event) {
+    playButton8730011.onclick = function (event) {
         event.preventDefault();
         event.stopPropagation();
         chrome.runtime.sendMessage({type: "playWord", word: from8730011.value});

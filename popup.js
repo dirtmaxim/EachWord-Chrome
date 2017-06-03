@@ -122,9 +122,9 @@ function addWordToList(word, translation) {
 
     li = document.createElement("li");
     li.innerHTML = "<a href='' class='playButton' title='play word' tabindex='-1'></a>" +
-                   "<input type='text' value='" + word + "'></input>" +
-                   "<input type='text' value='" + translation + "'></input>" +
-                   "<a href='' class='deleteButton' title='delete word' tabindex='-1'></a>";
+        "<input type='text' value='" + word + "'></input>" +
+        "<input type='text' value='" + translation + "'></input>" +
+        "<a href='' class='deleteButton' title='delete word' tabindex='-1'></a>";
     wordsBlock.insertBefore(li, wordsBlock.firstChild);
 }
 
@@ -433,21 +433,21 @@ window.onload = function () {
         }
         return false;
     });
-    $("#wordBlock .addWrapper").on('mouseover', function(){
+    $("#wordBlock .addWrapper").on('mouseover', function () {
         if (messageTimeoutId) {
             clearTimeout(messageTimeoutId);
         }
-    }).on('mouseout', function() {
+    }).on('mouseout', function () {
         if (messageTimeoutId) {
             clearTimeout(messageTimeoutId);
         }
         messageTimeoutId = setTimeout(closeSuccess, 3000);
     });
-    $("#deleteButton").on('mouseover', function() {
+    $("#deleteButton").on('mouseover', function () {
         $(this).parent().addClass('delete');
-    }).on('mouseout', function() {
+    }).on('mouseout', function () {
         $(this).parent().removeClass('delete');
-    }).on('click', function() {
+    }).on('click', function () {
         deleteAddedWord();
         if (messageTimeoutId) {
             clearTimeout(messageTimeoutId);
@@ -502,13 +502,13 @@ window.onload = function () {
         playWord($(this).parent().children('input').eq(0).val());
         return false;
     });
-    $('#wordsBlock .deleteButton').click(deleteWord).on('mouseover', function(){
+    $('#wordsBlock .deleteButton').click(deleteWord).on('mouseover', function () {
         $(this).parent().addClass('deleteStyle');
-    }).on('mouseout', function(){
+    }).on('mouseout', function () {
         $(this).parent().removeClass('deleteStyle');
     });
 
-    $('#wordsBlock input').each(function() {
+    $('#wordsBlock input').each(function () {
         if ($(this).index() % 2 === 1) {
             $(this).blur(changeWord).keypress(function (e) {
                 if (e.keyCode === 13) {
@@ -529,7 +529,7 @@ window.onload = function () {
     }
 
     $("#backToTop").click(function () {
-        $("#wordsBlock").animate({ scrollTop: 0}, 1000);
+        $("#wordsBlock").animate({scrollTop: 0}, 1000);
         return false;
     });
 

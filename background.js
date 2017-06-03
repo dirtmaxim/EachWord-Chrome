@@ -513,6 +513,6 @@ chrome.contextMenus.create({
                     text: event.selectionText
                 });
             }
-		);
+        );
     }
 });

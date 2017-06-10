@@ -308,6 +308,110 @@ function saveShowNotificationCards() {
     chrome.runtime.sendMessage({type: "changeSettings"});
 }
 
+/**
+ *  Algorithm which recommends new words for user.
+ *
+ * @returns {string[]} recommended words
+ */
+function getNewWords() {
+    let portion = 20;
+    let forLevelUp = 3;
+    let words = [];
+    let languageLevel = JSON.parse(localStorage.getItem("languageLevel"));
+    let successCount = JSON.parse(localStorage.getItem("successCount"));
+    let nationDictionary = JSON.parse(localStorage.getItem("nationDictionary"));
+
+    if (nationDictionary) {
+        if (languageLevel < 0) {
+            let minIndex = 0;
+            let min = nationDictionary[minIndex].length;
+            for (let i = 1; i < nationDictionary.length; i++) {
+                let currentLength = nationDictionary[i].length;
+                if (currentLength < min) {
+                    min = currentLength;
+                    minIndex = i;
+                }
+            }
+            languageLevel = minIndex;
+            localStorage.setItem("languageLevel", JSON.stringify(languageLevel));
+        }
+        while (true) {
+            if (languageLevel < nationDictionary.length) {
+                if (nationDictionary[languageLevel].length >= portion) {
+                    if (successCount < forLevelUp) {
+                        let randomNumber;
+                        let tempDictionary = nationDictionary[languageLevel];
+                        while (words.length < portion) {
+                            randomNumber = Math.floor(Math.random() * tempDictionary.length);
+                            words.push(tempDictionary.splice(randomNumber, 1)[0]);
+                        }
+                        return words;
+                    }
+                }
+                languageLevel++;
+                successCount = 0;
+                localStorage.setItem("languageLevel", JSON.stringify(languageLevel));
+                localStorage.setItem("successCount", JSON.stringify(successCount));
+            } else {
+                return words;
+            }
+        }
+    }
+}
+
+/**
+ *  Add recommended words to user's words list.
+ *
+ */
+function addNewWords() {
+    let knowCount = 0;
+    let nationDictionary = JSON.parse(localStorage.getItem("nationDictionary"));
+    let languageLevel = JSON.parse(localStorage.getItem("languageLevel"));
+    let successCount = JSON.parse(localStorage.getItem("successCount"));
+    let dictionaryArray = JSON.parse(localStorage.getItem("dictionaryArray"));
+    let dictionaryArrayQueue = JSON.parse(localStorage.getItem("dictionaryArrayQueue"));
+    let word;
+    let translation;
+    let wordsCount = $('#wordsList').children('li').length;
+
+    $('#wordsList').children('li').each(function () {
+        word = $(this).children('span').eq(0).html();
+        let radioValue = $(this).find('input:checked').val();
+        if (radioValue == "know") {
+            knowCount++;
+            nationDictionary[languageLevel].splice(nationDictionary[languageLevel].indexOf(word), 1);
+        } else if (radioValue == "add") {
+            translation = $(this).children('span').eq(1).html();
+            dictionaryArray.push({word: word, translation: translation});
+            dictionaryArrayQueue.push({word: word, translation: translation});
+            nationDictionary[languageLevel].splice(nationDictionary[languageLevel].indexOf(word), 1);
+        }
+        $(this).remove();
+    });
+    if (knowCount / wordsCount >= 0.7) {
+        successCount++;
+    } else {
+        successCount = 0;
+    }
+
+    localStorage.setItem("nationDictionary", JSON.stringify(nationDictionary));
+    localStorage.setItem("languageLevel", JSON.stringify(languageLevel));
+    localStorage.setItem("successCount", JSON.stringify(successCount));
+    localStorage.setItem("dictionaryArray", JSON.stringify(dictionaryArray));
+    localStorage.setItem("dictionaryArrayQueue", JSON.stringify(dictionaryArrayQueue));
+    chrome.runtime.sendMessage({type: "changeDictionary"});
+
+    $(this).addClass('hidden');
+    $('#getNewWords').removeClass('hidden');
+    showStatus("Excellent! New words were added.", true);
+    if (statusTimeoutId) {
+        clearTimeout(statusTimeoutId);
+    }
+    statusTimeoutId = setTimeout(closeStatus, statusTime);
+
+}
+
+
 window.onload = function () {
     settingsArray = JSON.parse(localStorage.getItem("settingsArray"));
     themes = JSON.parse(localStorage.getItem("themes"));
@@ -441,6 +545,77 @@ window.onload = function () {
         exportDictionary.setAttribute("disabled", "true");
         prepareClearDictionary.setAttribute("disabled", "true");
     }
+
+    $('#getNewWords').click(function () {
+        let words = getNewWords();
+        if (words.length > 0) {
+            words.forEach(function (word, i) {
+                let li;
+                let wordsList = document.getElementById("wordsList");
+
+                li = document.createElement("li");
+                li.innerHTML = "<div class='know radio'>" +
+                                    "<input type='radio' name='radio" + i + "' id='know" + i + "' value='know'>" +
+                                    "<label for='know" + i + "'>I know</label>" +
+                                "</div>" +
+                                "<div class='later radio'>" +
+                                    "<input type='radio' name='radio" + i + "' id='later" + i + "' value='later'>" +
+                                    "<label for='later" + i + "'>Later</label>" +
+                                "</div>" +
+                                "<div class='add radio'>" +
+                                    "<input type='radio' name='radio" + i + "' id='add" + i + "' checked value='add'>" +
+                                    "<label for='add" + i + "'>Add</label>" +
+                                "</div>" +
+                                "<span>" + word[0].toUpperCase() + word.toLowerCase().slice(1) + "</span>" +
+                                "<span></span>";
+                wordsList.appendChild(li);
+            });
+            $('#wordsList li').each(function () {
+                let spanArr = $(this).children("span");
+                translate("en", "ru", $(spanArr[0]).html(), function (result) {
+                    $(spanArr[1]).html(result.translation);
+                });
+            });
+            $('.add').click(function () {
+                if ($(this).parent().hasClass('knowClick')) {
+                    $(this).parent().removeClass('knowClick');
+                }
+                if ($(this).parent().hasClass('laterClick')) {
+                    $(this).parent().removeClass('laterClick');
+                }
+            });
+
+            $('.later').on('mouseover', function () {
+                $(this).parent().addClass('laterHover');
+            }).on('mouseout', function () {
+                $(this).parent().removeClass('laterHover');
+            }).click(function () {
+                if ($(this).parent().hasClass('knowClick')) {
+                    $(this).parent().removeClass('knowClick');
+                }
+                if (!$(this).parent().hasClass('laterClick')) {
+                    $(this).parent().addClass('laterClick');
+                }
+            });
+
+            $('.know').on('mouseover', function () {
+                $(this).parent().addClass('knowHover');
+            }).on('mouseout', function () {
+                $(this).parent().removeClass('knowHover');
+            }).click(function () {
+                if ($(this).parent().hasClass('laterClick')) {
+                    $(this).parent().removeClass('laterClick');
+                }
+                if (!$(this).parent().hasClass('knowClick')) {
+                    $(this).parent().addClass('knowClick');
+                }
+            });
+        }
+        $(this).addClass('hidden');
+        $('#addNewWords').removeClass('hidden');
+    });
+
+    $('#addNewWords').click(addNewWords);
 
     $('.closeButton').click(function () {
         closeStatus();

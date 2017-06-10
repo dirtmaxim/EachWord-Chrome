@@ -230,7 +230,7 @@ function addWord() {
     localStorage.setItem("dictionaryArray", JSON.stringify(dictionaryArray));
     localStorage.setItem("dictionaryArrayQueue", JSON.stringify(dictionaryArrayQueue));
 
-    addWordToList(word, translation, (dictionaryArray.length - 1).toString());
+    addWordToList(word, translation);
     localStorage.setItem("fromLanguage", JSON.stringify(""));
     localStorage.setItem("intoLanguage", JSON.stringify(""));
     document.getElementById("fromLanguage").focus();

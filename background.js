@@ -190,6 +190,9 @@ function checkStorage() {
     let themes = localStorage.getItem("themes");
     let selectedThemes = localStorage.getItem("selectedThemes");
     let currentThemeNumber = localStorage.getItem("currentThemeNumber");
+    let nationDictionary = localStorage.getItem("nationDictionary");
+    let languageLevel = localStorage.getItem("languageLevel");
+    let successCount = localStorage.getItem("successCount");
     let themesLengthAfterUpdate;
 
     if (!settingsArray) {
@@ -350,6 +353,20 @@ function checkStorage() {
     if (!currentThemeNumber) {
         currentThemeNumber = 0;
         localStorage.setItem("currentThemeNumber", JSON.stringify(currentThemeNumber));
+    }
+
+    if (!nationDictionary) {
+        $.getJSON("nationDictionary.json", function (data) {
+            localStorage.setItem("nationDictionary", JSON.stringify(data));
+        });
+    }
+
+    if (!languageLevel) {
+        localStorage.setItem("languageLevel", JSON.stringify(-1));
+    }
+
+    if (!successCount) {
+        localStorage.setItem("successCount", JSON.stringify(0));
     }
 }
 

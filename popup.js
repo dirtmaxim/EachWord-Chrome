@@ -235,6 +235,7 @@ function addWord() {
     localStorage.setItem("intoLanguage", JSON.stringify(""));
     document.getElementById("fromLanguage").focus();
     chrome.runtime.sendMessage({type: "changeDictionary"});
+    chrome.runtime.sendMessage({type: "deleteInNationDictionary", word: word});
 
     showSuccess(word);
     if (messageTimeoutId) {

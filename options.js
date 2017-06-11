@@ -208,6 +208,7 @@ function importDictionaryFile(event) {
 
                 for (let i = 0; i < result.length; i++) {
                     dictionaryArray.push(result[i]);
+                    chrome.runtime.sendMessage({type: "deleteInNationDictionary", word: result[i].word});
                 }
                 localStorage.setItem("dictionaryArray", JSON.stringify(dictionaryArray));
                 localStorage.setItem("dictionaryArrayQueue", JSON.stringify([]));

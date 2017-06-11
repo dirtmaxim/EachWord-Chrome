@@ -370,6 +370,18 @@ function checkStorage() {
     }
 }
 
+function deleteInNationDictionary(word) {
+    let nationDictionary = JSON.parse(localStorage.getItem("nationDictionary"));
+    for (let i = 0; i < nationDictionary.length; i++) {
+        let index = nationDictionary[i].indexOf(word.toUpperCase());
+        if (index >= 0) {
+           nationDictionary[i].splice(index, 1);
+           localStorage.setItem("nationDictionary", JSON.stringify(nationDictionary));
+           return;
+        }
+    }
+}
+
 /**
  * Listener will be activated when user adds or deletes words from the Dictionary.
  */
@@ -451,6 +463,17 @@ chrome.runtime.onMessage.addListener(
 );
 
 /**
+ *
+ */
+chrome.runtime.onMessage.addListener(
+    function (request, sender, sendResponse) {
+        if (request.type === "deleteInNationDictionary") {
+            deleteInNationDictionary(request.word);
+        }
+    }
+);
+
+/**
  * Listener will be activated when "content.js" sends message to request translation.
  */
 chrome.runtime.onMessage.addListener(
@@ -493,6 +516,7 @@ chrome.runtime.onMessage.addListener(
 
             localStorage.setItem("dictionaryArray", JSON.stringify(dictionaryArray));
             localStorage.setItem("dictionaryArrayQueue", JSON.stringify(dictionaryArrayQueue));
+            deleteInNationDictionary(word);
             return false;
         }
     }

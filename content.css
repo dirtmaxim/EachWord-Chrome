@@ -1,4 +1,5 @@
 #wordCard8730011 {
+    display: block;
     position: fixed;
     top: 0;
     left: 0;
@@ -12,6 +13,8 @@
     font-weight: 200;
     line-height: 1px;
     transition: all 1s;
+    -webkit-flex-direction: row;
+    flex-direction: row;
 }
 
 #wordCard8730011 span {
@@ -19,6 +22,7 @@
 }
 
 #wordsWrapper8730011 {
+    display: block;
     position: absolute;
     width: 898px;
     height: 100%;
@@ -28,9 +32,12 @@
     background: no-repeat left bottom;
     background-size: 9%;
     text-align: right;
+    -webkit-flex-direction: row;
+    flex-direction: row;
 }
 
 #words8730011 {
+    display: block;
     position: absolute;
     right: 6px;
     top: 50%;
@@ -42,6 +49,8 @@
     background-size: 100% 100%;
     text-align: center;
     white-space: nowrap;
+    -webkit-flex-direction: row;
+    flex-direction: row;
 }
 
 /* Timer */
@@ -52,40 +61,44 @@
     display: block;
     width: 60px;
     height: 60px;
+    margin: 0;
+    padding: 0;
 }
 
-#timer8730011 .radial-progress8730011 {
-    width: 60px;
-    height: 60px;
-    background-color: #d6dadc;
-    border-radius: 50%;
+#timer8730011 .background_circle8730011 {
+    stroke-width: 2;
 }
 
-#timer8730011 .radial-progress8730011 .circle8730011 .mask8730011, #timer8730011 .radial-progress8730011 .circle8730011 .fill8730011 {
+#timer8730011 .outer8730011 {
+    fill: transparent;
+    stroke-width: 3;
+    stroke-dasharray: 176;
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 1s;
+    animation-name: show100;
+    animation-timing-function: linear;
+    animation-duration: 10s;
+    transform-origin: 50% 50%;
+    transform: rotate(-90deg);
+}
+
+#timer8730011>svg {
+    width: 100%;
+    height: 100%;
     position: absolute;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    -webkit-backface-visibility: hidden;
+    top: 0;
+    left: 0;
+    transform-origin: 50% 50%;
 }
 
-#timer8730011 .radial-progress8730011 .circle8730011 .mask8730011 {
-    clip: rect(0px, 60px, 60px, 30px);
-}
+@-webkit-keyframes show100 {
+    from {
+        stroke-dashoffset: 176;
+    }
 
-#timer8730011 .radial-progress8730011 .circle8730011 .mask8730011 .fill8730011 {
-    clip: rect(0px, 30px, 60px, 0px);
-    background-color: #97a71d;
-}
-
-#timer8730011 .radial-progress8730011 .inset8730011 {
-    width: 56px;
-    height: 56px;
-    position: absolute;
-    margin-left: 2px;
-    margin-top: 2px;
-    background-color: #fff;
-    border-radius: 50%;
+    to {
+        stroke-dashoffset: 0;
+    }
 }
 
 /* -- Timer -- */
@@ -114,7 +127,10 @@
 }
 
 #wordsContainer8730011 {
+    display: block;
     min-height: 30px;
+    -webkit-flex-direction: row;
+    flex-direction: row;
 }
 
 #playButton8730011 {
@@ -307,27 +323,19 @@
         height: 40px;
     }
 
-    #timer8730011 .radial-progress8730011 {
-        width: 40px;
-        height: 40px;
+    #timer8730011 .outer8730011 {
+        stroke-width: 2;
+        stroke-dasharray: 113;
     }
 
-    #timer8730011 .radial-progress8730011 .circle8730011 .mask8730011, #timer8730011 .radial-progress8730011 .circle8730011 .fill8730011 {
-        width: 40px;
-        height: 40px;
-    }
+    @-webkit-keyframes show100 {
+        from {
+            stroke-dashoffset: 113;
+        }
 
-    #timer8730011 .radial-progress8730011 .circle8730011 .mask8730011 {
-        clip: rect(0px, 40px, 40px, 20px);
-    }
-
-    #timer8730011 .radial-progress8730011 .circle8730011 .mask8730011 .fill8730011 {
-        clip: rect(0px, 20px, 40px, 0px);
-    }
-
-    #timer8730011 .radial-progress8730011 .inset8730011 {
-        width: 36px;
-        height: 36px;
+        to {
+            stroke-dashoffset: 0;
+        }
     }
 
     #closeButton8730011:after {

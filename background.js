@@ -138,9 +138,8 @@ function updateTheme() {
         "#wordCard8730011{background-color:#fff;color:#334d5e;}" +
         "#wordsWrapper8730011{background-image:url(" + chrome.runtime.getURL("images/wordCard/white_face.png") + ");}" +
         "#words8730011{background-image:url(" + chrome.runtime.getURL("images/wordCard/white_verbal_bubble.png") + ");border-color:rgba(161,173,179,0.2);}" +
-        "#timer8730011 .radial-progress8730011{background-color:#cfdee6;}" +
-        "#timer8730011 .radial-progress8730011 .circle8730011 .mask8730011 .fill8730011{background-color:#00bef3;}" +
-        "#timer8730011 .radial-progress8730011 .inset8730011{background-color:#fff;}" +
+        "#timer8730011 .background_circle8730011{fill:#fff;stroke:#cfdee6;}" +
+        "#timer8730011 .outer8730011{stroke:#00bef3;}" +
         "#closeButton8730011:after{color:#334d5e;}" +
         "#closeButton8730011:hover:after{color:#00bef3;}" +
         "#playButton8730011{background-image:url(" + chrome.runtime.getURL("images/wordCard/voice_white.png") + ");}" +
@@ -149,9 +148,8 @@ function updateTheme() {
         "#wordCard8730011{background-color:#00bef3;color:#fff;}" +
         "#wordsWrapper8730011{background-image:url(" + chrome.runtime.getURL("images/wordCard/white_face.png") + ");}" +
         "#words8730011{background-image:url(" + chrome.runtime.getURL("images/wordCard/blue_verbal_bubble.png") + ");border-color:rgba(248,250,254,0.4);}" +
-        "#timer8730011 .radial-progress8730011{background-color:#fff;}" +
-        "#timer8730011 .radial-progress8730011 .circle8730011 .mask8730011 .fill8730011{background-color:#0677a0;}" +
-        "#timer8730011 .radial-progress8730011 .inset8730011{background-color:#00bef3;}" +
+        "#timer8730011 .background_circle8730011{fill:#00bef3;stroke:#fff;}" +
+        "#timer8730011 .outer8730011{stroke:#0677a0;}" +
         "#closeButton8730011:after{color:#fff;}" +
         "#closeButton8730011:hover:after{color:#0677a0;}" +
         "#playButton8730011{background-image:url(" + chrome.runtime.getURL("images/wordCard/voice_blue.png") + ");}" +
@@ -160,9 +158,8 @@ function updateTheme() {
         "#wordCard8730011{background-color:#043d52;color:#fff;}" +
         "#wordsWrapper8730011{background-image:url(" + chrome.runtime.getURL("images/wordCard/dark_face.png") + ");}" +
         "#words8730011{background-image:url(" + chrome.runtime.getURL("images/wordCard/dark_verbal_bubble.png") + ");border-color:rgba(0,190,243,0.2);}" +
-        "#timer8730011 .radial-progress8730011{background-color:#cfdee6;}" +
-        "#timer8730011 .radial-progress8730011 .circle8730011 .mask8730011 .fill8730011{background-color:#00bef3;}" +
-        "#timer8730011 .radial-progress8730011 .inset8730011{background-color:#043d52;}" +
+        "#timer8730011 .background_circle8730011{fill:#043d52;stroke:#cfdee6;}" +
+        "#timer8730011 .outer8730011{stroke:#00bef3;}" +
         "#closeButton8730011:after{color:#f8fafe;}" +
         "#closeButton8730011:hover:after{color:#00bef3;}" +
         "#playButton8730011{background-image:url(" + chrome.runtime.getURL("images/wordCard/voice_dark.png") + ");}" +

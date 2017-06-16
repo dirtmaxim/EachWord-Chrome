@@ -100,12 +100,10 @@ function disappearing() {
     setTimeout(function () {
         let themeStyle = document.getElementById("themeStyle8730011");
         let fontStyle = document.getElementById("fontStyle8730011");
-        let timerStyle = document.getElementById("timerStyle8730011");
         let closeStyle = document.getElementById("closeStyle8730011");
         wordCard.remove();
         themeStyle.remove();
         fontStyle.remove();
-        timerStyle.remove();
 
         if (closeStyle) {
             closeStyle.remove();
@@ -161,7 +159,6 @@ function appearing(word, translation, theme, settingsArray) {
     let wordCard;
     let themeStyle;
     let fontStyle;
-    let timerStyle;
     let blurStyle;
     let closeButton;
     let commonLength;
@@ -200,21 +197,13 @@ function appearing(word, translation, theme, settingsArray) {
     wordCard.innerHTML =
         "<div id=\"wordsWrapper8730011\">" +
         "<div id=\"words8730011\">" +
-        "<div id=\"timer8730011\">" +
-        "<div class=\"radial-progress8730011\">" +
-        "<div class=\"circle8730011\">" +
-        "<div class=\"mask8730011 full8730011\" style=\"transition:transform " + selectDelay + "s linear\">" +
-        "<div class=\"fill8730011\" style=\"transition:transform " + selectDelay + "s linear\"></div>" +
-        "</div>" +
-        "<div class=\"mask8730011 half8730011\" style=\"transition:transform " + selectDelay + "s linear\">" +
-        "<div class=\"fill8730011\" style=\"transition:transform " + selectDelay + "s linear\"></div>" +
-        "<div class=\"fill8730011 fix8730011\" style=\"transition:transform " + selectDelay + "s linear\"></div>" +
-        "</div>" +
-        "</div>" +
-        "<div class=\"inset8730011\"></div>" +
-        "</div>" +
+        "<figure id=\"timer8730011\">" +
+        "<svg>" +
+        "<circle class='background_circle8730011' cx='50%' cy='50%' r='calc(50% - 2px)'/>" +
+        "<circle class='outer8730011' cx='50%' cy='50%' r='calc(50% - 2px)' style='animation-duration: " + selectDelay + "s'/>" +
+        "</svg>" +
         "<a href=\"\" id=\"closeButton8730011\" title=\"Close this card\" tabindex=\"-1\"></a>" +
-        "</div>" +
+        "</figure>" +
         "<div id=\"wordsContainer8730011\">" +
         "<a href=\"\" title=\"Listen\" id=\"playButton8730011\" tabindex=\"-1\"></a>" +
         "<span id=\"word8730011\">" + word + "</span>" +
@@ -263,15 +252,6 @@ function appearing(word, translation, theme, settingsArray) {
         words.style.fontSize = "30%";
     }
 
-    // Set delay for timer
-    timerStyle = document.createElement("style");
-    timerStyle.id = "timerStyle8730011";
-    timerStyle.innerHTML =
-        ".circlesWrapper8730011[data-anim8730011~=wrapper] { animation-delay: " + selectDelay / 2 + "s; }" +
-        ".circle8730011[data-anim8730011~=left] { animation-duration: " + selectDelay + "s; }" +
-        ".circle8730011[data-anim8730011~=right] { animation-duration: " + selectDelay / 2 + "s; }";
-    document.head.appendChild(timerStyle);
-
     document.getElementById("playButton8730011").onclick = function () {
         chrome.runtime.sendMessage({type: "playWord", word: word});
         return false;
@@ -282,20 +262,11 @@ function appearing(word, translation, theme, settingsArray) {
         wordCard.style.transform = "translateY(0%)";
     }, 10);
 
-    setTimeout(function () {
-        let fillElements = document.querySelectorAll("#timer8730011 .fill8730011");
-        for (let i = 0; i < fillElements.length; i++) {
-            fillElements[i].style.transform = 'rotate(180deg)';
-        }
-        document.querySelector("#timer8730011 .mask8730011.full8730011").style.transform = 'rotate(180deg)';
-        document.querySelector("#timer8730011 .fill8730011.fix8730011").style.transform = 'rotate(360deg)';
-    }, wordCardDelay + 10);
-
     timeoutIdTimer = setTimeout(function () {
         if (!disappearingStarted) {
             disappearing();
         }
-    }, wordCardDelay + 10 + selectDelay * 1000);
+    }, selectDelay * 1000);
 }
 
 /**

@@ -287,9 +287,10 @@ function drawCard(word, translation, theme, settingsArray) {
  * Function that transfer text to speech.
  *
  * @param {string} word Word to transfer
+ * @param {string} language Language to transfer
  */
-function playWord(word) {
-    chrome.tts.speak(word, {"voiceName": "Google UK English Male"});
+function playWord(word, language) {
+    chrome.tts.speak(word, {'lang': language});
 }
 
 /**

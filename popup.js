@@ -456,7 +456,7 @@ window.onload = function () {
         return false;
     });
     $('#playButton').click(function () {
-        playWord($(this).parent().children('input').eq(0).val());
+        chrome.runtime.sendMessage({type: "playWord", word: $(this).parent().children('input').eq(0).val()});
         return false;
     });
 
@@ -499,7 +499,7 @@ window.onload = function () {
         addWordToList(word, translation);
     }
     $('#wordsBlock .playButton').click(function () {
-        playWord($(this).parent().children('input').eq(0).val());
+        chrome.runtime.sendMessage({type: "playWord", word: $(this).parent().children('input').eq(0).val()});
         return false;
     });
     $('#wordsBlock .deleteButton').click(deleteWord).on('mouseover', function () {

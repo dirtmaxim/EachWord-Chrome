@@ -484,7 +484,7 @@ chrome.runtime.onMessage.addListener(
 chrome.runtime.onMessage.addListener(
     function (request, sender, sendResponse) {
         if (request.type === "playWord") {
-            playWord(request.word);
+            playWord(request.word, settingsArray.translateFrom);
         }
     }
 );

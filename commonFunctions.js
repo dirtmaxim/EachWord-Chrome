@@ -290,7 +290,7 @@ function drawCard(word, translation, theme, settingsArray) {
  * @param {string} language Language to transfer
  */
 function playWord(word, language) {
-    chrome.tts.speak(word, {'lang': language});
+    chrome.tts.speak(word, {'lang': language, 'gender': 'male'});
 }
 
 /**

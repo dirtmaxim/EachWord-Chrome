@@ -158,7 +158,7 @@
 }
 
 #window8730011 {
-    position: fixed !important;
+    position: absolute !important;
     top: 0;
     left: 0;
     font-size: 20px !important;

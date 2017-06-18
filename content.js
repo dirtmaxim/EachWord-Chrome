@@ -153,15 +153,12 @@ function showWindow(text) {
             window8730011.style.left = left + "px";
         }
     }
-    if (top < 0) {
-        window8730011.style.top = 0;
+    let scrollTop = window.pageYOffset;
+    let documentHeight = Math.max(document.body.scrollHeight, document.body.offsetHeight, document.documentElement.clientHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight);
+    if (top + scrollTop + windowHeight > documentHeight) {
+        window8730011.style.top = documentHeight - windowHeight - 10 + "px";
     } else {
-        if (top + windowHeight > window.innerHeight) {
-            window8730011.style.top = "auto";
-            window8730011.style.bottom = 0;
-        } else {
-            window8730011.style.top = top + "px";
-        }
+        window8730011.style.top = top + scrollTop + "px";
     }
 
     from8730011 = document.getElementById("from8730011");

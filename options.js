@@ -20,7 +20,9 @@ let clearDictionary;
 let currentThemeNumber;
 let intervalValue;
 let durationValue;
+let showCountValue;
 let statusWrapper;
+let showCount;
 
 let statusTimeoutId;
 let statusTime = 4000;
@@ -282,6 +284,12 @@ function saveSelectDuration() {
     chrome.runtime.sendMessage({type: "changeSettings"});
 }
 
+function saveShowCount() {
+    settingsArray.showBeforeDeletion = showCount.value;
+    localStorage.setItem("settingsArray", JSON.stringify(settingsArray));
+    chrome.runtime.sendMessage({type: "changeSettings"});
+}
+
 function saveThemes() {
     currentThemeNumber = JSON.parse(localStorage.getItem("currentThemeNumber"));
     selectedThemes = [];
@@ -329,6 +337,7 @@ window.onload = function () {
     clearWrapper = document.getElementsByClassName("clearWrapper")[0];
     clearDictionary = document.getElementById("clearDictionary");
     statusWrapper = $('.statusWrapper');
+    showCount = document.getElementById("showCount").getElementsByTagName('input')[0];
 
     translateFrom.setAttribute("data-value", settingsArray.translateFrom);
     translateInto.setAttribute("data-value", settingsArray.translateInto);
@@ -360,16 +369,30 @@ window.onload = function () {
 
     selectInterval.value = settingsArray.selectInterval;
     selectDuration.value = settingsArray.selectDelay;
+    showCount.value = settingsArray.showBeforeDeletion;
     intervalValue = selectInterval.value;
     durationValue = selectDuration.value;
+    showCountValue = showCount.value;
     $(".rangeWrapper").each(function () {
         $(this).children("input[type=range]").on("change mousemove", function () {
-            $(this).parent().children(".timeWrapper").children(".time").html($(this).val());
+            if (!$(this).parent().is('#showCount')) {
+                $(this).parent().children(".countWrapper").children(".count").html($(this).val());
+            } else {
+                let $countWrapperSpan = $(this).parent().find('.countWrapper');
+                let $countSpan = $countWrapperSpan.find('.count');
+                if ($(this).val() == 0) {
+                    $countSpan.html("");
+                    $countWrapperSpan.html($countWrapperSpan.html().replace(" displays", "Never"));
+                } else {
+                    $countSpan.html($(this).val());
+                    $countWrapperSpan.html($countWrapperSpan.html().replace("Never", " displays"));
+                }
+            }
         }).mousemove();
     });
     selectInterval.onblur = saveSelectInterval;
     selectInterval.onmouseout = function () {
-        let temp = selectInterval.getAttribute("value");
+        let temp = selectInterval.value;
         if (temp !== intervalValue) {
             saveSelectInterval();
             intervalValue = temp;
@@ -377,10 +400,18 @@ window.onload = function () {
     };
     selectDuration.onblur = saveSelectDuration;
     selectDuration.onmouseout = function () {
-        let temp = selectDuration.getAttribute("value");
+        let temp = selectDuration.value;
         if (temp !== durationValue) {
             saveSelectDuration();
             durationValue = temp;
+        }
+    };
+    showCount.onblur = saveShowCount;
+    showCount.onmouseout = function () {
+        let temp = showCount.value;
+        if (temp !== showCountValue) {
+            saveShowCount();
+            showCountValue = temp;
         }
     };
 

@@ -220,8 +220,8 @@ function addWord() {
     fromLanguage.value = null;
     intoLanguage.value = null;
     dictionaryArrayQueue = JSON.parse(localStorage.getItem("dictionaryArrayQueue"));
-    dictionaryArray.push({word: word, translation: translation});
-    dictionaryArrayQueue.push({word: word, translation: translation});
+    dictionaryArray.push({word: word, translation: translation, showCount: 0});
+    dictionaryArrayQueue.push({word: word, translation: translation, showCount: 0});
 
     if (dictionaryArray.length === 1) {
         chrome.runtime.sendMessage({type: "startInterval"});
@@ -456,7 +456,7 @@ window.onload = function () {
         return false;
     });
     $('#playButton').click(function () {
-        chrome.runtime.sendMessage({type: "playWord", word: $(this).parent().children('input').eq(0).val()});
+        playWord($(this).parent().children('input').eq(0).val());
         return false;
     });
 
@@ -499,7 +499,7 @@ window.onload = function () {
         addWordToList(word, translation);
     }
     $('#wordsBlock .playButton').click(function () {
-        chrome.runtime.sendMessage({type: "playWord", word: $(this).parent().children('input').eq(0).val()});
+        playWord($(this).parent().children('input').eq(0).val());
         return false;
     });
     $('#wordsBlock .deleteButton').click(deleteWord).on('mouseover', function () {

@@ -102,6 +102,27 @@ function showWord() {
                 });
             });
     }
+
+    updateWord();
+}
+
+function updateWord() {
+    let word = JSON.parse(localStorage.getItem("lastWordQueue"));
+    let dictionaryArray = JSON.parse(localStorage.getItem("dictionaryArray"));
+    let index = dictionaryArray.indexOfObject(word);
+    if (index >= 0) {
+        if (word.showCount) {
+            word.showCount++;
+        } else {
+            word.showCount = 1;
+        }
+        if (settingsArray.showBeforeDeletion > 0 && word.showCount >= settingsArray.showBeforeDeletion) {
+            dictionaryArray.splice(index, 1);
+        } else {
+            dictionaryArray[index] = word;
+        }
+        localStorage.setItem("dictionaryArray", JSON.stringify(dictionaryArray));
+    }
 }
 
 function setIcon() {
@@ -187,6 +208,7 @@ function checkStorage() {
     let themes = localStorage.getItem("themes");
     let selectedThemes = localStorage.getItem("selectedThemes");
     let currentThemeNumber = localStorage.getItem("currentThemeNumber");
+    let showBeforeDeletion = localStorage.getItem("showBeforeDeletion");
     let themesLengthAfterUpdate;
 
     if (!settingsArray) {
@@ -241,6 +263,10 @@ function checkStorage() {
 
     if (!(settingsArray.hasOwnProperty("translateInto"))) {
         settingsArray.translateInto = "ru";
+    }
+
+    if (!(settingsArray.hasOwnProperty("showBeforeDeletion"))) {
+        settingsArray.showBeforeDeletion = 2;
     }
 
     localStorage.setItem("settingsArray", JSON.stringify(settingsArray));
@@ -484,7 +510,7 @@ chrome.runtime.onMessage.addListener(
 chrome.runtime.onMessage.addListener(
     function (request, sender, sendResponse) {
         if (request.type === "playWord") {
-            playWord(request.word, settingsArray.translateFrom);
+            playWord(request.word, request.language);
         }
     }
 );

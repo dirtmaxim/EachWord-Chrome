@@ -149,11 +149,11 @@
             <label for="showBlur">Blur page when a card is displayed</label>
         </div>
         <div id="selectInterval" class="rangeWrapper">
-            <span class="caption">Interval between cards</span><span class="timeWrapper"><span class="time"></span> min</span>
+            <span class="caption">Interval between cards</span><span class="countWrapper"><span class="count"></span> min</span>
             <input type="range" min="1" max="60" step="1" value="1">
         </div>
         <div id="selectDuration" class="rangeWrapper">
-            <span class="caption">Card duration</span><span class="timeWrapper"><span class="time"></span> sec</span>
+            <span class="caption">Card duration</span><span class="countWrapper"><span class="count"></span> sec</span>
             <input type="range" min="1" max="20" step="1" value="1">
         </div>
         <div id="cardThemes">
@@ -188,6 +188,10 @@
                 <label for="confirmClear">I want to</label>
             </div>
             <button id="clearDictionary" class="button" disabled>delete all my words</button>
+        </div>
+        <div id="showCount" class="rangeWrapper">
+            <span class="caption">Delete word after</span><span class="countWrapper"><span class="count"></span> displays</span>
+            <input type="range" min="0" max="20" step="1" value="1">
         </div>
     </section>
     <footer>

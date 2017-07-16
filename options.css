@@ -353,7 +353,7 @@ h2 {
     margin-bottom: 13px;
 }
 
-.timeWrapper {
+.countWrapper {
     position: absolute;
     top: 0;
     right: 0;
@@ -556,6 +556,10 @@ input[type=range]::-webkit-slider-runnable-track {
 
 .clearWrapper .button[disabled]:hover, #prepareClearDictionary[disabled]:hover, #exportDictionary[disabled]:hover {
     background-color: #fff;
+}
+
+#showCount {
+    margin-top: 26px;
 }
 
 footer {

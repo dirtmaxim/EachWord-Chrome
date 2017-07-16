@@ -23,11 +23,12 @@ drawingStarted = false;
 function chooseWord(auxiliaryDictionary, localStorageKey, localStorageLastWord) {
     let flag = false;
     let lastWord = JSON.parse(localStorage.getItem(localStorageLastWord));
+    let showBeforeDeletion = JSON.parse(localStorage.getItem("settingsArray")).showBeforeDeletion;
     let dictionaryArray;
     let randomNumber;
+    dictionaryArray = JSON.parse(localStorage.getItem("dictionaryArray"));
 
     if (auxiliaryDictionary.length === 0) {
-        dictionaryArray = JSON.parse(localStorage.getItem("dictionaryArray"));
         auxiliaryDictionary = dictionaryArray;
         localStorage.setItem(localStorageKey, JSON.stringify(auxiliaryDictionary));
         flag = true;
@@ -54,6 +55,20 @@ function chooseWord(auxiliaryDictionary, localStorageKey, localStorageLastWord) 
             }
 
             lastWord = auxiliaryDictionary.splice(randomNumber - 1, 1)[0];
+            if (lastWord.showCount) {
+                lastWord.showCount++;
+            } else {
+                lastWord.showCount = 1;
+            }
+            if (showBeforeDeletion > 0 && lastWord.showCount >= showBeforeDeletion) {
+                dictionaryArray.splice(dictionaryArray.indexOfObject(lastWord), 1);
+            } else {
+                let index = dictionaryArray.indexOfObject(lastWord);
+                if (index) {
+                    dictionaryArray[index] = lastWord;
+                }
+            }
+            localStorage.setItem("dictionaryArray", JSON.stringify(dictionaryArray));
             localStorage.setItem(localStorageLastWord, JSON.stringify(lastWord));
             localStorage.setItem(localStorageKey, JSON.stringify(auxiliaryDictionary));
             return lastWord;
@@ -253,7 +268,7 @@ function appearing(word, translation, theme, settingsArray) {
     }
 
     document.getElementById("playButton8730011").onclick = function () {
-        chrome.runtime.sendMessage({type: "playWord", word: word});
+        chrome.runtime.sendMessage({type: "playWord", word: word, language: settingsArray.translateFrom});
         return false;
     };
 
@@ -290,7 +305,7 @@ function drawCard(word, translation, theme, settingsArray) {
  * @param {string} language Language to transfer
  */
 function playWord(word, language) {
-    chrome.tts.speak(word, {'lang': language, 'gender': 'male'});
+    chrome.tts.speak(word, {'lang': language});
 }
 
 /**
@@ -302,7 +317,12 @@ function playWord(word, language) {
  * @param {function} after Function that will be executed after translation is fetched
  */
 function translate(from, into, text, after) {
-    let translationLink = "http://www.transltr.org/api/translate?text=" + encodeURI(text) + "&to="
+    let url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl="
+        + from + "&tl=" + into + "&dt=t&q=" + encodeURI(text);
+
+    let result = JSON.parse(UrlFetchApp.fetch(url).getContentText());
+    after(result);
+   /* let translationLink = "http://www.transltr.org/api/translate?text=" + encodeURI(text) + "&to="
         + into + "&from=" + from;
     let xhr = new XMLHttpRequest();
 
@@ -326,7 +346,7 @@ function translate(from, into, text, after) {
         }
 
     };
-    xhr.send();
+    xhr.send();*/
 }
 
 /**

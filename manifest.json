@@ -1,6 +1,6 @@
 {
   "manifest_version": 2,
-  "name": "EachWord - expand your vocabulary",
+  "name": "EachWord - translate words and expand your vocabulary",
   "short_name": "EachWord",
   "version": "2.0.0",
   "description": "__MSG_description__",

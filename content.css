@@ -138,7 +138,7 @@
     width: 30px;
     height: 30px;
     background-size: 100% 100%;
-    margin: 0 24px 0 0;
+    margin: 5px 15px 0 0;
     outline: 0;
 }
 
@@ -317,19 +317,25 @@
         transform: translateY(-35px);
     }
 
+    #playButton8730011 {
+        width: 22px;
+        height: 22px;
+        margin: 4px 12px 0 0;
+    }
+
     #timer8730011 {
-        width: 40px;
-        height: 40px;
+        width: 50px;
+        height: 50px;
     }
 
     #timer8730011 .outer8730011 {
-        stroke-width: 2;
-        stroke-dasharray: 113;
+        stroke-width: 2.5;
+        stroke-dasharray: 146;
     }
 
     @-webkit-keyframes show100 {
         from {
-            stroke-dashoffset: 113;
+            stroke-dashoffset: 146;
         }
 
         to {
@@ -338,8 +344,8 @@
     }
 
     #closeButton8730011:after {
-        left: 2px;
-        font-size: 30px;
+        left: -1px;
+        font-size: 39px;
     }
 }
 
@@ -375,8 +381,35 @@
     }
 
     #playButton8730011 {
-        width: 22px;
-        height: 22px;
-        margin: 0 15px 0 0;
+        width: 17px;
+        height: 17px;
+        margin: 1px 9px 0 0;
+    }
+
+    #timer8730011 {
+        top: -16px;
+        right: -4px;
+        width: 40px;
+        height: 40px;
+    }
+
+    #timer8730011 .outer8730011 {
+        stroke-width: 2;
+        stroke-dasharray: 113;
+    }
+
+    @-webkit-keyframes show100 {
+        from {
+            stroke-dashoffset: 113;
+        }
+
+        to {
+            stroke-dashoffset: 0;
+        }
+    }
+
+    #closeButton8730011:after {
+        left: 2px;
+        font-size: 30px;
     }
 }

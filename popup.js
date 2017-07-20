@@ -120,6 +120,8 @@ function addWordToList(word, translation) {
         "<input type='text' value='" + translation + "'/>" +
         "<a href='' class='deleteButton' tabindex='-1'></a>";
     wordsBlock.insertBefore(li, wordsBlock.firstChild);
+
+    return li;
 }
 
 /**
@@ -194,6 +196,7 @@ function addWord() {
     let word = fromLanguage.value;
     let translation = intoLanguage.value;
     let dictionaryArrayQueue;
+    let $addedWord;
 
     word = word.trim();
     translation = translation.trim();
@@ -222,8 +225,17 @@ function addWord() {
 
     localStorage.setItem("dictionaryArray", JSON.stringify(dictionaryArray));
     localStorage.setItem("dictionaryArrayQueue", JSON.stringify(dictionaryArrayQueue));
+    $addedWord = $(addWordToList(word, translation));
+    $addedWord.find(".playButton").click(function () {
+        playWord($(this).parent().children("input").eq(0).val(), "en");
 
-    addWordToList(word, translation);
+        return false;
+    });
+    $addedWord.find(".deleteButton").click(deleteWord).on("mouseover", function () {
+        $(this).parent().addClass("deleteStyle");
+    }).on("mouseout", function () {
+        $(this).parent().removeClass("deleteStyle");
+    });
     localStorage.setItem("fromLanguage", JSON.stringify(""));
     localStorage.setItem("intoLanguage", JSON.stringify(""));
     document.getElementById("fromLanguage").focus();
@@ -403,6 +415,13 @@ function keyForAddition(event) {
 }
 
 /**
+ * Change value in inputs.
+ */
+function changeValue(event) {
+    event.target.setAttribute("value", event.target.value);
+}
+
+/**
  * Fill in extension window.
  */
 window.onload = function () {
@@ -537,10 +556,3 @@ window.onload = function () {
 
     document.getElementById("fromLanguage").focus();
 };
-
-/**
- * Change value in inputs
- */
-function changeValue(event) {
-    event.target.setAttribute("value", event.target.value);
-}

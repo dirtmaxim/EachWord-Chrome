@@ -157,35 +157,36 @@ function updateTheme() {
     themes = [];
     themes[0] =
         "#wordCard8730011{background-color:#fff;color:#334d5e;}" +
-        "#wordsWrapper8730011{background-image:url(" + chrome.runtime.getURL("images/wordCard/white_face.png") + ");}" +
-        "#words8730011{background-image:url(" + chrome.runtime.getURL("images/wordCard/white_verbal_bubble.png") + ");border-color:rgba(161,173,179,0.2);}" +
+        "#wordsWrapper8730011{background-image:url(" + chrome.runtime.getURL("images/word_card/white_face.png") + ");}" +
+        "#words8730011{background-image:url(" + chrome.runtime.getURL("images/word_card/white_verbal_bubble.png") + ");border-color:rgba(161,173,179,0.2);}" +
         "#timer8730011 .background_circle8730011{fill:#fff;stroke:#cfdee6;}" +
         "#timer8730011 .outer8730011{stroke:#00bef3;}" +
         "#closeButton8730011:after{color:#334d5e;}" +
         "#closeButton8730011:hover:after{color:#00bef3;}" +
-        "#playButton8730011{background-image:url(" + chrome.runtime.getURL("images/wordCard/voice_white.png") + ");}" +
-        "#playButton8730011:hover{background-image:url(" + chrome.runtime.getURL("images/wordCard/voice_white_hover.png") + ");}";
+        "#playButton8730011{background-image:url(" + chrome.runtime.getURL("images/word_card/voice_white.png") + ");}" +
+        "#playButton8730011:hover{background-image:url(" + chrome.runtime.getURL("images/word_card/voice_white_hover.png") + ");}";
     themes[1] =
         "#wordCard8730011{background-color:#00bef3;color:#fff;}" +
-        "#wordsWrapper8730011{background-image:url(" + chrome.runtime.getURL("images/wordCard/white_face.png") + ");}" +
-        "#words8730011{background-image:url(" + chrome.runtime.getURL("images/wordCard/blue_verbal_bubble.png") + ");border-color:rgba(248,250,254,0.4);}" +
+        "#wordsWrapper8730011{background-image:url(" + chrome.runtime.getURL("images/word_card/white_face.png") + ");}" +
+        "#words8730011{background-image:url(" + chrome.runtime.getURL("images/word_card/blue_verbal_bubble.png") + ");border-color:rgba(248,250,254,0.4);}" +
         "#timer8730011 .background_circle8730011{fill:#00bef3;stroke:#fff;}" +
         "#timer8730011 .outer8730011{stroke:#0677a0;}" +
         "#closeButton8730011:after{color:#fff;}" +
         "#closeButton8730011:hover:after{color:#0677a0;}" +
-        "#playButton8730011{background-image:url(" + chrome.runtime.getURL("images/wordCard/voice_blue.png") + ");}" +
-        "#playButton8730011:hover{background-image:url(" + chrome.runtime.getURL("images/wordCard/voice_blue_hover.png") + ");}";
+        "#playButton8730011{background-image:url(" + chrome.runtime.getURL("images/word_card/voice_blue.png") + ");}" +
+        "#playButton8730011:hover{background-image:url(" + chrome.runtime.getURL("images/word_card/voice_blue_hover.png") + ");}";
     themes[2] =
         "#wordCard8730011{background-color:#043d52;color:#fff;}" +
-        "#wordsWrapper8730011{background-image:url(" + chrome.runtime.getURL("images/wordCard/dark_face.png") + ");}" +
-        "#words8730011{background-image:url(" + chrome.runtime.getURL("images/wordCard/dark_verbal_bubble.png") + ");border-color:rgba(0,190,243,0.2);}" +
+        "#wordsWrapper8730011{background-image:url(" + chrome.runtime.getURL("images/word_card/dark_face.png") + ");}" +
+        "#words8730011{background-image:url(" + chrome.runtime.getURL("images/word_card/dark_verbal_bubble.png") + ");border-color:rgba(0,190,243,0.2);}" +
         "#timer8730011 .background_circle8730011{fill:#043d52;stroke:#cfdee6;}" +
         "#timer8730011 .outer8730011{stroke:#00bef3;}" +
         "#closeButton8730011:after{color:#f8fafe;}" +
         "#closeButton8730011:hover:after{color:#00bef3;}" +
-        "#playButton8730011{background-image:url(" + chrome.runtime.getURL("images/wordCard/voice_dark.png") + ");}" +
-        "#playButton8730011:hover{background-image:url(" + chrome.runtime.getURL("images/wordCard/voice_dark_hover.png") + ");}";
+        "#playButton8730011{background-image:url(" + chrome.runtime.getURL("images/word_card/voice_dark.png") + ");}" +
+        "#playButton8730011:hover{background-image:url(" + chrome.runtime.getURL("images/word_card/voice_dark_hover.png") + ");}";
     localStorage.setItem("themes", JSON.stringify(themes));
+
     return themes.length;
 }
 
@@ -208,7 +209,7 @@ function checkStorage() {
     let themes = localStorage.getItem("themes");
     let selectedThemes = localStorage.getItem("selectedThemes");
     let currentThemeNumber = localStorage.getItem("currentThemeNumber");
-    let showBeforeDeletion = localStorage.getItem("showBeforeDeletion");
+    let displaysBeforeDeletion = localStorage.getItem("displaysBeforeDeletion");
     let themesLengthAfterUpdate;
 
     if (!settingsArray) {
@@ -265,7 +266,7 @@ function checkStorage() {
         settingsArray.translateInto = "ru";
     }
 
-    if (!(settingsArray.hasOwnProperty("showBeforeDeletion"))) {
+    if (!(settingsArray.hasOwnProperty("displaysBeforeDeletion"))) {
         settingsArray.showBeforeDeletion = 2;
     }
 
@@ -319,11 +320,6 @@ function checkStorage() {
     if (!versionArray) {
         versionArray = [];
         localStorage.setItem("versionArray", JSON.stringify(versionArray));
-    }
-
-    if (!welcomeIsShown) {
-        welcomeIsShown = false;
-        localStorage.setItem("welcomeIsShown", JSON.stringify(welcomeIsShown));
     }
 
     themesLengthAfterUpdate = updateTheme();

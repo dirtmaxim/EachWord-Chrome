@@ -1,12 +1,6 @@
 // Warning: some variables defined in "commonFunction.js".
-let nothingToShowMessage;
-let updateMessage;
-let isCrucialUpdate;
 let dictionaryArray;
 let messageTimeoutId;
-
-// It affects either updateMessage will be shown or not.
-isCrucialUpdate = false;
 
 /**
  * To save entered letters in "Word" field when user closes extension window and translate with delay.
@@ -121,10 +115,10 @@ function addWordToList(word, translation) {
     let wordsBlock = document.getElementById("wordsBlock");
 
     li = document.createElement("li");
-    li.innerHTML = "<a href='' class='playButton' title='play word' tabindex='-1'></a>" +
-        "<input type='text' value='" + word + "'></input>" +
-        "<input type='text' value='" + translation + "'></input>" +
-        "<a href='' class='deleteButton' title='delete word' tabindex='-1'></a>";
+    li.innerHTML = "<a href='' class='playButton' tabindex='-1'></a>" +
+        "<input type='text' value='" + word + "'/>" +
+        "<input type='text' value='" + translation + "'/>" +
+        "<a href='' class='deleteButton' tabindex='-1'></a>";
     wordsBlock.insertBefore(li, wordsBlock.firstChild);
 }
 
@@ -139,7 +133,6 @@ function deleteAddedWord() {
     let indexInQueue;
 
     $li.remove();
-
     dictionaryArrayQueue = JSON.parse(localStorage.getItem("dictionaryArrayQueue"));
     indexInQueue = dictionaryArrayQueue.indexOfObject(dictionaryArray.splice(index, 1)[0]);
 
@@ -230,16 +223,17 @@ function addWord() {
     localStorage.setItem("dictionaryArray", JSON.stringify(dictionaryArray));
     localStorage.setItem("dictionaryArrayQueue", JSON.stringify(dictionaryArrayQueue));
 
-    addWordToList(word, translation, (dictionaryArray.length - 1).toString());
+    addWordToList(word, translation);
     localStorage.setItem("fromLanguage", JSON.stringify(""));
     localStorage.setItem("intoLanguage", JSON.stringify(""));
     document.getElementById("fromLanguage").focus();
     chrome.runtime.sendMessage({type: "changeDictionary"});
-
     showSuccess(word);
+
     if (messageTimeoutId) {
         clearTimeout(messageTimeoutId);
     }
+
     messageTimeoutId = setTimeout(closeSuccess, 4000);
 
     return false;
@@ -249,15 +243,15 @@ function addWord() {
  * Show success of adding a word card message
  */
 function showSuccess(text) {
-    $('#addedWord').html(text);
-    $('#wordBlock .addWrapper').addClass('success');
+    $("#addedWord").html(text);
+    $("#wordBlock").find(".addWrapper").addClass("success");
 }
 
 /**
  * Close success of adding a word card message
  */
 function closeSuccess() {
-    $('#wordBlock .addWrapper').removeClass('success');
+    $("#wordBlock").find(".addWrapper").removeClass("success");
 }
 
 /**
@@ -351,11 +345,10 @@ function changeWord() {
     indexInQueue = dictionaryArrayQueue.indexOfObject(dictionaryArray[index]);
     dictionaryArray[index].word = value;
     dictionaryArrayQueue[indexInQueue].word = value;
-
     localStorage.setItem("dictionaryArray", JSON.stringify(dictionaryArray));
     localStorage.setItem("dictionaryArrayQueue", JSON.stringify(dictionaryArrayQueue));
-
     chrome.runtime.sendMessage({type: "changeDictionary"});
+
     return false;
 }
 
@@ -373,11 +366,10 @@ function changeTranslation() {
     indexInQueue = dictionaryArrayQueue.indexOfObject(dictionaryArray[index]);
     dictionaryArray[index].translation = value;
     dictionaryArrayQueue[indexInQueue].translation = value;
-
     localStorage.setItem("dictionaryArray", JSON.stringify(dictionaryArray));
     localStorage.setItem("dictionaryArrayQueue", JSON.stringify(dictionaryArrayQueue));
-
     chrome.runtime.sendMessage({type: "changeDictionary"});
+
     return false;
 }
 
@@ -419,44 +411,47 @@ window.onload = function () {
     let fromLanguage = document.getElementById("fromLanguage");
     let intoLanguage = document.getElementById("intoLanguage");
     let searchInput = document.getElementById("searchInput");
+    let $wordsBlock = $("#wordsBlock");
     let versionArray;
 
-    $('#menuButton').click(function () {
-        if ($(this).hasClass('openMenu')) {
-            $(this).removeClass('openMenu');
-            $(this).addClass('closeMenu');
-            $('body>.hidden').removeClass('hidden');
+    $("#menuButton").click(function () {
+        if ($(this).hasClass("openMenu")) {
+            $(this).removeClass("openMenu");
+            $(this).addClass("closeMenu");
+            $("body>.hidden").removeClass("hidden");
         } else {
-            $(this).removeClass('closeMenu');
-            $(this).addClass('openMenu');
-            $('body>:not(#wordBlock)').addClass('hidden');
+            $(this).removeClass("closeMenu");
+            $(this).addClass("openMenu");
+            $("body>:not(#wordBlock)").addClass("hidden");
         }
         return false;
     });
-    $("#wordBlock .addWrapper").on('mouseover', function () {
+    $("#wordBlock").find(".addWrapper").on("mouseover", function () {
         if (messageTimeoutId) {
             clearTimeout(messageTimeoutId);
         }
-    }).on('mouseout', function () {
+    }).on("mouseout", function () {
         if (messageTimeoutId) {
             clearTimeout(messageTimeoutId);
         }
         messageTimeoutId = setTimeout(closeSuccess, 3000);
     });
-    $("#deleteButton").on('mouseover', function () {
-        $(this).parent().addClass('delete');
-    }).on('mouseout', function () {
-        $(this).parent().removeClass('delete');
-    }).on('click', function () {
+    $("#deleteButton").on("mouseover", function () {
+        $(this).parent().addClass("delete");
+    }).on("mouseout", function () {
+        $(this).parent().removeClass("delete");
+    }).on("click", function () {
         deleteAddedWord();
         if (messageTimeoutId) {
             clearTimeout(messageTimeoutId);
         }
         closeSuccess();
+
         return false;
     });
-    $('#playButton').click(function () {
-        playWord($(this).parent().children('input').eq(0).val());
+    $("#playButton").click(function () {
+        playWord($(this).parent().children("input").eq(0).val(), "en");
+
         return false;
     });
 
@@ -498,17 +493,18 @@ window.onload = function () {
         translation = dictionaryArray[i].translation;
         addWordToList(word, translation);
     }
-    $('#wordsBlock .playButton').click(function () {
-        playWord($(this).parent().children('input').eq(0).val());
+    $wordsBlock.find(".playButton").click(function () {
+        playWord($(this).parent().children("input").eq(0).val(), "en");
+
         return false;
     });
-    $('#wordsBlock .deleteButton').click(deleteWord).on('mouseover', function () {
-        $(this).parent().addClass('deleteStyle');
-    }).on('mouseout', function () {
-        $(this).parent().removeClass('deleteStyle');
+    $wordsBlock.find(".deleteButton").click(deleteWord).on("mouseover", function () {
+        $(this).parent().addClass("deleteStyle");
+    }).on("mouseout", function () {
+        $(this).parent().removeClass("deleteStyle");
     });
 
-    $('#wordsBlock input').each(function () {
+    $wordsBlock.find("input").each(function () {
         if ($(this).index() % 2 === 1) {
             $(this).blur(changeWord).keypress(function (e) {
                 if (e.keyCode === 13) {
@@ -534,18 +530,9 @@ window.onload = function () {
     });
 
     if (isExtensionUpdated()) {
-        if (isCrucialUpdate) {
-            showButtonWindow(updateMessage, "Got it", "left", "80%", "80%", "9", function () {
-                versionArray = JSON.parse(localStorage.getItem("versionArray"));
-                versionArray.push(chrome.app.getDetails().version);
-                localStorage.setItem("versionArray", JSON.stringify(versionArray));
-                localStorage.setItem("welcomeIsShown", JSON.stringify(false));
-            });
-        } else {
-            versionArray = JSON.parse(localStorage.getItem("versionArray"));
-            versionArray.push(chrome.app.getDetails().version);
-            localStorage.setItem("versionArray", JSON.stringify(versionArray));
-        }
+        versionArray = JSON.parse(localStorage.getItem("versionArray"));
+        versionArray.push(chrome.app.getDetails().version);
+        localStorage.setItem("versionArray", JSON.stringify(versionArray));
     }
 
     document.getElementById("fromLanguage").focus();
@@ -555,5 +542,5 @@ window.onload = function () {
  * Change value in inputs
  */
 function changeValue(event) {
-    event.target.setAttribute('value', event.target.value);
+    event.target.setAttribute("value", event.target.value);
 }

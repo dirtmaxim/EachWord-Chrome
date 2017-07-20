@@ -3,7 +3,6 @@ let drawingStarted;
 let timeoutIdTimer;
 let dictionaryArrayQueue;
 let dictionaryArrayTab;
-
 let wordCardDelay = 1000;
 
 // Works as semaphore for "disappearing()".
@@ -217,13 +216,13 @@ function appearing(word, translation, theme, settingsArray) {
         "<circle class='background_circle8730011' cx='50%' cy='50%' r='calc(50% - 2px)'/>" +
         "<circle class='outer8730011' cx='50%' cy='50%' r='calc(50% - 2px)' style='animation-duration: " + selectDelay + "s'/>" +
         "</svg>" +
-        "<a href=\"\" id=\"closeButton8730011\" title=\"Close this card\" tabindex=\"-1\"></a>" +
+        "<a href='' id='closeButton8730011' tabindex='-1'></a>" +
         "</figure>" +
-        "<div id=\"wordsContainer8730011\">" +
-        "<a href=\"\" title=\"Listen\" id=\"playButton8730011\" tabindex=\"-1\"></a>" +
-        "<span id=\"word8730011\">" + word + "</span>" +
-        "<span id=\"dash8730011\"> &mdash; </span>" +
-        "<span id=\"translation8730011\">" + translation + "</span>" +
+        "<div id='wordsContainer8730011'>" +
+        "<a href='' id='playButton8730011' tabindex='-1'></a>" +
+        "<span id='word8730011'>" + word + "</span>" +
+        "<span id='dash8730011'> &mdash; </span>" +
+        "<span id='translation8730011'>" + translation + "</span>" +
         "</div>" +
         "</div>" +
         "</div>";
@@ -305,7 +304,7 @@ function drawCard(word, translation, theme, settingsArray) {
  * @param {string} language Language to transfer
  */
 function playWord(word, language) {
-    chrome.tts.speak(word, {'lang': language});
+    chrome.tts.speak(word, {"lang": language});
 }
 
 /**
@@ -322,31 +321,31 @@ function translate(from, into, text, after) {
 
     let result = JSON.parse(UrlFetchApp.fetch(url).getContentText());
     after(result);
-   /* let translationLink = "http://www.transltr.org/api/translate?text=" + encodeURI(text) + "&to="
-        + into + "&from=" + from;
-    let xhr = new XMLHttpRequest();
+    /* let translationLink = "http://www.transltr.org/api/translate?text=" + encodeURI(text) + "&to="
+     + into + "&from=" + from;
+     let xhr = new XMLHttpRequest();
 
-    xhr.open("GET", translationLink, true);
-    xhr.onload = function () {
-        let translation;
+     xhr.open("GET", translationLink, true);
+     xhr.onload = function () {
+     let translation;
 
-        text = text.trim();
+     text = text.trim();
 
-        if (text !== "") {
-            translation = JSON.parse(xhr.responseText);
-            after({
-                translation: translation.translationText,
-                isTranslated: translation.translationText.toLowerCase() !== text.toLowerCase()
-            });
-        } else {
-            after({
-                translation: "",
-                isTranslated: true
-            });
-        }
+     if (text !== "") {
+     translation = JSON.parse(xhr.responseText);
+     after({
+     translation: translation.translationText,
+     isTranslated: translation.translationText.toLowerCase() !== text.toLowerCase()
+     });
+     } else {
+     after({
+     translation: "",
+     isTranslated: true
+     });
+     }
 
-    };
-    xhr.send();*/
+     };
+     xhr.send();*/
 }
 
 /**

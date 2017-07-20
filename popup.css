@@ -108,7 +108,7 @@ ul li {
 }
 
 .toggle label:before {
-    content: '';
+    content: "";
     display: block;
     width: 100%;
     height: 100%;
@@ -123,7 +123,7 @@ ul li {
 }
 
 .toggle label:after {
-    content: '';
+    content: "";
     display: block;
     width: 20px;
     height: 20px;
@@ -183,7 +183,7 @@ ul li {
 }
 
 .openMenu:before, .openMenu:after {
-    content: '';
+    content: "";
     position: absolute;
     left: 0;
     display: block;
@@ -280,8 +280,6 @@ input::selection {
     height: 14px;
     opacity: 0.6;
     background-image: url("images/icons/basket_icon.png");
-    background-size: 100% 100%;
-    transition: all 0.2s;
 }
 
 .deleteButton:hover {
@@ -338,7 +336,7 @@ input::selection {
 }
 
 #addButton:before {
-    content: '';
+    content: "";
     display: inline-block;
     width: 10px;
     height: 10px;
@@ -380,7 +378,7 @@ input::selection {
 }
 
 .addWrapper.success .word:before {
-    content: '';
+    content: "";
     position: absolute;
     top: 6px;
     left: 0;
@@ -501,9 +499,7 @@ input[type="search"] {
     width: 12px;
     height: 17px;
     opacity: 1;
-    background-image: url("images/icons/remove_icon_default.png");
-    background-position: center;
-    background-repeat: no-repeat;
+    background: url("images/icons/remove_icon_default.png") no-repeat center;
 }
 
 #wordsBlock .deleteButton:hover {
@@ -538,7 +534,7 @@ input[type="search"] {
 }
 
 #backToTop:before {
-    content: '';
+    content: "";
     position: absolute;
     top: 3px;
     left: 0;

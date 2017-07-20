@@ -21,9 +21,9 @@ let currentThemeNumber;
 let intervalValue;
 let durationValue;
 let showCountValue;
-let statusWrapper;
+let $statusWrapper;
+let $rangeWrapper;
 let showCount;
-
 let statusTimeoutId;
 let statusTime = 4000;
 
@@ -44,7 +44,7 @@ function controlCheckedTypesOfThemes() {
     let lastIndex;
 
     for (let i = 0; i < checkBoxTheme.length && count < 2; i++) {
-        if (checkBoxTheme[i].getElementsByTagName('input')[0].checked === true) {
+        if (checkBoxTheme[i].getElementsByTagName("input")[0].checked === true) {
             count++;
             lastIndex = i;
         }
@@ -52,11 +52,11 @@ function controlCheckedTypesOfThemes() {
 
     if (count === 1) {
         controlCheckedTypesOfThemes.lastIndex = lastIndex;
-        checkBoxTheme[lastIndex].getElementsByTagName('input')[0].disabled = true;
+        checkBoxTheme[lastIndex].getElementsByTagName("input")[0].disabled = true;
     } else if (controlCheckedTypesOfThemes.lastIndex === undefined) {
         controlCheckedTypesOfThemes.lastIndex = -1;
     } else if (controlCheckedTypesOfThemes.lastIndex !== -1) {
-        checkBoxTheme[controlCheckedTypesOfThemes.lastIndex].getElementsByTagName('input')[0].disabled = false;
+        checkBoxTheme[controlCheckedTypesOfThemes.lastIndex].getElementsByTagName("input")[0].disabled = false;
         controlCheckedTypesOfThemes.lastIndex = -1;
     }
 
@@ -96,11 +96,12 @@ function enableDisableClearButton() {
  */
 function showStatus(text, success) {
     if (success) {
-        $(statusWrapper).addClass("open");
+        $statusWrapper.addClass("open");
     } else {
-        $(statusWrapper).addClass("open wrong");
+        $statusWrapper.addClass("open wrong");
     }
-    $('#status').html(text);
+
+    $("#status").html(text);
 }
 
 /**
@@ -110,10 +111,10 @@ function closeStatus() {
     if (statusTimeoutId) {
         clearTimeout(statusTimeoutId);
     }
-    if ($(statusWrapper).hasClass("wrong")) {
-        $(statusWrapper).removeClass("open wrong");
+    if ($statusWrapper.hasClass("wrong")) {
+        $statusWrapper.removeClass("open wrong");
     } else {
-        $(statusWrapper).removeClass("open");
+        $statusWrapper.removeClass("open");
     }
 }
 
@@ -146,7 +147,7 @@ function clearEntireDictionary() {
 }
 
 /**
- * Download the file with data when the button is pressed. It is used to export the Dictionary.
+ * Download the file with data when the button is pressed. It is used for export the Dictionary.
  */
 function exportDictionaryFile() {
     let a = document.createElement("a");
@@ -242,8 +243,8 @@ function importDictionaryFile(event) {
     return false;
 }
 
-/*
- * Save settings
+/**
+ * Save settings.
  */
 function saveTranslateFrom() {
     settingsArray.translateFrom = translateFrom.getAttribute("data-value");
@@ -295,7 +296,7 @@ function saveThemes() {
     selectedThemes = [];
 
     for (let i = 0; i < checkBoxTheme.length; i++) {
-        if (checkBoxTheme[i].getElementsByTagName('input')[0].checked) {
+        if (checkBoxTheme[i].getElementsByTagName("input")[0].checked) {
             selectedThemes.push(i);
         }
     }
@@ -325,8 +326,8 @@ window.onload = function () {
     translateInto = document.getElementById("translateInto");
     showNativeCards = document.getElementById("showNativeCards");
     showBlur = document.getElementById("showBlur");
-    selectInterval = document.getElementById("selectInterval").getElementsByTagName('input')[0];
-    selectDuration = document.getElementById("selectDuration").getElementsByTagName('input')[0];
+    selectInterval = document.getElementById("selectInterval").getElementsByTagName("input")[0];
+    selectDuration = document.getElementById("selectDuration").getElementsByTagName("input")[0];
     showTestCard = document.getElementById("showTestCard");
     showNotificationCards = document.getElementById("showNotificationCards");
     showTestNotification = document.getElementById("showTestNotification");
@@ -336,25 +337,26 @@ window.onload = function () {
     prepareClearDictionary = document.getElementById("prepareClearDictionary");
     clearWrapper = document.getElementsByClassName("clearWrapper")[0];
     clearDictionary = document.getElementById("clearDictionary");
-    statusWrapper = $('.statusWrapper');
-    showCount = document.getElementById("showCount").getElementsByTagName('input')[0];
+    $statusWrapper = $(".statusWrapper");
+    $rangeWrapper = $(".rangeWrapper");
+    showCount = document.getElementById("showCount").getElementsByTagName("input")[0];
 
     translateFrom.setAttribute("data-value", settingsArray.translateFrom);
     translateInto.setAttribute("data-value", settingsArray.translateInto);
     translateFrom.onchange = saveTranslateFrom;
     translateInto.onchange = saveTranslateInto;
 
-    $('#changeLanguages').click(function () {
-        let from = $('#translateFrom');
-        let into = $('#translateInto');
-        let fromValue = from.attr('data-value');
-        let intoValue = into.attr('data-value');
-        let fromHtml = from.children('.selected').children('span').html();
-        let intoHtml = into.children('.selected').children('span').html();
-        from.attr('data-value', intoValue);
-        from.children('.selected').children('span').html(intoHtml);
-        into.attr('data-value', fromValue);
-        into.children('.selected').children('span').html(fromHtml);
+    $("#changeLanguages").click(function () {
+        let from = $("#translateFrom");
+        let into = $("#translateInto");
+        let fromValue = from.attr("data-value");
+        let intoValue = into.attr("data-value");
+        let fromHtml = from.children(".selected").children("span").html();
+        let intoHtml = into.children(".selected").children("span").html();
+        from.attr("data-value", intoValue);
+        from.children(".selected").children("span").html(intoHtml);
+        into.attr("data-value", fromValue);
+        into.children(".selected").children("span").html(fromHtml);
         from.change();
         into.change();
     });
@@ -373,13 +375,13 @@ window.onload = function () {
     intervalValue = selectInterval.value;
     durationValue = selectDuration.value;
     showCountValue = showCount.value;
-    $(".rangeWrapper").each(function () {
+    $rangeWrapper.each(function () {
         $(this).children("input[type=range]").on("change mousemove", function () {
-            if (!$(this).parent().is('#showCount')) {
+            if (!$(this).parent().is("#showCount")) {
                 $(this).parent().children(".countWrapper").children(".count").html($(this).val());
             } else {
-                let $countWrapperSpan = $(this).parent().find('.countWrapper');
-                let $countSpan = $countWrapperSpan.find('.count');
+                let $countWrapperSpan = $(this).parent().find(".countWrapper");
+                let $countSpan = $countWrapperSpan.find(".count");
                 if ($(this).val() == 0) {
                     $countSpan.html("");
                     $countWrapperSpan.html($countWrapperSpan.html().replace(" displays", "Never"));
@@ -415,7 +417,7 @@ window.onload = function () {
         }
     };
 
-    //Add themes to html page
+    // Add themes to the html page.
     if (themes) {
         for (let i = 0; i < themes.length; i++) {
             let div;
@@ -440,16 +442,16 @@ window.onload = function () {
 
     checkBoxTheme = document.getElementsByClassName("roundCheckbox");
     for (let i = 0; i < selectedThemes.length; i++) {
-        checkBoxTheme[selectedThemes[i]].getElementsByTagName('input')[0].checked = true;
+        checkBoxTheme[selectedThemes[i]].getElementsByTagName("input")[0].checked = true;
     }
 
     if (selectedThemes.length === 1) {
         controlCheckedTypesOfThemes.lastIndex = selectedThemes[0];
-        checkBoxTheme[selectedThemes[0]].getElementsByTagName('input')[0].disabled = true;
+        checkBoxTheme[selectedThemes[0]].getElementsByTagName("input")[0].disabled = true;
     }
 
     for (let i = 0; i < checkBoxTheme.length; i++) {
-        checkBoxTheme[i].getElementsByTagName('input')[0].onchange = controlCheckedTypesOfThemes;
+        checkBoxTheme[i].getElementsByTagName("input")[0].onchange = controlCheckedTypesOfThemes;
     }
 
     showTestCard.onclick = testWordCard;
@@ -473,29 +475,29 @@ window.onload = function () {
         prepareClearDictionary.setAttribute("disabled", "true");
     }
 
-    $('.closeButton').click(function () {
+    $(".closeButton").click(function () {
         closeStatus();
         return false;
     });
 
-    $('.select').each(function () {
+    $(".select").each(function () {
         initializeCustomSelect($(this));
     });
     disableOptions();
 
-    // Set range style
-    let thumbStyle = 'input[type="range"]::-webkit-slider-thumb{box-shadow:';
+    // Set range style.
+    let thumbStyle = "input[type='range']::-webkit-slider-thumb{box-shadow:";
     let shadowSize = -6;
-    let shadowColor = '#9d9d9d';
-    let shadowWidth = $('.rangeWrapper').width();
+    let shadowColor = "#9d9d9d";
+    let shadowWidth = $rangeWrapper.width();
     for (let i = 6; i <= shadowWidth; i++) {
-        thumbStyle += i + 'px 0 0 ' + shadowSize + 'px ' + shadowColor;
+        thumbStyle += i + "px 0 0 " + shadowSize + "px " + shadowColor;
         if (i != shadowWidth) {
-            thumbStyle += ',';
+            thumbStyle += ",";
         }
     }
-    thumbStyle += ';}';
-    $('head').append('<style>' + thumbStyle + '</style>');
+    thumbStyle += ";}";
+    $("head").append("<style>" + thumbStyle + "</style>");
 
 };
 
@@ -503,28 +505,28 @@ window.onload = function () {
  * Initialize custom select
  */
 function initializeCustomSelect(select) {
-    let selected = $(select).children('.selected');
-    let options = $(select).children('.options');
-    let selectedValue = select.attr('data-value');
-    let selectedOption = $(options).children('[data-value = ' + selectedValue + ']');
+    let selected = $(select).children(".selected");
+    let options = $(select).children(".options");
+    let selectedValue = select.attr("data-value");
+    let selectedOption = $(options).children("[data-value = " + selectedValue + "]");
 
-    $(selected).children('span').html($(selectedOption).html());
+    $(selected).children("span").html($(selectedOption).html());
 
     selected.click(function () {
-        if (select.hasClass('active')) {
-            options.addClass('hidden');
-            select.removeClass('active');
+        if (select.hasClass("active")) {
+            options.addClass("hidden");
+            select.removeClass("active");
         } else {
-            options.removeClass('hidden');
-            select.addClass('active');
+            options.removeClass("hidden");
+            select.addClass("active");
         }
     });
 
-    options.children('.option').each(function () {
+    options.children(".option").each(function () {
         $(this).click(function () {
             if (!$(this).hasClass("disabled")) {
-                $(select).attr('data-value', $(this).attr('data-value'));
-                $(selected).children('span').html($(this).html());
+                $(select).attr("data-value", $(this).attr("data-value"));
+                $(selected).children("span").html($(this).html());
                 selected.click();
                 select.change();
             } else {

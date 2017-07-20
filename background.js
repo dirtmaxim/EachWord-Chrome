@@ -5,6 +5,10 @@ let intervalIdShowing;
 let timeoutIdNotification;
 let intervalTime;
 let stopSign;
+let isMac = navigator.userAgent.indexOf("Mac") >= 0;
+
+// Chrome version in format: [59, 0, 3071, 115]. From major to minor.
+let chromeVersion = navigator.userAgent.match(/Chrom(e|ium)\/([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)\s/)[2].split(".").map(Number);
 
 // Initialization.
 checkStorage();
@@ -24,26 +28,30 @@ if (JSON.parse(localStorage.getItem("dictionaryArray")).length !== 0 && JSON.par
 
 function showNotification(word, translation, settingsArray) {
     let options;
-    let showTimeline;
     let _notificationId;
     let progressCounter;
     let intervalIdNotification;
+    let typeFlag = isMac && chromeVersion[0] >= 59;
 
-    options = {
-        type: "progress",
-        title: "EachWord",
-        message: word + " — " + translation,
-        iconUrl: "images/icons/iconNotification128.png",
-        // In order to increase showing time without recreating.
-        priority: 2,
-        progress: 0
-    };
-
-    showTimeline = settingsArray.showTimeline;
-
-    if (!showTimeline) {
-        options.type = "basic";
-        delete options.progress;
+    if (typeFlag) {
+        options = {
+            type: "basic",
+            title: "EachWord",
+            message: word + " — " + translation,
+            iconUrl: "images/icons/icon128.png",
+            requireInteraction: true,
+            priority: 2
+        };
+    } else {
+        options = {
+            type: "progress",
+            title: "EachWord",
+            message: word + " — " + translation,
+            iconUrl: "images/icons/iconNotification128.png",
+            requireInteraction: true,
+            priority: 2,
+            progress: 0,
+        };
     }
 
     _notificationId = "wordCard" + Math.floor(Math.random() * 9999999);
@@ -53,26 +61,22 @@ function showNotification(word, translation, settingsArray) {
         if (progressCounter < 100) {
             progressCounter++;
 
-            if (showTimeline) {
+            if (!typeFlag) {
                 options.progress++;
+                chrome.notifications.update(_notificationId, options);
             }
         } else {
             chrome.notifications.clear(_notificationId);
             clearInterval(intervalIdNotification);
         }
 
-        chrome.notifications.update(_notificationId, options);
-
-        // In order to reduce losses in the division: settingsArray["selectDelay"] * 10 == settingsArray["selectDelay"] / 100 * 1000.
+        // In order to reduce losses in the division: settingsArray.selectDelay * 10 == settingsArray.selectDelay / 100 * 1000.
     }, settingsArray.selectDelay * 10);
+
     chrome.notifications.onClosed.addListener(function (notificationId, byUser) {
         if (notificationId === _notificationId) {
-            if (byUser) {
-                chrome.notifications.clear(_notificationId);
-                clearInterval(intervalIdNotification);
-            } else if (progressCounter < 100) {
-                chrome.notifications.create(_notificationId, options);
-            }
+            chrome.notifications.clear(_notificationId);
+            clearInterval(intervalIdNotification);
         }
     });
 }
@@ -516,7 +520,7 @@ chrome.runtime.onMessage.addListener(
  */
 chrome.contextMenus.create({
     title: function () {
-        if (navigator.userAgent.indexOf("Mac") >= 0) {
+        if (isMac) {
             return "EachWord (Cmd + Shift + E)";
         } else {
             return "EachWord (Ctrl + Shift + E)";

@@ -5,7 +5,7 @@ The best practice to remember new words is to hang the cards with the words on a
 
 *How it works:*
 
-![](https://user-images.githubusercontent.com/11778655/28394701-9dc1db9a-6cf7-11e7-844f-c7bb56aa0504.png)
+![](https://user-images.githubusercontent.com/11778655/28395861-e3557754-6cff-11e7-8a7a-d7b5c8a47d85.png)
 
 ![](https://user-images.githubusercontent.com/11778655/28394871-c6f68190-6cf8-11e7-80c0-9f396f1018a9.png)
 

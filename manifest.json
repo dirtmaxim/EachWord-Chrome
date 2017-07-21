@@ -28,7 +28,7 @@
         "content.css"
       ],
       "js": [
-        "commonFunctions.js",
+        "common_functions.js",
         "content.js"
       ]
     }
@@ -36,7 +36,7 @@
   "background": {
     "scripts": [
       "libraries/jquery.min.js",
-      "commonFunctions.js",
+      "common_functions.js",
       "background.js"
     ],
     "persistent": true

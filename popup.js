@@ -1,4 +1,4 @@
-// Warning: some variables defined in "commonFunction.js".
+// Warning: some variables defined in "common_function.js".
 let dictionaryArray;
 let messageTimeoutId;
 let settingArray = JSON.parse(localStorage.getItem("settingsArray"));

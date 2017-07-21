@@ -246,7 +246,7 @@ function showWindow(text) {
 }
 
 /**
- * All functions are defined in "commonFunction.js".
+ * All functions are defined in "common_function.js".
  * This listener gets messages from "background.js" when it is time to showing word card.
  */
 chrome.runtime.onMessage.addListener(

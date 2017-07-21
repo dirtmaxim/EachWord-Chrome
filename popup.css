@@ -307,12 +307,16 @@ input::selection {
     transition: all 0.2s;
 }
 
-.addWrapper span, .addWrapper #deleteButton {
+.addWrapper span {
+    padding: 0 28px 0 64px;
+    display: none;
+}
+
+.addWrapper #deleteButton {
     display: none;
 }
 
 .addWrapper.success {
-    padding: 0 28px 0 64px;
     background-color: #98de5f;
     color: #6bb231;
 }

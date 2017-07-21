@@ -252,7 +252,7 @@ function addWord() {
 }
 
 /**
- * Show success of adding a word card message
+ * Show success of adding a word card message.
  */
 function showSuccess(text) {
     $("#addedWord").html(text);
@@ -260,7 +260,7 @@ function showSuccess(text) {
 }
 
 /**
- * Close success of adding a word card message
+ * Close success of adding a word card message.
  */
 function closeSuccess() {
     $("#wordBlock").find(".addWrapper").removeClass("success");

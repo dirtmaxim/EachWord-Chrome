@@ -111,6 +111,7 @@ function closeStatus() {
     if (statusTimeoutId) {
         clearTimeout(statusTimeoutId);
     }
+
     if ($statusWrapper.hasClass("wrong")) {
         $statusWrapper.removeClass("open wrong");
     } else {
@@ -128,9 +129,11 @@ function clearEntireDictionary() {
         chrome.runtime.sendMessage({type: "stopInterval"});
         chrome.runtime.sendMessage({type: "changeDictionary"});
         showStatus("Dictionary has been cleared!", true);
+
         if (statusTimeoutId) {
             clearTimeout(statusTimeoutId);
         }
+
         statusTimeoutId = setTimeout(closeStatus, statusTime);
         exportDictionary.setAttribute("disabled", "true");
         prepareClearDictionary.style["display"] = null;
@@ -212,13 +215,16 @@ function importDictionaryFile(event) {
                 for (let i = 0; i < result.length; i++) {
                     dictionaryArray.push(result[i]);
                 }
+
                 localStorage.setItem("dictionaryArray", JSON.stringify(dictionaryArray));
                 localStorage.setItem("dictionaryArrayQueue", JSON.stringify([]));
 
                 showStatus("Excellent! The dictionary was successfully imported.", true);
+
                 if (statusTimeoutId) {
                     clearTimeout(statusTimeoutId);
                 }
+
                 statusTimeoutId = setTimeout(closeStatus, statusTime);
                 exportDictionary.removeAttribute("disabled");
                 prepareClearDictionary.removeAttribute("disabled");
@@ -235,9 +241,11 @@ function importDictionaryFile(event) {
         fileReader.readAsText(file);
     } else {
         showStatus("Oops. A transfer error occurred. Try again.", false);
+
         if (statusTimeoutId) {
             clearTimeout(statusTimeoutId);
         }
+
         statusTimeoutId = setTimeout(closeStatus, statusTime);
     }
     return false;
@@ -307,6 +315,7 @@ function saveThemes() {
         currentThemeNumber = 0;
         localStorage.setItem("currentThemeNumber", JSON.stringify(currentThemeNumber));
     }
+
     chrome.runtime.sendMessage({type: "changeSettings"});
 }
 
@@ -353,6 +362,7 @@ window.onload = function () {
         let intoValue = into.attr("data-value");
         let fromHtml = from.children(".selected").children("span").html();
         let intoHtml = into.children(".selected").children("span").html();
+
         from.attr("data-value", intoValue);
         from.children(".selected").children("span").html(intoHtml);
         into.attr("data-value", fromValue);
@@ -382,7 +392,7 @@ window.onload = function () {
             } else {
                 let $countWrapperSpan = $(this).parent().find(".countWrapper");
                 let $countSpan = $countWrapperSpan.find(".count");
-                if ($(this).val() == 0) {
+                if ($(this).val() === 0) {
                     $countSpan.html("");
                     $countWrapperSpan.html($countWrapperSpan.html().replace(" displays", "Never"));
                 } else {

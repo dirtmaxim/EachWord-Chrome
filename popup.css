@@ -59,6 +59,7 @@ ul li {
 
 #headBlock {
     padding: 27px 27px 6px;
+    -webkit-user-select: none;
 }
 
 .logo {

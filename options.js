@@ -326,11 +326,72 @@ function saveShowNotificationCards() {
     chrome.runtime.sendMessage({type: "changeSettings"});
 }
 
+/**
+ * Initialize custom select.
+ */
+function initializeCustomSelect(select) {
+    let selected = $(select).children(".selected");
+    let options = $(select).children(".options");
+    let selectedValue = select.attr("data-value");
+    let selectedOption = $(options).children("[data-value = " + selectedValue + "]");
+
+    $(selected).children("span").html($(selectedOption).html());
+
+    selected.click(function () {
+        if (select.hasClass("active")) {
+            options.addClass("hidden");
+            select.removeClass("active");
+        } else {
+            options.removeClass("hidden");
+            select.addClass("active");
+        }
+    });
+
+    options.children(".option").each(function () {
+        $(this).click(function () {
+            if (!$(this).hasClass("disabled")) {
+                $(select).attr("data-value", $(this).attr("data-value"));
+                $(selected).children("span").html($(this).html());
+                selected.click();
+                select.change();
+            } else {
+                return false;
+            }
+        })
+    });
+}
+
+/**
+ * Set disable options in translate selects
+ */
+function disableOptions() {
+    let select1 = $("#translateFrom");
+    let select2 = $("#translateInto");
+    let value1 = select1.attr("data-value");
+    let value2 = select2.attr("data-value");
+    if (select1.find(".option.disabled")) {
+        select1.find(".option.disabled").removeClass("disabled");
+    }
+    if (select2.find(".option.disabled")) {
+        select2.find(".option.disabled").removeClass("disabled");
+    }
+    select1.find(".option[data-value = " + value2 + "]").addClass("disabled");
+    select2.find(".option[data-value = " + value1 + "]").addClass("disabled");
+}
+
+/**
+ * Dynamically update year in copyright section.
+ */
+function checkYear() {
+    let $year = $("#year");
+    $year.text(new Date().getFullYear());
+}
+
 window.onload = function () {
+    checkYear();
     settingsArray = JSON.parse(localStorage.getItem("settingsArray"));
     themes = JSON.parse(localStorage.getItem("themes"));
     selectedThemes = JSON.parse(localStorage.getItem("selectedThemes"));
-
     translateFrom = document.getElementById("translateFrom");
     translateInto = document.getElementById("translateInto");
     showNativeCards = document.getElementById("showNativeCards");
@@ -405,6 +466,7 @@ window.onload = function () {
     selectInterval.onblur = saveSelectInterval;
     selectInterval.onmouseout = function () {
         let temp = selectInterval.value;
+
         if (temp !== intervalValue) {
             saveSelectInterval();
             intervalValue = temp;
@@ -413,6 +475,7 @@ window.onload = function () {
     selectDuration.onblur = saveSelectDuration;
     selectDuration.onmouseout = function () {
         let temp = selectDuration.value;
+
         if (temp !== durationValue) {
             saveSelectDuration();
             durationValue = temp;
@@ -421,6 +484,7 @@ window.onload = function () {
     showCount.onblur = saveShowCount;
     showCount.onmouseout = function () {
         let temp = showCount.value;
+
         if (temp !== showCountValue) {
             saveShowCount();
             showCountValue = temp;
@@ -451,6 +515,7 @@ window.onload = function () {
     }
 
     checkBoxTheme = document.getElementsByClassName("roundCheckbox");
+
     for (let i = 0; i < selectedThemes.length; i++) {
         checkBoxTheme[selectedThemes[i]].getElementsByTagName("input")[0].checked = true;
     }
@@ -480,6 +545,7 @@ window.onload = function () {
         clearWrapper.style["display"] = "block";
     };
     clearDictionary.onclick = clearEntireDictionary;
+
     if (JSON.parse(localStorage.getItem("dictionaryArray")).length === 0) {
         exportDictionary.setAttribute("disabled", "true");
         prepareClearDictionary.setAttribute("disabled", "true");
@@ -510,56 +576,3 @@ window.onload = function () {
     $("head").append("<style>" + thumbStyle + "</style>");
 
 };
-
-/**
- * Initialize custom select
- */
-function initializeCustomSelect(select) {
-    let selected = $(select).children(".selected");
-    let options = $(select).children(".options");
-    let selectedValue = select.attr("data-value");
-    let selectedOption = $(options).children("[data-value = " + selectedValue + "]");
-
-    $(selected).children("span").html($(selectedOption).html());
-
-    selected.click(function () {
-        if (select.hasClass("active")) {
-            options.addClass("hidden");
-            select.removeClass("active");
-        } else {
-            options.removeClass("hidden");
-            select.addClass("active");
-        }
-    });
-
-    options.children(".option").each(function () {
-        $(this).click(function () {
-            if (!$(this).hasClass("disabled")) {
-                $(select).attr("data-value", $(this).attr("data-value"));
-                $(selected).children("span").html($(this).html());
-                selected.click();
-                select.change();
-            } else {
-                return false;
-            }
-        })
-    });
-}
-
-/**
- * Set disable options in translate selects
- */
-function disableOptions() {
-    let select1 = $("#translateFrom");
-    let select2 = $("#translateInto");
-    let value1 = select1.attr("data-value");
-    let value2 = select2.attr("data-value");
-    if (select1.find(".option.disabled")) {
-        select1.find(".option.disabled").removeClass("disabled");
-    }
-    if (select2.find(".option.disabled")) {
-        select2.find(".option.disabled").removeClass("disabled");
-    }
-    select1.find(".option[data-value = " + value2 + "]").addClass("disabled");
-    select2.find(".option[data-value = " + value1 + "]").addClass("disabled");
-}

@@ -1,6 +1,7 @@
 // Warning: some variables defined in "commonFunction.js".
 let dictionaryArray;
 let messageTimeoutId;
+let settingArray = JSON.parse(localStorage.getItem("settingsArray"));
 
 /**
  * To save entered letters in "Word" field when user closes extension window and translate with delay.
@@ -19,7 +20,6 @@ function fromLanguageSaveAndTranslate() {
  */
 function fromLanguageTranslate() {
     let textValue = document.getElementById("fromLanguage").value;
-    let settingArray = JSON.parse(localStorage.getItem("settingsArray"));
     let $intoLanguage = $("#intoLanguage");
 
     if (textValue !== "") {
@@ -227,7 +227,7 @@ function addWord() {
     localStorage.setItem("dictionaryArrayQueue", JSON.stringify(dictionaryArrayQueue));
     $addedWord = $(addWordToList(word, translation));
     $addedWord.find(".playButton").click(function () {
-        playWord($(this).parent().children("input").eq(0).val(), "en");
+        playWord($(this).parent().children("input").eq(0).val(), settingArray.translateFrom);
 
         return false;
     });
@@ -469,7 +469,7 @@ window.onload = function () {
         return false;
     });
     $("#playButton").click(function () {
-        playWord($(this).parent().children("input").eq(0).val(), "en");
+        playWord($(this).parent().children("input").eq(0).val(), settingArray.translateFrom);
 
         return false;
     });
@@ -513,7 +513,7 @@ window.onload = function () {
         addWordToList(word, translation);
     }
     $wordsBlock.find(".playButton").click(function () {
-        playWord($(this).parent().children("input").eq(0).val(), "en");
+        playWord($(this).parent().children("input").eq(0).val(), settingArray.translateFrom);
 
         return false;
     });

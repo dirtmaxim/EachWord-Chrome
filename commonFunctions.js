@@ -304,7 +304,9 @@ function drawCard(word, translation, theme, settingsArray) {
  * @param {string} language Language to transfer
  */
 function playWord(word, language) {
-    chrome.tts.speak(word, {"lang": language});
+    let audio = new Audio("https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=" +
+        language + "&q=" + encodeURIComponent(word));
+    audio.play();
 }
 
 /**

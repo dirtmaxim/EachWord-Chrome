@@ -438,6 +438,43 @@ window.onload = function () {
             $(this).removeClass("openMenu");
             $(this).addClass("closeMenu");
             $("body>.hidden").removeClass("hidden");
+            if ($wordsBlock.children("li").length == 0) {
+                // Fill in words, translation and "deleteButton" into "wordsBlock".
+                for (let i = 0; i < dictionaryArray.length; i++) {
+                    let word;
+                    let translation;
+
+                    word = dictionaryArray[i].word;
+                    translation = dictionaryArray[i].translation;
+                    addWordToList(word, translation);
+                }
+
+                $wordsBlock.find(".playButton").click(function () {
+                    playWord($(this).parent().children("input").eq(0).val(), settingArray.translateFrom);
+                    return false;
+                });
+                $wordsBlock.find(".deleteButton").click(deleteWord).on("mouseover", function () {
+                    $(this).parent().addClass("deleteStyle");
+                }).on("mouseout", function () {
+                    $(this).parent().removeClass("deleteStyle");
+                });
+
+                $wordsBlock.find("input").each(function () {
+                    if ($(this).index() % 2 === 1) {
+                        $(this).blur(changeWord).keypress(function (e) {
+                            if (e.keyCode === 13) {
+                                changeWord();
+                            }
+                        });
+                    } else {
+                        $(this).blur(changeTranslation).keypress(function (e) {
+                            if (e.keyCode === 13) {
+                                changeTranslation();
+                            }
+                        });
+                    }
+                });
+            }
         } else {
             $(this).removeClass("closeMenu");
             $(this).addClass("openMenu");
@@ -502,42 +539,6 @@ window.onload = function () {
 
     // Array of words in localStorage.
     dictionaryArray = JSON.parse(localStorage.getItem("dictionaryArray"));
-
-    // Fill in words, translation and "deleteButton" into "iframe".
-    for (let i = 0; i < dictionaryArray.length; i++) {
-        let word;
-        let translation;
-
-        word = dictionaryArray[i].word;
-        translation = dictionaryArray[i].translation;
-        addWordToList(word, translation);
-    }
-    $wordsBlock.find(".playButton").click(function () {
-        playWord($(this).parent().children("input").eq(0).val(), settingArray.translateFrom);
-
-        return false;
-    });
-    $wordsBlock.find(".deleteButton").click(deleteWord).on("mouseover", function () {
-        $(this).parent().addClass("deleteStyle");
-    }).on("mouseout", function () {
-        $(this).parent().removeClass("deleteStyle");
-    });
-
-    $wordsBlock.find("input").each(function () {
-        if ($(this).index() % 2 === 1) {
-            $(this).blur(changeWord).keypress(function (e) {
-                if (e.keyCode === 13) {
-                    changeWord();
-                }
-            });
-        } else {
-            $(this).blur(changeTranslation).keypress(function (e) {
-                if (e.keyCode === 13) {
-                    changeTranslation();
-                }
-            });
-        }
-    });
 
     if (searchInput.value) {
         findWords();

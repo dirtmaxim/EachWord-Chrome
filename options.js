@@ -294,7 +294,13 @@ function saveSelectDuration() {
 }
 
 function saveShowCount() {
-    settingsArray.showBeforeDeletion = showCount.value;
+    let value = showCount.value;
+    let max = $(showCount).attr("max");
+    if (value == max) {
+        settingsArray.displaysBeforeDeletion = 0;
+    } else {
+        settingsArray.displaysBeforeDeletion = value;
+    }
     localStorage.setItem("settingsArray", JSON.stringify(settingsArray));
     chrome.runtime.sendMessage({type: "changeSettings"});
 }
@@ -442,7 +448,12 @@ window.onload = function () {
 
     selectInterval.value = settingsArray.selectInterval;
     selectDuration.value = settingsArray.selectDelay;
-    showCount.value = settingsArray.showBeforeDeletion;
+    if (settingsArray.displaysBeforeDeletion) {
+        showCount.value = settingsArray.displaysBeforeDeletion;
+    } else {
+        showCount.value = $(showCount).attr("max");
+    }
+    $(showCount).change();
     intervalValue = selectInterval.value;
     durationValue = selectDuration.value;
     showCountValue = showCount.value;
@@ -453,7 +464,7 @@ window.onload = function () {
             } else {
                 let $countWrapperSpan = $(this).parent().find(".countWrapper");
                 let $countSpan = $countWrapperSpan.find(".count");
-                if ($(this).val() === 0) {
+                if ($(this).val() == $(this).attr("max")) {
                     $countSpan.html("");
                     $countWrapperSpan.html($countWrapperSpan.html().replace(" displays", "Never"));
                 } else {

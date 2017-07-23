@@ -115,12 +115,12 @@ function updateWord() {
     let dictionaryArray = JSON.parse(localStorage.getItem("dictionaryArray"));
     let index = dictionaryArray.indexOfObject(word);
     if (index >= 0) {
-        if (word.showCount) {
-            word.showCount++;
+        if (word.displays) {
+            word.displays++;
         } else {
-            word.showCount = 1;
+            word.displays = 1;
         }
-        if (settingsArray.displaysBeforeDeletion > 0 && word.showCount >= settingsArray.displaysBeforeDeletion) {
+        if (settingsArray.displaysBeforeDeletion > 0 && word.displays >= settingsArray.displaysBeforeDeletion) {
             dictionaryArray.splice(index, 1);
         } else {
             dictionaryArray[index] = word;
@@ -277,7 +277,11 @@ function checkStorage() {
     localStorage.setItem("settingsArray", JSON.stringify(settingsArray));
 
     if (!dictionaryArray) {
-        dictionaryArray = [];
+        dictionaryArray = [{
+            "word": "Welcome",
+            "translation": "Добро пожаловать",
+            "displays": 0
+        }];
         localStorage.setItem("dictionaryArray", JSON.stringify(dictionaryArray));
     }
 

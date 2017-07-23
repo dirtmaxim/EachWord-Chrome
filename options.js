@@ -20,10 +20,10 @@ let clearDictionary;
 let currentThemeNumber;
 let intervalValue;
 let durationValue;
-let showCountValue;
+let displaysValue;
 let $statusWrapper;
 let $rangeWrapper;
-let showCount;
+let displays;
 let statusTimeoutId;
 let statusTime = 4000;
 
@@ -160,7 +160,7 @@ function exportDictionaryFile() {
 
     if (dictionaryArray.length !== 0) {
         dictionaryArray.forEach(function (object) {
-            delete object.showCount;
+            delete object.displays;
         });
         a.href = URL.createObjectURL(new Blob([JSON.stringify(dictionaryArray)]));
         a.download = "eachword.json";
@@ -221,6 +221,7 @@ function importDictionaryFile(event) {
                 }
 
                 for (let i = 0; i < result.length; i++) {
+                    result[i].displays = 0;
                     dictionaryArray.push(result[i]);
                 }
 
@@ -301,9 +302,9 @@ function saveSelectDuration() {
     chrome.runtime.sendMessage({type: "changeSettings"});
 }
 
-function saveShowCount() {
-    let value = showCount.value;
-    let max = $(showCount).attr("max");
+function saveDisplays() {
+    let value = displays.value;
+    let max = $(displays).attr("max");
     if (value == max) {
         settingsArray.displaysBeforeftion = 0;
     } else {
@@ -423,7 +424,7 @@ window.onload = function () {
     clearDictionary = document.getElementById("clearDictionary");
     $statusWrapper = $(".statusWrapper");
     $rangeWrapper = $(".rangeWrapper");
-    showCount = document.getElementById("showCount").getElementsByTagName("input")[0];
+    displays = document.getElementById("displays").getElementsByTagName("input")[0];
 
     translateFrom.setAttribute("data-value", settingsArray.translateFrom);
     translateInto.setAttribute("data-value", settingsArray.translateInto);
@@ -457,17 +458,17 @@ window.onload = function () {
     selectInterval.value = settingsArray.selectInterval;
     selectDuration.value = settingsArray.selectDelay;
     if (settingsArray.displaysBeforeDeletion) {
-        showCount.value = settingsArray.displaysBeforeDeletion;
+        displays.value = settingsArray.displaysBeforeDeletion;
     } else {
-        showCount.value = $(showCount).attr("max");
+        displays.value = $(displays).attr("max");
     }
-    $(showCount).change();
+    $(displays).change();
     intervalValue = selectInterval.value;
     durationValue = selectDuration.value;
-    showCountValue = showCount.value;
+    displaysValue = displays.value;
     $rangeWrapper.each(function () {
         $(this).children("input[type=range]").on("change mousemove", function () {
-            if (!$(this).parent().is("#showCount")) {
+            if (!$(this).parent().is("#displays")) {
                 $(this).parent().children(".countWrapper").children(".count").html($(this).val());
             } else {
                 let $countWrapperSpan = $(this).parent().find(".countWrapper");
@@ -500,13 +501,13 @@ window.onload = function () {
             durationValue = temp;
         }
     };
-    showCount.onblur = saveShowCount;
-    showCount.onmouseout = function () {
-        let temp = showCount.value;
+    displays.onblur = saveDisplays;
+    displays.onmouseout = function () {
+        let temp = displays.value;
 
-        if (temp !== showCountValue) {
-            saveShowCount();
-            showCountValue = temp;
+        if (temp !== displaysValue) {
+            saveDisplays();
+            displaysValue = temp;
         }
     };
 

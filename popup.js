@@ -217,8 +217,8 @@ function addWord() {
     fromLanguage.value = null;
     intoLanguage.value = null;
     dictionaryArrayQueue = JSON.parse(localStorage.getItem("dictionaryArrayQueue"));
-    dictionaryArray.push({word: word, translation: translation, showCount: 0});
-    dictionaryArrayQueue.push({word: word, translation: translation, showCount: 0});
+    dictionaryArray.push({word: word, translation: translation, displays: 0});
+    dictionaryArrayQueue.push({word: word, translation: translation, displays: 0});
 
     if (dictionaryArray.length === 1) {
         chrome.runtime.sendMessage({type: "startInterval"});

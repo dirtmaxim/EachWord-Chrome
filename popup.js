@@ -361,6 +361,8 @@ function changeWord() {
     localStorage.setItem("dictionaryArrayQueue", JSON.stringify(dictionaryArrayQueue));
     chrome.runtime.sendMessage({type: "changeDictionary"});
 
+    findWords();
+
     return false;
 }
 
@@ -381,6 +383,8 @@ function changeTranslation() {
     localStorage.setItem("dictionaryArray", JSON.stringify(dictionaryArray));
     localStorage.setItem("dictionaryArrayQueue", JSON.stringify(dictionaryArrayQueue));
     chrome.runtime.sendMessage({type: "changeDictionary"});
+
+    findWords();
 
     return false;
 }
@@ -464,14 +468,12 @@ window.onload = function () {
                         $(this).blur(changeWord).keypress(function (e) {
                             if (e.keyCode === 13) {
                                 changeWord();
-                                findWords();
                             }
                         });
                     } else {
                         $(this).blur(changeTranslation).keypress(function (e) {
                             if (e.keyCode === 13) {
                                 changeTranslation();
-                                findWords();
                             }
                         });
                     }

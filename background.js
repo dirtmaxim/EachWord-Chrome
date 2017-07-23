@@ -203,7 +203,6 @@ function checkStorage() {
     let dictionaryArrayQueue = localStorage.getItem("dictionaryArrayQueue");
     let dictionaryArrayTab = localStorage.getItem("dictionaryArrayTab");
     let lastWordQueue = localStorage.getItem("lastWordQueue");
-    let lastWordTab = localStorage.getItem("lastWordTab");
     let switchState = localStorage.getItem("switchState");
     let fromLanguage = localStorage.getItem("fromLanguage");
     let intoLanguage = localStorage.getItem("intoLanguage");
@@ -298,11 +297,6 @@ function checkStorage() {
     if (!lastWordQueue) {
         lastWordQueue = null;
         localStorage.setItem("lastWordQueue", JSON.stringify(lastWordQueue));
-    }
-
-    if (!lastWordTab) {
-        lastWordTab = null;
-        localStorage.setItem("lastWordTab", JSON.stringify(lastWordTab));
     }
 
     if (!switchState) {
@@ -514,7 +508,7 @@ chrome.runtime.onMessage.addListener(
 chrome.runtime.onMessage.addListener(
     function (request, sender, sendResponse) {
         if (request.type === "playWord") {
-            playWord(request.word, request.language);
+            playWord(request.word, settingsArray.translateFrom);
         }
     }
 );

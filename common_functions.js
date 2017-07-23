@@ -35,6 +35,7 @@ function chooseWord(auxiliaryDictionary, localStorageKey, localStorageLastWord) 
     if (auxiliaryDictionary.length === 1) {
         // Save last word into the last position of auxiliary array.
         lastWord = auxiliaryDictionary.splice(0, 1)[0];
+        delete lastWord.displays;
         localStorage.setItem(localStorageLastWord, JSON.stringify(lastWord));
         localStorage.setItem(localStorageKey, JSON.stringify(auxiliaryDictionary));
         return lastWord;
@@ -47,12 +48,14 @@ function chooseWord(auxiliaryDictionary, localStorageKey, localStorageLastWord) 
             auxiliaryDictionary[randomNumber].translation === lastWord.translation) {
             if (randomNumber === 0) {
                 lastWord = auxiliaryDictionary.splice(randomNumber + 1, 1)[0];
+                delete lastWord.displays;
                 localStorage.setItem(localStorageLastWord, JSON.stringify(lastWord));
                 localStorage.setItem(localStorageKey, JSON.stringify(auxiliaryDictionary));
                 return lastWord;
             }
 
             lastWord = auxiliaryDictionary.splice(randomNumber - 1, 1)[0];
+            delete lastWord.displays;
             localStorage.setItem(localStorageLastWord, JSON.stringify(lastWord));
             localStorage.setItem(localStorageKey, JSON.stringify(auxiliaryDictionary));
             return lastWord;
@@ -60,6 +63,7 @@ function chooseWord(auxiliaryDictionary, localStorageKey, localStorageLastWord) 
     }
 
     lastWord = auxiliaryDictionary.splice(randomNumber, 1)[0];
+    delete lastWord.displays;
     localStorage.setItem(localStorageLastWord, JSON.stringify(lastWord));
     localStorage.setItem(localStorageKey, JSON.stringify(auxiliaryDictionary));
     return lastWord;
@@ -307,7 +311,8 @@ function translate(from, into, text, after) {
     let url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl="
         + from + "&tl=" + into + "&dt=t&q=" + encodeURI(text);
 
-    let result = JSON.parse(UrlFetchApp.fetch(url).getContentText());
+    let result = "";
+    // let result = JSON.parse(UrlFetchApp.fetch(url).getContentText());
     after(result);
     /* let translationLink = "http://www.transltr.org/api/translate?text=" + encodeURI(text) + "&to="
      + into + "&from=" + from;

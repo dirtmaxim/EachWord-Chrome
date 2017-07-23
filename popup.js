@@ -2,6 +2,7 @@
 let dictionaryArray;
 let messageTimeoutId;
 let settingArray = JSON.parse(localStorage.getItem("settingsArray"));
+let menuWasOpened = false;
 
 /**
  * To save entered letters in "Word" field when user closes extension window and translate with delay.
@@ -225,17 +226,21 @@ function addWord() {
 
     localStorage.setItem("dictionaryArray", JSON.stringify(dictionaryArray));
     localStorage.setItem("dictionaryArrayQueue", JSON.stringify(dictionaryArrayQueue));
-    $addedWord = $(addWordToList(word, translation));
-    $addedWord.find(".playButton").click(function () {
-        playWord($(this).parent().children("input").eq(0).val(), settingArray.translateFrom);
 
-        return false;
-    });
-    $addedWord.find(".deleteButton").click(deleteWord).on("mouseover", function () {
-        $(this).parent().addClass("deleteStyle");
-    }).on("mouseout", function () {
-        $(this).parent().removeClass("deleteStyle");
-    });
+    if (menuWasOpened) {
+        $addedWord = $(addWordToList(word, translation));
+        $addedWord.find(".playButton").click(function () {
+            playWord($(this).parent().children("input").eq(0).val(), settingArray.translateFrom);
+
+            return false;
+        });
+        $addedWord.find(".deleteButton").click(deleteWord).on("mouseover", function () {
+            $(this).parent().addClass("deleteStyle");
+        }).on("mouseout", function () {
+            $(this).parent().removeClass("deleteStyle");
+        });
+    }
+
     localStorage.setItem("fromLanguage", JSON.stringify(""));
     localStorage.setItem("intoLanguage", JSON.stringify(""));
     document.getElementById("fromLanguage").focus();
@@ -247,7 +252,6 @@ function addWord() {
     }
 
     messageTimeoutId = setTimeout(closeSuccess, 4000);
-
     return false;
 }
 
@@ -316,10 +320,9 @@ function escapeRegularExpression(text) {
  */
 function findWords() {
     let searchValue = $("#searchInput").val().toString().trim();
-    let regExp = new RegExp(escapeRegularExpression(searchValue), "ig");
+    let regExp = new RegExp(escapeRegularExpression(searchValue), "i");
     let word;
     let translation;
-    let result;
 
     hideWords();
 
@@ -327,10 +330,11 @@ function findWords() {
     if (searchValue.length !== 0) {
         for (let i = 0; i < dictionaryArray.length; i++) {
             let found = false;
+
             word = dictionaryArray[i].word;
             translation = dictionaryArray[i].translation;
 
-            if ((result = regExp.exec(word)) !== null || (result = regExp.exec(translation)) !== null) {
+            if (regExp.exec(word) !== null || regExp.exec(translation) !== null) {
                 found = true;
             }
 
@@ -356,11 +360,14 @@ function changeWord() {
     dictionaryArrayQueue = JSON.parse(localStorage.getItem("dictionaryArrayQueue"));
     indexInQueue = dictionaryArrayQueue.indexOfObject(dictionaryArray[index]);
     dictionaryArray[index].word = value;
-    dictionaryArrayQueue[indexInQueue].word = value;
-    localStorage.setItem("dictionaryArray", JSON.stringify(dictionaryArray));
-    localStorage.setItem("dictionaryArrayQueue", JSON.stringify(dictionaryArrayQueue));
-    chrome.runtime.sendMessage({type: "changeDictionary"});
 
+    if (indexInQueue !== -1) {
+        dictionaryArrayQueue[indexInQueue].word = value;
+        localStorage.setItem("dictionaryArrayQueue", JSON.stringify(dictionaryArrayQueue));
+    }
+
+    localStorage.setItem("dictionaryArray", JSON.stringify(dictionaryArray));
+    chrome.runtime.sendMessage({type: "changeDictionary"});
     findWords();
 
     return false;
@@ -379,13 +386,16 @@ function changeTranslation() {
     dictionaryArrayQueue = JSON.parse(localStorage.getItem("dictionaryArrayQueue"));
     indexInQueue = dictionaryArrayQueue.indexOfObject(dictionaryArray[index]);
     dictionaryArray[index].translation = value;
-    dictionaryArrayQueue[indexInQueue].translation = value;
+
+    if (indexInQueue !== -1) {
+        dictionaryArrayQueue[indexInQueue].translation = value;
+        localStorage.setItem("dictionaryArrayQueue", JSON.stringify(dictionaryArrayQueue));
+    }
+
     localStorage.setItem("dictionaryArray", JSON.stringify(dictionaryArray));
-    localStorage.setItem("dictionaryArrayQueue", JSON.stringify(dictionaryArrayQueue));
     chrome.runtime.sendMessage({type: "changeDictionary"});
 
     findWords();
-
     return false;
 }
 
@@ -438,10 +448,13 @@ window.onload = function () {
     let versionArray;
 
     $("#menuButton").click(function () {
+        menuWasOpened = true;
+
         if ($(this).hasClass("openMenu")) {
             $(this).removeClass("openMenu");
             $(this).addClass("closeMenu");
             $("body>.hidden").removeClass("hidden");
+
             if ($wordsBlock.children("li").length == 0) {
                 // Fill in words, translation and "deleteButton" into "wordsBlock".
                 for (let i = 0; i < dictionaryArray.length; i++) {
@@ -479,6 +492,7 @@ window.onload = function () {
                     }
                 });
             }
+
             findWords();
         } else {
             $(this).removeClass("closeMenu");
@@ -503,9 +517,11 @@ window.onload = function () {
         $(this).parent().removeClass("delete");
     }).on("click", function () {
         deleteAddedWord();
+
         if (messageTimeoutId) {
             clearTimeout(messageTimeoutId);
         }
+
         closeSuccess();
 
         return false;
@@ -554,6 +570,7 @@ window.onload = function () {
         return false;
     });
 
+    // Store array of versions.
     if (isExtensionUpdated()) {
         versionArray = JSON.parse(localStorage.getItem("versionArray"));
         versionArray.push(chrome.app.getDetails().version);

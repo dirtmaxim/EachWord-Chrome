@@ -14,6 +14,7 @@ let showTestNotification;
 let exportDictionary;
 let inputImport;
 let confirmClear;
+let prepareClearDictionary;
 let clearWrapper;
 let clearDictionary;
 let currentThemeNumber;
@@ -127,7 +128,7 @@ function clearEntireDictionary() {
         localStorage.setItem("dictionaryArrayQueue", JSON.stringify([]));
         chrome.runtime.sendMessage({type: "stopInterval"});
         chrome.runtime.sendMessage({type: "changeDictionary"});
-        showStatus("Dictionary has been cleared!", true);
+        showStatus("Dictionary has been cleared.", true);
 
         if (statusTimeoutId) {
             clearTimeout(statusTimeoutId);
@@ -135,10 +136,14 @@ function clearEntireDictionary() {
 
         statusTimeoutId = setTimeout(closeStatus, statusTime);
         exportDictionary.setAttribute("disabled", "true");
+        prepareClearDictionary.style["display"] = null;
         confirmClear.click();
+        prepareClearDictionary.setAttribute("disabled", "true");
         confirmClear.setAttribute("disabled", "true");
+        clearWrapper.style["display"] = null;
+        confirmClear.checked = false;
     } else {
-        showStatus("Dictionary is empty!", false);
+        showStatus("Error. Dictionary is empty.", false);
         if (statusTimeoutId) {
             clearTimeout(statusTimeoutId);
         }
@@ -151,26 +156,32 @@ function clearEntireDictionary() {
  */
 function exportDictionaryFile() {
     let a = document.createElement("a");
-    let dictionaryArray = localStorage.getItem("dictionaryArray");
+    let dictionaryArray = JSON.parse(localStorage.getItem("dictionaryArray"));
 
-    if (JSON.parse(dictionaryArray).length !== 0) {
-        a.href = URL.createObjectURL(new Blob([localStorage.getItem("dictionaryArray")]));
+    if (dictionaryArray.length !== 0) {
+        dictionaryArray.forEach(function (object) {
+            delete object.showCount;
+        });
+        a.href = URL.createObjectURL(new Blob([JSON.stringify(dictionaryArray)]));
         a.download = "eachword.json";
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
-        showStatus("Excellent! The dictionary was successfully exported.", true);
+        showStatus("Dictionary was successfully exported.", true);
+
         if (statusTimeoutId) {
             clearTimeout(statusTimeoutId);
         }
+
         statusTimeoutId = setTimeout(closeStatus, statusTime);
     } else {
         if (statusTimeoutId) {
             clearTimeout(statusTimeoutId);
         }
         statusTimeoutId = setTimeout(closeStatus, statusTime);
-        showStatus("Your dictionary is empty!", false);
+        showStatus("Error. Dictionary is empty.", false);
     }
+
     return false;
 }
 
@@ -216,7 +227,7 @@ function importDictionaryFile(event) {
                 localStorage.setItem("dictionaryArray", JSON.stringify(dictionaryArray));
                 localStorage.setItem("dictionaryArrayQueue", JSON.stringify([]));
 
-                showStatus("Excellent! The dictionary was successfully imported.", true);
+                showStatus("Dictionary was successfully imported.", true);
 
                 if (statusTimeoutId) {
                     clearTimeout(statusTimeoutId);
@@ -224,10 +235,10 @@ function importDictionaryFile(event) {
 
                 statusTimeoutId = setTimeout(closeStatus, statusTime);
                 exportDictionary.removeAttribute("disabled");
-                confirmClear.removeAttribute("disabled");
+                prepareClearDictionary.removeAttribute("disabled");
 
             } catch (error) {
-                showStatus("Oops. A transfer error occurred. Try again.", false);
+                showStatus("Import error. Check your file and try again.", false);
                 if (statusTimeoutId) {
                     clearTimeout(statusTimeoutId);
                 }
@@ -237,7 +248,7 @@ function importDictionaryFile(event) {
 
         fileReader.readAsText(file);
     } else {
-        showStatus("Oops. A transfer error occurred. Try again.", false);
+        showStatus("Import error. Check your file and try again.", false);
 
         if (statusTimeoutId) {
             clearTimeout(statusTimeoutId);
@@ -294,7 +305,7 @@ function saveShowCount() {
     let value = showCount.value;
     let max = $(showCount).attr("max");
     if (value == max) {
-        settingsArray.displaysBeforeDeletion = 0;
+        settingsArray.displaysBeforeftion = 0;
     } else {
         settingsArray.displaysBeforeDeletion = value;
     }
@@ -365,7 +376,7 @@ function initializeCustomSelect(select) {
 }
 
 /**
- * Set disable options in translate selects
+ * Set disable options in translate selects.
  */
 function disableOptions() {
     let select1 = $("#translateFrom");
@@ -407,6 +418,7 @@ window.onload = function () {
     exportDictionary = document.getElementById("exportDictionary");
     inputImport = document.getElementById("inputImport");
     confirmClear = document.getElementById("confirmClear");
+    prepareClearDictionary = document.getElementById("prepareClearDictionary");
     clearWrapper = document.getElementsByClassName("clearWrapper")[0];
     clearDictionary = document.getElementById("clearDictionary");
     $statusWrapper = $(".statusWrapper");
@@ -537,21 +549,22 @@ window.onload = function () {
     }
 
     showTestCard.onclick = testWordCard;
-
     showNotificationCards.checked = settingsArray.showNotificationCardsChecked;
     showNotificationCards.disabled = settingsArray.showNotificationCardsDisabled;
     showNotificationCards.onchange = controlCheckedTypesOfNotification;
-
     showTestNotification.onclick = testNotification;
-
     exportDictionary.onclick = exportDictionaryFile;
     inputImport.onchange = importDictionaryFile;
     confirmClear.onchange = enableDisableClearButton;
+    prepareClearDictionary.onclick = function () {
+        this.style["display"] = "none";
+        clearWrapper.style["display"] = "block";
+    };
     clearDictionary.onclick = clearEntireDictionary;
 
     if (JSON.parse(localStorage.getItem("dictionaryArray")).length === 0) {
         exportDictionary.setAttribute("disabled", "true");
-        confirmClear.setAttribute("disabled", "true");
+        prepareClearDictionary.setAttribute("disabled", "true");
     }
 
     $(".closeButton").click(function () {

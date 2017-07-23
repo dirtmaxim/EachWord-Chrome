@@ -524,7 +524,7 @@ input[type=range]::-webkit-slider-runnable-track {
 }
 
 .clearWrapper {
-    display: block;
+    display: none;
 }
 
 .clearWrapper .checkbox {

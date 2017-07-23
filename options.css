@@ -397,6 +397,10 @@ input[type=range]::-webkit-slider-runnable-track {
     margin-top: 32px;
 }
 
+#showCount {
+    margin-top: 32px;
+}
+
 #cardThemes {
     margin-top: 32px;
 }
@@ -520,7 +524,7 @@ input[type=range]::-webkit-slider-runnable-track {
 }
 
 .clearWrapper {
-    display: none;
+    display: block;
 }
 
 .clearWrapper .checkbox {
@@ -556,10 +560,6 @@ input[type=range]::-webkit-slider-runnable-track {
 
 .clearWrapper .button[disabled]:hover, #prepareClearDictionary[disabled]:hover, #exportDictionary[disabled]:hover {
     background-color: #fff;
-}
-
-#showCount {
-    margin-top: 26px;
 }
 
 footer {

@@ -464,17 +464,20 @@ window.onload = function () {
                         $(this).blur(changeWord).keypress(function (e) {
                             if (e.keyCode === 13) {
                                 changeWord();
+                                findWords();
                             }
                         });
                     } else {
                         $(this).blur(changeTranslation).keypress(function (e) {
                             if (e.keyCode === 13) {
                                 changeTranslation();
+                                findWords();
                             }
                         });
                     }
                 });
             }
+            findWords();
         } else {
             $(this).removeClass("closeMenu");
             $(this).addClass("openMenu");

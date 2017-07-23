@@ -120,7 +120,7 @@ function updateWord() {
         } else {
             word.showCount = 1;
         }
-        if (settingsArray.showBeforeDeletion > 0 && word.showCount >= settingsArray.showBeforeDeletion) {
+        if (settingsArray.displaysBeforeDeletion > 0 && word.showCount >= settingsArray.displaysBeforeDeletion) {
             dictionaryArray.splice(index, 1);
         } else {
             dictionaryArray[index] = word;

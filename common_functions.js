@@ -22,7 +22,6 @@ drawingStarted = false;
 function chooseWord(auxiliaryDictionary, localStorageKey, localStorageLastWord) {
     let flag = false;
     let lastWord = JSON.parse(localStorage.getItem(localStorageLastWord));
-    let displaysBeforeDeletion = JSON.parse(localStorage.getItem("settingsArray")).displaysBeforeDeletion;
     let dictionaryArray;
     let randomNumber;
     dictionaryArray = JSON.parse(localStorage.getItem("dictionaryArray"));
@@ -36,20 +35,6 @@ function chooseWord(auxiliaryDictionary, localStorageKey, localStorageLastWord) 
     if (auxiliaryDictionary.length === 1) {
         // Save last word into the last position of auxiliary array.
         lastWord = auxiliaryDictionary.splice(0, 1)[0];
-        if (lastWord.showCount) {
-            lastWord.showCount++;
-        } else {
-            lastWord.showCount = 1;
-        }
-        if (displaysBeforeDeletion > 0 && lastWord.showCount >= displaysBeforeDeletion) {
-            dictionaryArray.splice(dictionaryArray.indexOfObject(lastWord), 1);
-        } else {
-            let index = dictionaryArray.indexOfObject(lastWord);
-            if (index) {
-                dictionaryArray[index] = lastWord;
-            }
-        }
-        localStorage.setItem("dictionaryArray", JSON.stringify(dictionaryArray));
         localStorage.setItem(localStorageLastWord, JSON.stringify(lastWord));
         localStorage.setItem(localStorageKey, JSON.stringify(auxiliaryDictionary));
         return lastWord;
@@ -62,40 +47,12 @@ function chooseWord(auxiliaryDictionary, localStorageKey, localStorageLastWord) 
             auxiliaryDictionary[randomNumber].translation === lastWord.translation) {
             if (randomNumber === 0) {
                 lastWord = auxiliaryDictionary.splice(randomNumber + 1, 1)[0];
-                if (lastWord.showCount) {
-                    lastWord.showCount++;
-                } else {
-                    lastWord.showCount = 1;
-                }
-                if (displaysBeforeDeletion > 0 && lastWord.showCount >= displaysBeforeDeletion) {
-                    dictionaryArray.splice(dictionaryArray.indexOfObject(lastWord), 1);
-                } else {
-                    let index = dictionaryArray.indexOfObject(lastWord);
-                    if (index) {
-                        dictionaryArray[index] = lastWord;
-                    }
-                }
-                localStorage.setItem("dictionaryArray", JSON.stringify(dictionaryArray));
                 localStorage.setItem(localStorageLastWord, JSON.stringify(lastWord));
                 localStorage.setItem(localStorageKey, JSON.stringify(auxiliaryDictionary));
                 return lastWord;
             }
 
             lastWord = auxiliaryDictionary.splice(randomNumber - 1, 1)[0];
-            if (lastWord.showCount) {
-                lastWord.showCount++;
-            } else {
-                lastWord.showCount = 1;
-            }
-            if (displaysBeforeDeletion > 0 && lastWord.showCount >= displaysBeforeDeletion) {
-                dictionaryArray.splice(dictionaryArray.indexOfObject(lastWord), 1);
-            } else {
-                let index = dictionaryArray.indexOfObject(lastWord);
-                if (index) {
-                    dictionaryArray[index] = lastWord;
-                }
-            }
-            localStorage.setItem("dictionaryArray", JSON.stringify(dictionaryArray));
             localStorage.setItem(localStorageLastWord, JSON.stringify(lastWord));
             localStorage.setItem(localStorageKey, JSON.stringify(auxiliaryDictionary));
             return lastWord;
@@ -103,20 +60,6 @@ function chooseWord(auxiliaryDictionary, localStorageKey, localStorageLastWord) 
     }
 
     lastWord = auxiliaryDictionary.splice(randomNumber, 1)[0];
-    if (lastWord.showCount) {
-        lastWord.showCount++;
-    } else {
-        lastWord.showCount = 1;
-    }
-    if (displaysBeforeDeletion > 0 && lastWord.showCount >= displaysBeforeDeletion) {
-        dictionaryArray.splice(dictionaryArray.indexOfObject(lastWord), 1);
-    } else {
-        let index = dictionaryArray.indexOfObject(lastWord);
-        if (index) {
-            dictionaryArray[index] = lastWord;
-        }
-    }
-    localStorage.setItem("dictionaryArray", JSON.stringify(dictionaryArray));
     localStorage.setItem(localStorageLastWord, JSON.stringify(lastWord));
     localStorage.setItem(localStorageKey, JSON.stringify(auxiliaryDictionary));
     return lastWord;

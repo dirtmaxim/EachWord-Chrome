@@ -308,37 +308,56 @@ function playWord(word, language) {
  * @param {function} after Function that will be executed after translation is fetched
  */
 function translate(from, into, text, after) {
-    let url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl="
-        + from + "&tl=" + into + "&dt=t&q=" + encodeURI(text);
+    // text.toLowerCase() gives more variants of result in some cases.
+    let googleTranslator = "https://translate.googleapis.com/translate_a/single?client=gtx&dt=t&dt=bd&hl=" +
+        encodeURIComponent(from) + "&sl=" + encodeURIComponent(from) + "&tl=" +
+        encodeURIComponent(into) + "&q=" + encodeURIComponent(text.toLowerCase());
+    let xhr = new XMLHttpRequest();
 
-    let result = "";
-    // let result = JSON.parse(UrlFetchApp.fetch(url).getContentText());
-    after(result);
-    /* let translationLink = "http://www.transltr.org/api/translate?text=" + encodeURI(text) + "&to="
-     + into + "&from=" + from;
-     let xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+        let result;
+        let translation;
+        let alternative;
+        let alternatives = [];
 
-     xhr.open("GET", translationLink, true);
-     xhr.onload = function () {
-     let translation;
+        if (this.readyState === 4) {
+            if (this.status === 200) {
+                text = text.trim();
 
-     text = text.trim();
+                if (text !== "") {
+                    result = JSON.parse(xhr.responseText);
+                    translation = result[0][0][0];
+                    translation = translation.charAt(0).toUpperCase() + translation.slice(1);
 
-     if (text !== "") {
-     translation = JSON.parse(xhr.responseText);
-     after({
-     translation: translation.translationText,
-     isTranslated: translation.translationText.toLowerCase() !== text.toLowerCase()
-     });
-     } else {
-     after({
-     translation: "",
-     isTranslated: true
-     });
-     }
+                    // Save alternatives for future functionality.
+                    if (result[1] != null) {
+                        for (let i = 0; i < result[1].length; i++) {
+                            alternative = {};
 
-     };
-     xhr.send();*/
+                            // Capitalize first letter in each alternative word.
+                            result[1][i][1].forEach(function (part, index, array) {
+                                array[index] = array[index].charAt(0).toUpperCase() + array[index].slice(1);
+                            });
+                            alternative[result[1][i][0]] = result[1][i][1];
+                            alternatives.push(alternative);
+                        }
+                    }
+                    console.log(alternatives);
+                    after({
+                        translation: translation,
+                        isTranslated: translation.toLowerCase() !== text.toLowerCase()
+                    });
+                } else {
+                    after({
+                        translation: "",
+                        isTranslated: true
+                    });
+                }
+            }
+        }
+    };
+    xhr.open("GET", googleTranslator, true);
+    xhr.send();
 }
 
 /**

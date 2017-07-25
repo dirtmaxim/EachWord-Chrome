@@ -270,7 +270,7 @@ function checkStorage() {
     }
 
     if (!(settingsArray.hasOwnProperty("displaysBeforeDeletion"))) {
-        settingsArray.displaysBeforeDeletion = 400;
+        settingsArray.displaysBeforeDeletion = 200;
     }
 
     localStorage.setItem("settingsArray", JSON.stringify(settingsArray));

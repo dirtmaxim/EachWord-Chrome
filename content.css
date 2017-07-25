@@ -170,7 +170,7 @@
     box-shadow: 0 0 9px 0 rgba(67, 74, 86, 0.34) !important;
     cursor: default !important;
     outline: none !important;
-    z-index: 2147483647 !important;
+    z-index: 2147483646 !important;
 }
 
 #window8730011:before {

@@ -342,14 +342,15 @@ function translate(from, into, text, after) {
                             alternatives.push(alternative);
                         }
                     }
-                    console.log(alternatives);
                     after({
                         translation: translation,
+                        alternatives: alternatives,
                         isTranslated: translation.toLowerCase() !== text.toLowerCase()
                     });
                 } else {
                     after({
                         translation: "",
+                        alternatives: null,
                         isTranslated: true
                     });
                 }

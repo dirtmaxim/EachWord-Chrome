@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
-  "name": "EachWord - translate words and expand your vocabulary",
-  "short_name": "EachWord - expand your vocabulary",
+  "name": "EachWord Translator - expand your vocabulary",
+  "short_name": "EachWord Translator",
   "version": "2.0.0",
   "description": "__MSG_description__",
   "default_locale": "en",

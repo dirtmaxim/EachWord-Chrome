@@ -14,7 +14,6 @@ let showTestNotification;
 let exportDictionary;
 let inputImport;
 let confirmClear;
-let prepareClearDictionary;
 let clearWrapper;
 let clearDictionary;
 let currentThemeNumber;
@@ -136,12 +135,8 @@ function clearEntireDictionary() {
 
         statusTimeoutId = setTimeout(closeStatus, statusTime);
         exportDictionary.setAttribute("disabled", "true");
-        prepareClearDictionary.style["display"] = null;
         confirmClear.click();
-        prepareClearDictionary.setAttribute("disabled", "true");
         confirmClear.setAttribute("disabled", "true");
-        clearWrapper.style["display"] = null;
-        confirmClear.checked = false;
     } else {
         showStatus("Error. Dictionary is empty.", false);
         if (statusTimeoutId) {
@@ -236,8 +231,7 @@ function importDictionaryFile(event) {
 
                 statusTimeoutId = setTimeout(closeStatus, statusTime);
                 exportDictionary.removeAttribute("disabled");
-                prepareClearDictionary.removeAttribute("disabled");
-
+                confirmClear.removeAttribute("disabled");
             } catch (error) {
                 showStatus("Import error. Check your file and try again.", false);
                 if (statusTimeoutId) {
@@ -419,7 +413,6 @@ window.onload = function () {
     exportDictionary = document.getElementById("exportDictionary");
     inputImport = document.getElementById("inputImport");
     confirmClear = document.getElementById("confirmClear");
-    prepareClearDictionary = document.getElementById("prepareClearDictionary");
     clearWrapper = document.getElementsByClassName("clearWrapper")[0];
     clearDictionary = document.getElementById("clearDictionary");
     $statusWrapper = $(".statusWrapper");
@@ -557,15 +550,11 @@ window.onload = function () {
     exportDictionary.onclick = exportDictionaryFile;
     inputImport.onchange = importDictionaryFile;
     confirmClear.onchange = enableDisableClearButton;
-    prepareClearDictionary.onclick = function () {
-        this.style["display"] = "none";
-        clearWrapper.style["display"] = "block";
-    };
     clearDictionary.onclick = clearEntireDictionary;
 
     if (JSON.parse(localStorage.getItem("dictionaryArray")).length === 0) {
         exportDictionary.setAttribute("disabled", "true");
-        prepareClearDictionary.setAttribute("disabled", "true");
+        confirmClear.setAttribute("disabled", "true");
     }
 
     $(".closeButton").click(function () {

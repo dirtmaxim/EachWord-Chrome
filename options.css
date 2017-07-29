@@ -568,16 +568,6 @@ footer {
     font-size: 16px;
 }
 
-.siteLink {
-    margin: 0 0 0 35px;
-    color: #00bef3;
-    font-weight: 500;
-}
-
-.siteLink:hover {
-    border-bottom: 1px solid #00bef3;
-}
-
 #shareButtons {
     float: right;
     display: inline-block;
@@ -608,35 +598,74 @@ footer {
 }
 
 #shareButtons .ya-share2__item_service_vkontakte .ya-share2__icon {
-    background: url("images/icons/vk.png") no-repeat center bottom;
+    background: url("images/icons/vk.png") no-repeat center;
 }
 
 #shareButtons .ya-share2__item_service_facebook .ya-share2__icon {
-    background: url("images/icons/fb.png") no-repeat center bottom;
+    background: url("images/icons/fb.png") no-repeat center;
 }
 
 #shareButtons .ya-share2__item_service_odnoklassniki .ya-share2__icon {
-    background: url("images/icons/ok.png") no-repeat center bottom;
+    background: url("images/icons/ok.png") no-repeat center;
 }
 
 #shareButtons .ya-share2__item_service_twitter .ya-share2__icon {
-    background: url("images/icons/tw.png") no-repeat center bottom;
+    background: url("images/icons/tw.png") no-repeat center;
 }
 
 #shareButtons .ya-share2__item_service_vkontakte .ya-share2__icon:hover {
-    background: url("images/icons/vk_h.png") no-repeat center bottom;
+    background: url("images/icons/vk_h.png") no-repeat center;
 }
 
 #shareButtons .ya-share2__item_service_facebook .ya-share2__icon:hover {
-    background: url("images/icons/fb_h.png") no-repeat center bottom;
+    background: url("images/icons/fb_h.png") no-repeat center;
 }
 
 #shareButtons .ya-share2__item_service_odnoklassniki .ya-share2__icon:hover {
-    background: url("images/icons/ok_h.png") no-repeat center bottom;
+    background: url("images/icons/ok_h.png") no-repeat center;
 }
 
 #shareButtons .ya-share2__item_service_twitter .ya-share2__icon:hover {
-    background: url("images/icons/tw_h.png") no-repeat center bottom;
+    background: url("images/icons/tw_h.png") no-repeat center;
+}
+
+.siteLink {
+    margin: 0 20px 0 0;
+    color: #00bef3;
+    font-weight: 500;
+}
+
+.siteLink:hover {
+    border-bottom: 1px solid #00bef3;
+}
+
+footer .down {
+    padding-top: 22px;
+}
+
+.donate {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1em;
+    float: right;
+    padding: 8px 20px 8px 18px;
+    background-color: #b3c4cb;
+    color: #fff;
+    border-radius: 15px;
+}
+
+.donate:before {
+    content: '';
+    display: inline-block;
+    width: 12px;
+    height: 14px;
+    background: url("images/icons/donate.png") no-repeat;
+    margin: 0 4px -2px 0;
+}
+
+.donate:hover {
+    background-color: #688b97;
+    transition: all 0.2s;
 }
 
 .statusWrapper {

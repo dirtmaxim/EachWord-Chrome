@@ -116,10 +116,10 @@ function addWordToList(word, translation) {
     let wordsBlock = document.getElementById("wordsBlock");
 
     li = document.createElement("li");
-    li.innerHTML = "<a href='' class='playButton' tabindex='-1'></a>" +
-        "<input type='text' value='" + word + "'/>" +
-        "<input type='text' value='" + translation + "'/>" +
-        "<a href='' class='deleteButton' tabindex='-1'></a>";
+    li.innerHTML = '<a href="" class="playButton" tabindex="-1"></a>' +
+        '<input type="text" value="' + word + '"/>' +
+        '<input type="text" value="' + translation + '"/>' +
+        '<a href="" class="deleteButton" tabindex="-1"></a>';
     wordsBlock.insertBefore(li, wordsBlock.firstChild);
 
     return li;

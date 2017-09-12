@@ -300,7 +300,7 @@ function saveDisplays() {
     let value = displays.value;
     let max = $(displays).attr("max");
     if (value == max) {
-        settingsArray.displaysBeforeftion = 0;
+        settingsArray.displaysBeforeDeletion = 0;
     } else {
         settingsArray.displaysBeforeDeletion = value;
     }

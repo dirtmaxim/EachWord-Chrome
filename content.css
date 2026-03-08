@@ -172,6 +172,12 @@
     cursor: default !important;
     outline: none !important;
     z-index: 2147483646 !important;
+    border: none !important;
+    border-radius: 0 !important;
+    text-shadow: none !important;
+    text-transform: none !important;
+    letter-spacing: normal !important;
+    isolation: isolate !important;
 }
 
 #window8730011:before {
@@ -202,6 +208,11 @@
     display: inline-block;
 }
 
+#window8730011,
+#window8730011 * {
+    box-sizing: border-box !important;
+}
+
 #window8730011 .playWrap8730011 {
     position: absolute !important;
     top: 0 !important;
@@ -226,6 +237,13 @@
     margin: 0 !important;
     outline: 0 !important;
     transition: 0.2s !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+    text-decoration: none !important;
+    filter: none !important;
+    opacity: 1 !important;
 }
 
 #window8730011 #playButton8730011:hover {
@@ -240,8 +258,17 @@
     color: #043d52 !important;
     box-sizing: border-box !important;
     border: none !important;
+    border-radius: 0 !important;
+    background: transparent !important;
     font-family: "RobotoRegular", sans-serif !important;
+    text-shadow: none !important;
+    text-transform: none !important;
+    letter-spacing: normal !important;
+    -webkit-text-fill-color: #043d52 !important;
     -webkit-appearance: none !important;
+    appearance: none !important;
+    opacity: 1 !important;
+    filter: none !important;
 }
 
 #window8730011 input::-webkit-input-placeholder {
@@ -252,6 +279,7 @@
     outline: none !important;
     border: none !important;
     box-shadow: none !important;
+    background: transparent !important;
 }
 
 #window8730011 input::selection {
@@ -288,6 +316,13 @@
     cursor: pointer !important;
     outline: none !important;
     transition: 0.3s !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+    text-transform: none !important;
+    filter: none !important;
+    opacity: 1 !important;
 }
 
 #addButton8730011:hover {

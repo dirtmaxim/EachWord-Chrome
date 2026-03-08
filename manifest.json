@@ -1,8 +1,8 @@
 {
-  "manifest_version": 2,
-  "name": "EachWord Translator - expand your vocabulary",
-  "short_name": "EachWord Translator",
-  "version": "2.0.4",
+  "manifest_version": 3,
+  "name": "EachWord - expand your vocabulary",
+  "short_name": "EachWord",
+  "version": "3.0.0",
   "description": "__MSG_description__",
   "default_locale": "en",
   "icons": {
@@ -11,7 +11,7 @@
     "48": "images/icons/icon48.png",
     "128": "images/icons/icon128.png"
   },
-  "browser_action": {
+  "action": {
     "default_icon": {
       "19": "images/default_icons/icon19.png",
       "38": "images/default_icons/icon38.png"
@@ -34,27 +34,31 @@
     }
   ],
   "background": {
-    "scripts": [
-      "libraries/jquery.min.js",
-      "common_functions.js",
-      "background.js"
-    ],
-    "persistent": true
+    "service_worker": "background.js"
   },
   "web_accessible_resources": [
-    "images/*",
-    "fonts/*"
+    {
+      "resources": [
+        "images/*",
+        "fonts/*"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
   ],
-  "content_security_policy": "script-src 'self' https://yastatic.net https://mc.yandex.ru; object-src 'self'",
   "options_page": "options.html",
-  "author": "Maksim Kholyavchenko",
-  "offline_enabled": true,
+  "author": "Maksim Kholiavchenko",
   "permissions": [
     "tabs",
     "notifications",
     "unlimitedStorage",
     "tts",
     "contextMenus",
+    "storage",
+    "alarms"
+  ],
+  "host_permissions": [
     "*://*/*"
   ]
 }

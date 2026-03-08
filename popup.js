@@ -1,7 +1,7 @@
 // Warning: some variables defined in "common_function.js".
 let dictionaryArray;
 let messageTimeoutId;
-let settingArray = JSON.parse(localStorage.getItem("settingsArray"));
+let settingArray;
 let menuWasOpened = false;
 
 /**
@@ -66,7 +66,7 @@ function switchButtonChangeState() {
         localStorage.setItem("switchState", JSON.stringify(switchState));
 
         // Change color icon to icon without color to indicate state of extension.
-        chrome.browserAction.setIcon({path: "images/default_icons/icon38_(without_color).png"});
+        chrome.action.setIcon({path: "images/default_icons/icon38_(without_color).png"});
 
         if (JSON.parse(localStorage.getItem("dictionaryArray")).length !== 0) {
             chrome.runtime.sendMessage({type: "stopInterval"});
@@ -75,7 +75,7 @@ function switchButtonChangeState() {
         switchState = true;
         localStorage.setItem("switchState", JSON.stringify(switchState));
 
-        chrome.browserAction.setIcon({path: "images/default_icons/icon38.png"});
+        chrome.action.setIcon({path: "images/default_icons/icon38.png"});
 
         if (JSON.parse(localStorage.getItem("dictionaryArray")).length !== 0) {
             chrome.runtime.sendMessage({type: "startInterval"});
@@ -96,9 +96,9 @@ function isExtensionUpdated() {
     let versionArray = JSON.parse(localStorage.getItem("versionArray"));
 
     if (versionArray.length === 0) {
-        versionArray.push(chrome.app.getDetails().version);
+        versionArray.push(chrome.runtime.getManifest().version);
         localStorage.setItem("versionArray", JSON.stringify(versionArray));
-    } else if (versionArray[versionArray.length - 1] !== chrome.app.getDetails().version) {
+    } else if (versionArray[versionArray.length - 1] !== chrome.runtime.getManifest().version) {
         return true;
     }
 
@@ -439,6 +439,8 @@ function changeValue(event) {
  * Fill in extension window.
  */
 window.onload = function () {
+    hydrateExtensionPageStorage(function () {
+    settingArray = JSON.parse(localStorage.getItem("settingsArray"));
     let addButton = document.getElementById("addButton");
     let switchButton = document.getElementById("switchButton");
     let fromLanguage = document.getElementById("fromLanguage");
@@ -573,9 +575,11 @@ window.onload = function () {
     // Store array of versions.
     if (isExtensionUpdated()) {
         versionArray = JSON.parse(localStorage.getItem("versionArray"));
-        versionArray.push(chrome.app.getDetails().version);
+        versionArray.push(chrome.runtime.getManifest().version);
         localStorage.setItem("versionArray", JSON.stringify(versionArray));
     }
 
     document.getElementById("fromLanguage").focus();
+    });
 };
+

@@ -7,7 +7,6 @@
     <link href="libraries/jquery-ui.min.css" type="text/css" rel="stylesheet">
     <link rel="stylesheet" href="content.css" type="text/css">
     <link rel="stylesheet" href="options.css" type="text/css">
-    <script async src="https://yastatic.net/share2/share.js"></script>
     <script src="libraries/jquery.min.js" type="text/javascript"></script>
     <script src="common_functions.js" type="text/javascript"></script>
     <script src="options.js" type="text/javascript"></script>
@@ -276,39 +275,24 @@
     </section>
     <section class="dictionary">
         <h2>Dictionary</h2>
-        <button id="exportDictionary" class="button">Export</button>
-        <button id="importDictionary" class="button">
-            <input type="file" id="inputImport" accept=".json" tabindex="-1"/>Import
-        </button>
+        <div class="dictionaryActions">
+            <button id="exportDictionary" class="button">Export</button>
+            <button id="importDictionary" class="button">
+                <input type="file" id="inputImport" accept=".json" tabindex="-1"/>Import
+            </button>
+        </div>
         <div class="statusWrapper">
             <span id="status"></span>
             <a href="" class="closeButton">&times</a>
         </div>
-        <div class="clearWrapper">
-            <div class="checkbox">
-                <input type="checkbox" id="confirmClear">
-                <label for="confirmClear">I want to</label>
-            </div>
-            <button id="clearDictionary" class="button" disabled>Delete all my words</button>
-        </div>
     </section>
     <footer>
         <div class="top">
-            <div id="shareButtons" class="ya-share2" data-lang="en"
-                 data-services="vkontakte,facebook,odnoklassniki,twitter"
-                 data-url="https://chrome.google.com/webstore/detail/eachword-translator-expan/ndbpgappknhobbikhmjenceoklpaalam"
-                 data-image="https://user-images.githubusercontent.com/11778655/28394421-ac4fff18-6cf5-11e7-8f4c-bfbfb26f2480.png"
-                 tabindex="-1">
-            </div>
             <span class="copyright">&copy <span id="year"></span> EachWord</span>
-        </div>
-        <div class="down">
-            <a href="https://eachword.ru" class="siteLink">Site</a>
-            <a href="https://www.behance.net/izotop" class="siteLink">Design</a>
-            <a href="https://donorbox.org/eachword" target="_blank" class="donate">Donate</a>
         </div>
     </footer>
     <div class="down_line"></div>
 </div>
 </body>
 </html>
+

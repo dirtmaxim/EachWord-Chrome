@@ -4,6 +4,14 @@ let intoFocused;
 let addFocused;
 let playFocused;
 
+function isExtensionContextValid() {
+    try {
+        return !!(chrome && chrome.runtime && chrome.runtime.id);
+    } catch (error) {
+        return false;
+    }
+}
+
 /**
  * Handler for shortcut for trigger EachWord on the web pages.
  *
@@ -69,6 +77,10 @@ function addButtonHandler(event) {
         return false;
     }
 
+    if (!isExtensionContextValid()) {
+        return false;
+    }
+
     chrome.runtime.sendMessage({
         type: "addWordFromContextMenu",
         word: word,
@@ -104,6 +116,10 @@ function showWindow(text) {
     intoFocused = true;
     addFocused = false;
     playFocused = false;
+
+    if (!isExtensionContextValid()) {
+        return;
+    }
 
     fontStyle = document.createElement("style");
     fontStyle.id = "fontStyle8730011";
@@ -168,6 +184,11 @@ function showWindow(text) {
     playButton8730011.onclick = function (event) {
         event.preventDefault();
         event.stopPropagation();
+
+        if (!isExtensionContextValid()) {
+            return;
+        }
+
         chrome.runtime.sendMessage({type: "playWord", word: from8730011.value});
     };
     addButton8730011.onclick = addButtonHandler;
@@ -230,6 +251,9 @@ function showWindow(text) {
     from8730011.oninput = function requestTranslation() {
         clearTimeout(requestTranslation.timeoutId);
         requestTranslation.timeoutId = setTimeout(function () {
+            if (!isExtensionContextValid()) {
+                return;
+            }
 
             // We cannot use translation function in content script.
             chrome.runtime.sendMessage({
@@ -251,6 +275,10 @@ function showWindow(text) {
  */
 chrome.runtime.onMessage.addListener(
     function (request, sender, sendResponse) {
+        if (!isExtensionContextValid()) {
+            return;
+        }
+
         if (request.type === "showWord") {
             if (!document.webkitHidden) {
                 chrome.runtime.sendMessage({type: "wordCardShown"});
@@ -265,6 +293,10 @@ chrome.runtime.onMessage.addListener(
  */
 chrome.runtime.onMessage.addListener(
     function (request, sender, sendResponse) {
+        if (!isExtensionContextValid()) {
+            return;
+        }
+
         if (request.type === "showWindow") {
             showWindow(request.text);
         }
@@ -276,6 +308,10 @@ chrome.runtime.onMessage.addListener(
  */
 chrome.runtime.onMessage.addListener(
     function (request, sender, sendResponse) {
+        if (!isExtensionContextValid()) {
+            return;
+        }
+
         if (request.type === "translationCompleted") {
             if (request.result.isTranslated) {
                 document.getElementById("into8730011").value = request.result.translation;

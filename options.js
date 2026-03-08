@@ -13,9 +13,6 @@ let showNotificationCards;
 let showTestNotification;
 let exportDictionary;
 let inputImport;
-let confirmClear;
-let clearWrapper;
-let clearDictionary;
 let currentThemeNumber;
 let intervalValue;
 let durationValue;
@@ -86,10 +83,6 @@ function testNotification() {
     return false;
 }
 
-function enableDisableClearButton() {
-    clearDictionary.disabled = !confirmClear.checked;
-}
-
 /**
  * Show status.
  */
@@ -117,35 +110,6 @@ function closeStatus() {
         $statusWrapper.removeClass("open");
     }
 }
-
-/**
- * Clear all Dictionary.
- */
-function clearEntireDictionary() {
-    if (JSON.parse(localStorage.getItem("dictionaryArray")).length !== 0) {
-        localStorage.setItem("dictionaryArray", JSON.stringify([]));
-        localStorage.setItem("dictionaryArrayQueue", JSON.stringify([]));
-        chrome.runtime.sendMessage({type: "stopInterval"});
-        chrome.runtime.sendMessage({type: "changeDictionary"});
-        showStatus("Dictionary has been cleared.", true);
-
-        if (statusTimeoutId) {
-            clearTimeout(statusTimeoutId);
-        }
-
-        statusTimeoutId = setTimeout(closeStatus, statusTime);
-        exportDictionary.setAttribute("disabled", "true");
-        confirmClear.click();
-        confirmClear.setAttribute("disabled", "true");
-    } else {
-        showStatus("Error. Dictionary is empty.", false);
-        if (statusTimeoutId) {
-            clearTimeout(statusTimeoutId);
-        }
-        statusTimeoutId = setTimeout(closeStatus, statusTime);
-    }
-}
-
 /**
  * Download the file with data when the button is pressed. It is used for export the Dictionary.
  */
@@ -231,7 +195,6 @@ function importDictionaryFile(event) {
 
                 statusTimeoutId = setTimeout(closeStatus, statusTime);
                 exportDictionary.removeAttribute("disabled");
-                confirmClear.removeAttribute("disabled");
             } catch (error) {
                 showStatus("Import error. Check your file and try again.", false);
                 if (statusTimeoutId) {
@@ -397,6 +360,7 @@ function checkYear() {
 }
 
 window.onload = function () {
+    hydrateExtensionPageStorage(function () {
     checkYear();
     settingsArray = JSON.parse(localStorage.getItem("settingsArray"));
     themes = JSON.parse(localStorage.getItem("themes"));
@@ -412,9 +376,6 @@ window.onload = function () {
     showTestNotification = document.getElementById("showTestNotification");
     exportDictionary = document.getElementById("exportDictionary");
     inputImport = document.getElementById("inputImport");
-    confirmClear = document.getElementById("confirmClear");
-    clearWrapper = document.getElementsByClassName("clearWrapper")[0];
-    clearDictionary = document.getElementById("clearDictionary");
     $statusWrapper = $(".statusWrapper");
     $rangeWrapper = $(".rangeWrapper");
     displays = document.getElementById("displays").getElementsByTagName("input")[0];
@@ -549,12 +510,9 @@ window.onload = function () {
     showTestNotification.onclick = testNotification;
     exportDictionary.onclick = exportDictionaryFile;
     inputImport.onchange = importDictionaryFile;
-    confirmClear.onchange = enableDisableClearButton;
-    clearDictionary.onclick = clearEntireDictionary;
 
     if (JSON.parse(localStorage.getItem("dictionaryArray")).length === 0) {
         exportDictionary.setAttribute("disabled", "true");
-        confirmClear.setAttribute("disabled", "true");
     }
 
     $(".closeButton").click(function () {
@@ -581,4 +539,5 @@ window.onload = function () {
     thumbStyle += ";}";
     $("head").append("<style>" + thumbStyle + "</style>");
 
+    });
 };
